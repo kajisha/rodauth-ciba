@@ -154,8 +154,7 @@ module Rodauth
           candidate = item.transform_keys(&:to_s)
           score = (candidate["alg"] == algorithm ? 1 : 0) + (candidate["use"] == "enc" ? 1 : 0)
           [-score, index]
-        end&.first
-        raise ConfigurationError, "No suitable CIBA ID Token recipient key" unless recipient
+        end.first
         recipient = recipient.transform_keys(&:to_s)
         headers = {cty: "JWT", iss: oauth_jwt_issuer, aud: oauth_jwt_audience}
         headers[:kid] = recipient["kid"] if recipient["kid"]

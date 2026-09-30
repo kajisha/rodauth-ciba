@@ -8,10 +8,15 @@ Gem::Specification.new do |spec|
   spec.summary = "CIBA poll/ping OpenID Provider extension for rodauth-oauth"
   spec.description = "Adds backchannel authentication, Ruby completion APIs, transactional hooks and observation events to rodauth-oauth."
   spec.license = "MIT"
+  spec.homepage = "https://github.com/kajisha/rodauth-ciba"
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["bug_tracker_uri"] = "#{spec.homepage}/issues"
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
   spec.required_ruby_version = ">= 3.3"
   spec.files = Dir["lib/**/*.rb", "examples/**/*", "docs/api.md", "docs/protocol-coverage.md", "docs/operations.md", "docs/release-validation.md", "docs/requirements-audit.md", "docs/requirements-audit.json", "docs/security-review.md", "docs/node-alignment.md", "docs/research/node-oidc-provider-comparison.md", "docs/research/node-ciba-lifecycle.md", "docs/validation/node-alignment-tests.txt"] +
                %w[README.md LICENSE CHANGELOG.md docs/failure-contract.md docs/alignment-roadmap.md docs/claims.md docs/research/claims-reference-contract.md docs/research/consent-api-evolution.md docs/research/completion-error-boundaries.md docs/adr/0003-follow-rodauth-hook-conventions.md docs/adr/0004-retain-atomic-issuance-and-stage-alignment.md]
   spec.files += %w[docs/resources.md docs/authorization-details.md docs/research/resource-reference-contract.md docs/research/rar-reference-contract.md]
+  spec.files << "docs/release-readiness.md"
   spec.require_paths = ["lib"]
   spec.files << "docs/login-hint-token.md"
   spec.files << "docs/id-token-hint.md"

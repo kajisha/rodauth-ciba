@@ -1,6 +1,6 @@
 # rodauth-ciba
 
-CIBA OpenID Provider extension for **rodauth-oauth**, with default poll and optional ping. Version0.1.0 release candidate; not yet published to RubyGems.
+CIBA OpenID Provider extension for **rodauth-oauth**, with default poll and optional ping. Version 0.1.0 is prepared for its first release; RubyGems publication is pending.
 
 It adds a backchannel authentication endpoint, Discovery metadata, Ruby approval/denial APIs, transactional hooks and post-commit observation events. Your app handles customer authentication, consent UI, notification transport, business authorization and any later delegation.
 
@@ -8,14 +8,14 @@ It adds a backchannel authentication endpoint, Discovery metadata, Ruby approval
 
 - Poll delivery, `login_hint`, optional [login_hint_token](docs/login-hint-token.md) and [id_token_hint](docs/id-token-hint.md), public subject identifiers, static CIBA client registration.
 - Upstream confidential client authentication; basic/post and private-key/shared-secret JWT methods have integration coverage. Optional [mTLS](docs/research/mtls-reference-contract.md) adds explicit application trust callbacks, certificate binding, dynamic registration and verified TLS integration tests.
-- Signed ID Token and access token; CIBA refresh tokens are disabled by default. An [experimental refresh implementation](docs/refresh-tokens.md) is in progress and is not yet release-ready.
+- Signed ID Tokens and opaque or JWT access tokens, with optional [ID Token encryption](docs/id-token-encryption.md); CIBA refresh tokens are disabled by default. The opt-in [refresh implementation](docs/refresh-tokens.md) is experimental and excluded from the initial supported release scope.
 - Optional [DPoP](docs/research/dpop-reference-contract.md) covers token binding, proof/nonce validation, replay handling, UserInfo and introspection. The documented configuration and deployment limits apply.
 - Same-database request storage with Sequel, explicit migration, bounded cleanup/recovery lookup.
 - Optional [explicit claim consent](docs/claims.md) and [resource indicators](docs/resources.md), each with its own migration and activation flag. Their documented limitations apply.
 - Optional [authorization details](docs/authorization-details.md) with mandatory application policy and separate requested/approved/issued data.
 - Optional [request context](docs/request-context.md) with application validation and request-only storage.
 
-Optional [signed authentication requests](docs/signed-requests.md) use registered client keys and separate client authentication. Optional [user codes](docs/user-code.md) require an application validation callback. Optional [ping](docs/ping.md) sends after commit and exposes explicit retry. No push or encrypted ID Token hints. Optional [CIBA pairwise subjects](docs/pairwise.md) are under integration and are not release-ready. [CIBA dynamic registration](docs/research/registration-reference-contract.md) is under development behind an opt-in flag; its basic installed-package lifecycle is verified, while additional client-auth combinations and metadata validation remain incomplete. The extension preserves OP-wide authentication settings; CIBA requires a registered confidential client. Existing non-CIBA authorization-code behavior and registration validation are delegated to upstream; management responses suppress stored credential hashes. This project is not OpenID Certified.
+Optional [signed authentication requests](docs/signed-requests.md) use registered client keys and separate client authentication. Optional [user codes](docs/user-code.md) require an application validation callback. Optional [ping](docs/ping.md) sends after commit and exposes explicit retry. No push or encrypted ID Token hints. Optional [CIBA pairwise subjects](docs/pairwise.md) and [CIBA dynamic registration](docs/research/registration-reference-contract.md) are experimental, disabled by default, and excluded from the initial supported release scope. Their integration tests do not establish support for every optional-feature combination. The extension preserves OP-wide authentication settings; CIBA requires a registered confidential client. Existing non-CIBA authorization-code behavior and registration validation are delegated to upstream; management responses suppress stored credential hashes. This project is not OpenID Certified.
 
 ## Install
 
@@ -99,7 +99,7 @@ ruby bin/verify-package            # build, install outside checkout, run all sm
 
 The Docker runner builds the Ruby image, waits for database health, runs the same suite on each DB and removes its containers/network on exit. DB ports are not published. Data is on tmpfs; each test owns a random database. Only images/build cache remain. `pg` and `mysql2` are an optional Bundler group enabled inside Docker. The macOS/mise equivalent is `mise exec ruby -- ruby test/run.rb`.
 
-[Release validation](docs/release-validation.md) records actual tested versions and limitations. GitHub Actions contains a Ruby matrix and DB job, but a configured workflow is not evidence of a hosted CI run.
+[Release readiness](docs/release-readiness.md) records the current release checks and review limits. [Release validation](docs/release-validation.md) preserves historical results. The [authentication-fix CI run](https://github.com/kajisha/rodauth-ciba/actions/runs/36710533803) passed the Ruby 3.3/3.4/4.0 SQLite jobs and the Docker database job. CI results apply to the tested commit, not to future changes.
 
 ## License
 

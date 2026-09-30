@@ -1,0 +1,115 @@
+{
+  "lib/rodauth/ciba/version.rb": {
+    "executable_lines": 3,
+    "covered_lines": 3,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/features/ciba.rb": {
+    "executable_lines": 1415,
+    "covered_lines": 1361,
+    "uncalled_methods": [
+      {
+        "name": "report_ciba_processing_error",
+        "first": 526
+      },
+      {
+        "name": "report_ciba_observer_error",
+        "first": 522
+      },
+      {
+        "name": "verify_ciba_user_code",
+        "first": 487
+      },
+      {
+        "name": "ciba_pairwise_identifier",
+        "first": 483
+      },
+      {
+        "name": "resolve_ciba_id_token_subject",
+        "first": 479
+      },
+      {
+        "name": "resolve_ciba_login_hint_token",
+        "first": 475
+      },
+      {
+        "name": "resolve_ciba_login_hint",
+        "first": 471
+      },
+      {
+        "name": "ciba_authorization_details_for_token",
+        "first": 401
+      },
+      {
+        "name": "validate_ciba_request_context",
+        "first": 397
+      },
+      {
+        "name": "ciba_tls_client_certificate_subject_matches?",
+        "first": 393
+      },
+      {
+        "name": "ciba_tls_client_certificate_authorized?",
+        "first": 389
+      },
+      {
+        "name": "ciba_tls_client_certificate",
+        "first": 373
+      },
+      {
+        "name": "ciba_validate_authorization_details",
+        "first": 369
+      }
+    ]
+  },
+  "lib/rodauth/ciba/authorization_details.rb": {
+    "executable_lines": 37,
+    "covered_lines": 37,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/http.rb": {
+    "executable_lines": 41,
+    "covered_lines": 40,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/jwks_cache.rb": {
+    "executable_lines": 97,
+    "covered_lines": 94,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/registration.rb": {
+    "executable_lines": 308,
+    "covered_lines": 297,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/pairwise.rb": {
+    "executable_lines": 73,
+    "covered_lines": 71,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/dpop.rb": {
+    "executable_lines": 149,
+    "covered_lines": 145,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/mtls.rb": {
+    "executable_lines": 105,
+    "covered_lines": 102,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/id_token_encryption.rb": {
+    "executable_lines": 118,
+    "covered_lines": 116,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba/schema.rb": {
+    "executable_lines": 100,
+    "covered_lines": 100,
+    "uncalled_methods": []
+  },
+  "lib/rodauth/ciba.rb": {
+    "executable_lines": 3,
+    "covered_lines": 3,
+    "uncalled_methods": []
+  }
+}

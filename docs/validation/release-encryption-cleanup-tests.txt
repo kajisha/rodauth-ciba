@@ -1,0 +1,11 @@
+Run options: --seed 38580
+
+# Running:
+
+......................................................................S.....
+
+Finished in 86.425135s, 0.8794 runs/s, 56.3841 assertions/s.
+
+76 runs, 4873 assertions, 0 failures, 0 errors, 1 skips
+
+You have skipped tests. Run with --verbose for details.
