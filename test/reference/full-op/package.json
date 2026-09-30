@@ -1,0 +1,12 @@
+{
+  "name": "ciba-reference-op-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node lifecycle.mjs && node registration.mjs && node registration-remote.mjs && node ping.mjs && node dpop.mjs && node dpop-alias.mjs && node assertion-refresh.mjs && node signed-algorithms.mjs && node acknowledgement-time.mjs && node client-auth-algorithms.mjs && node id-hint-algorithms.mjs && node encrypted-id-tokens.mjs && node encryption-remote.mjs && node encryption-symmetric.mjs && node encryption-ecdh.mjs && node encryption-ecdh-metadata.mjs && node encryption-recipient-selection.mjs && node encryption-management-overlap.mjs ECDH-ES+A256KW X25519 && node encryption-remote.mjs ECDH-ES P-256 && node encryption-remote.mjs ECDH-ES+A256KW X25519 && node auth-time.mjs && node auth-time.mjs scope && node auth-time.mjs defaults && node auth-time.mjs defaults signed && node max-age.mjs",
+    "test:cache-ttl": "node encryption-cache-ttl.mjs ECDH-ES+A256KW X25519"
+  },
+  "dependencies": {
+    "oidc-provider": "9.12.2"
+  }
+}

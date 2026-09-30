@@ -1,0 +1,224 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "task": "Evaluate each proposed failed-refresh policy independently, not just as a competing choice. User wants reference alignment but has not approved failure reuse. Do not infer approval from a high confidence rejection or conditional judgment. No previous numerical scores are supplied.",
+    "scope": "Generic OSS design evaluation. Public OSS behavior and conceptual policies only; no private code, logs, paths, deployment identifiers or credentials. User approved minimum60-second successful-cache lifetime, one default without a public policy switch, and same policy for encryption/authentication. Only failed-refresh handling remains undecided.",
+    "reference": {
+      "package": "Public OSS node-oidc-provider 9.12.2",
+      "public_source_url": "https://github.com/panva/node-oidc-provider/blob/v9.12.2/lib/models/client.js"
+    },
+    "observations": [
+      "Public reference refresh logic parses JSON, then sets freshness to at least 60 seconds, then checks HTTP status and validates JWKS. Previously loaded keys are cleared only after these validations succeed.",
+      "Consequently a parseable HTTP503 can extend freshness of retained keys although the refresh call fails. A later call can reuse those keys without fetching. Invalid JSON fails before freshness update.",
+      "All candidates retain the approved minimum60-second successful-cache lifetime. Compare only what happens when an expired populated key cache cannot be refreshed.",
+      "Successful refresh replaces keys. Both policies can retain removed keys while cache remains fresh; neither promises immediate revocation.",
+      "The same conceptual cache choice applies to encryption recipient keys and mTLS client-authentication keys. Minimum successful-cache lifetime and failed-refresh reuse are separate policy decisions."
+    ],
+    "inferred_tradeoffs": [
+      "Reusing old verification keys can sustain authentication during JWKS outage but can accept a removed or compromised credential. Rejecting after failed refresh reduces that exposure after expiry but increases outages.",
+      "Encrypting to retained recipient keys can maintain service if receiver retains corresponding private keys; otherwise tokens can be undecryptable. If old private key compromised, confidentiality can be affected.",
+      "60-second floor reduces fetch load but overrides shorter publisher cache directives and delays rotation pickup. Respecting directives can increase fetch load and endpoint dependence.",
+      "Explicit bounded stale grace or configurable behavior is possible but adds public API, testing and operational complexity; neither automatically matches the reference status/body-dependent behavior."
+    ],
+    "unknowns": [
+      "No adopter outage or emergency-revocation SLA supplied.",
+      "No stated requirement for exact cache wire behavior beyond general reference alignment.",
+      "No upstream maintainer evidence that failed-refresh freshness ordering is intentional.",
+      "No measured production fetch load or demand for multiple configurable policies.",
+      "No measured optimal grace/backoff duration. No upstream confirmation that failure freshness ordering is intentional."
+    ],
+    "interpretation": "Per-option Choice asks adopt/conditional/reject/insufficient; confidence belongs to whichever judgment wins, not to endorsement. Scores0..2 measure distinct dimensions and are not calibrated security probabilities. No weighted aggregate or automatic implementation. Do not reward existing code merely because it is existing.",
+    "options": {
+      "A": "Exact reference failed-refresh behavior: parse JSON, update freshness from max(60 seconds, max-age, Expires), then validate status and JWKS. First failed operation rejects; subsequent operations may reuse retained keys until new freshness expires. Parse errors and transport failures before that update do not extend freshness. Repeated parseable failures may repeatedly extend old-key lifetime. Match observed behavior, without asserting maintainer intent.",
+      "B": "Reject until successful refresh: once cache expires, fetch on each demand. Any fetch or parse/structure failure rejects that operation and does not extend key freshness. Resume only after successful validated fetch. No stale key use; no retry backoff beyond existing transport timeout.",
+      "C": "Explicit bounded stale grace: on timeout or HTTP5xx after normal expiry, permit previously validated keys only until normal expiry +60 seconds. Never move this absolute deadline on failures. Retry fetch on subsequent demand; reject after deadline, on HTTP4xx, bad JSON, or invalid key-set structure. Successful refresh replaces keys and resets normal lifetime. No previously validated keys means reject. 60 seconds is a concrete candidate, not a measured optimal grace.",
+      "D": "Reject with bounded retry backoff: once expired, a failed fetch rejects the operation; for5 seconds fail subsequent requests without fetching or using old keys, then allow a new fetch. Success restores normal use. No stale key reuse. Store a separate failure/retry timestamp, not a renewed key freshness timestamp.5 seconds is a candidate, not measured optimum."
+    }
+  },
+  "questions": {
+    "A_decision": {
+      "type": "choice",
+      "instructions": "Evaluate ONLY policy A in state.options.A as the single OSS default for BOTH key purposes under the approved constraints and reference-alignment goal. Is it appropriate to adopt now? Other policies may also be acceptable. Do not interpret absent SLAs as proof of safety or proof of unsafety.",
+      "criteria": {
+        "adopt": "Recommend adopting this policy now as the default using the available evidence; ordinary implementation tests still required.",
+        "conditional": "Consider adoption only after an identified operational assumption, duration choice, or upstream-intent uncertainty is resolved.",
+        "reject": "Do not adopt this policy as the default under the stated goal and constraints.",
+        "insufficient": "Cannot make a meaningful adopt/conditional/reject judgment from the supplied information."
+      }
+    },
+    "A_revocation_exposure": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy A in state.options.A for incremental exposure from using removed or compromised keys AFTER normal cache expiry during an outage (higher means more exposure). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "No operations use expired keys after refresh failure.",
+        "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      ]
+    },
+    "A_outage_continuity": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy A in state.options.A for ability to continue key-dependent operations during a prolonged key-endpoint outage after normal expiry (higher means more continuity, NOT more safety). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "Affected operations can continue for a fixed bounded grace, then stop.",
+        "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      ]
+    },
+    "A_reference_alignment": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy A in state.options.A for alignment of failed-refresh semantics with the supplied public reference behavior (higher means closer). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "Matches supplied reference freshness ordering and response-dependent reuse."
+      ]
+    },
+    "A_implementation_burden": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy A in state.options.A for incremental state and failure-case testing burden relative to an ordinary successful-key cache (higher means more burden). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      ]
+    },
+    "B_decision": {
+      "type": "choice",
+      "instructions": "Evaluate ONLY policy B in state.options.B as the single OSS default for BOTH key purposes under the approved constraints and reference-alignment goal. Is it appropriate to adopt now? Other policies may also be acceptable. Do not interpret absent SLAs as proof of safety or proof of unsafety.",
+      "criteria": {
+        "adopt": "Recommend adopting this policy now as the default using the available evidence; ordinary implementation tests still required.",
+        "conditional": "Consider adoption only after an identified operational assumption, duration choice, or upstream-intent uncertainty is resolved.",
+        "reject": "Do not adopt this policy as the default under the stated goal and constraints.",
+        "insufficient": "Cannot make a meaningful adopt/conditional/reject judgment from the supplied information."
+      }
+    },
+    "B_revocation_exposure": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy B in state.options.B for incremental exposure from using removed or compromised keys AFTER normal cache expiry during an outage (higher means more exposure). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "No operations use expired keys after refresh failure.",
+        "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      ]
+    },
+    "B_outage_continuity": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy B in state.options.B for ability to continue key-dependent operations during a prolonged key-endpoint outage after normal expiry (higher means more continuity, NOT more safety). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "Affected operations can continue for a fixed bounded grace, then stop.",
+        "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      ]
+    },
+    "B_reference_alignment": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy B in state.options.B for alignment of failed-refresh semantics with the supplied public reference behavior (higher means closer). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "Matches supplied reference freshness ordering and response-dependent reuse."
+      ]
+    },
+    "B_implementation_burden": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy B in state.options.B for incremental state and failure-case testing burden relative to an ordinary successful-key cache (higher means more burden). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      ]
+    },
+    "C_decision": {
+      "type": "choice",
+      "instructions": "Evaluate ONLY policy C in state.options.C as the single OSS default for BOTH key purposes under the approved constraints and reference-alignment goal. Is it appropriate to adopt now? Other policies may also be acceptable. Do not interpret absent SLAs as proof of safety or proof of unsafety.",
+      "criteria": {
+        "adopt": "Recommend adopting this policy now as the default using the available evidence; ordinary implementation tests still required.",
+        "conditional": "Consider adoption only after an identified operational assumption, duration choice, or upstream-intent uncertainty is resolved.",
+        "reject": "Do not adopt this policy as the default under the stated goal and constraints.",
+        "insufficient": "Cannot make a meaningful adopt/conditional/reject judgment from the supplied information."
+      }
+    },
+    "C_revocation_exposure": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy C in state.options.C for incremental exposure from using removed or compromised keys AFTER normal cache expiry during an outage (higher means more exposure). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "No operations use expired keys after refresh failure.",
+        "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      ]
+    },
+    "C_outage_continuity": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy C in state.options.C for ability to continue key-dependent operations during a prolonged key-endpoint outage after normal expiry (higher means more continuity, NOT more safety). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "Affected operations can continue for a fixed bounded grace, then stop.",
+        "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      ]
+    },
+    "C_reference_alignment": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy C in state.options.C for alignment of failed-refresh semantics with the supplied public reference behavior (higher means closer). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "Matches supplied reference freshness ordering and response-dependent reuse."
+      ]
+    },
+    "C_implementation_burden": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy C in state.options.C for incremental state and failure-case testing burden relative to an ordinary successful-key cache (higher means more burden). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      ]
+    },
+    "D_decision": {
+      "type": "choice",
+      "instructions": "Evaluate ONLY policy D in state.options.D as the single OSS default for BOTH key purposes under the approved constraints and reference-alignment goal. Is it appropriate to adopt now? Other policies may also be acceptable. Do not interpret absent SLAs as proof of safety or proof of unsafety.",
+      "criteria": {
+        "adopt": "Recommend adopting this policy now as the default using the available evidence; ordinary implementation tests still required.",
+        "conditional": "Consider adoption only after an identified operational assumption, duration choice, or upstream-intent uncertainty is resolved.",
+        "reject": "Do not adopt this policy as the default under the stated goal and constraints.",
+        "insufficient": "Cannot make a meaningful adopt/conditional/reject judgment from the supplied information."
+      }
+    },
+    "D_revocation_exposure": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy D in state.options.D for incremental exposure from using removed or compromised keys AFTER normal cache expiry during an outage (higher means more exposure). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "No operations use expired keys after refresh failure.",
+        "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      ]
+    },
+    "D_outage_continuity": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy D in state.options.D for ability to continue key-dependent operations during a prolonged key-endpoint outage after normal expiry (higher means more continuity, NOT more safety). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "Affected operations can continue for a fixed bounded grace, then stop.",
+        "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      ]
+    },
+    "D_reference_alignment": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy D in state.options.D for alignment of failed-refresh semantics with the supplied public reference behavior (higher means closer). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "Matches supplied reference freshness ordering and response-dependent reuse."
+      ]
+    },
+    "D_implementation_burden": {
+      "type": "score",
+      "instructions": "Evaluate ONLY policy D in state.options.D for incremental state and failure-case testing burden relative to an ordinary successful-key cache (higher means more burden). Evaluate this dimension separately from overall desirability.",
+      "criteria": [
+        "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      ]
+    }
+  }
+}

@@ -1,0 +1,10 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_max_age_|test_authentication_claim|test_registered_authentication_defaults|test_ciba_auth_time_metadata/" --seed 44565
+
+# Running:
+
+.........
+
+Finished in 0.473639s, 19.0018 runs/s, 1600.3750 assertions/s.
+
+9 runs, 758 assertions, 0 failures, 0 errors, 0 skips

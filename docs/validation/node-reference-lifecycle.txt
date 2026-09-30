@@ -1,0 +1,5 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+PASS: original node v9.12.2 handler/source helper: pending, denied, issuance/replay, expiry precedence, client isolation
+Stubs: in-memory persistence, issuance, revocation, context/presence/binding checks. Not a full OP/adapter test.
+(node:45997) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

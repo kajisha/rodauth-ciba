@@ -1,0 +1,281 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "goal": "Design an OSS Ruby gem extending rodauth-oauth with a CIBA OP. No implementation yet.",
+    "first_use": "A CS backend requests customer approval for privileged support access. CS authenticates with workforce OIDC. Customer authenticates through an existing customer OP in a new approval service. CIBA customer authentication and subsequent support-account delegation are separate.",
+    "roles": {
+      "CD": "CS browser/device",
+      "CIBA client": "support backend",
+      "CIBA OP": "approval service",
+      "AD": "customer browser/device"
+    },
+    "agreed": [
+      "poll only",
+      "login_hint only",
+      "no signed authentication requests or user_code initially",
+      "no refresh token for CIBA initially",
+      "Ruby >=3.3",
+      "DB support follows rodauth-oauth via Sequel",
+      "same DB as rodauth-oauth",
+      "Ruby API for completion; transport/UI/notification belongs to application",
+      "Rodauth-style transactional before/after hooks distinct from non-failing observational events",
+      "spec-based automated tests; certification not required",
+      "CIBA does not issue refresh tokens initially (now explicitly approved)."
+    ],
+    "pending": [
+      "public vs pairwise subjects",
+      "static vs dynamic client registration"
+    ],
+    "tradeoffs": [
+      "Public subject uses same ID across clients of issuer. Pairwise reduces cross-sector correlation; poll requires sector/key ownership handling beyond redirect-flow implementation.",
+      "Static registration provisions OAuth client applications, not end-user devices. Dynamic registration standardizes provisioning through API and can require authorization. No external-client self-service need established."
+    ],
+    "instruction": "Evaluate design fit only from this state. Your selection is advisory, not specification verification or user approval.",
+    "documents": {
+      "docs/design.md": "# CIBA OP 拡張の設計メモ\n\n設計インタビューで確定した事項を記録する。実装開始前の設計であり、未決定の項目を実装済み・合意済みと扱わない。\n\n## 確定した範囲\n\n- rodauth-oauth の CIBA OP 拡張を独立 gem として OSS 公開する。最初の利用先は自社サービス。\n- 初版のトークン取得モードは poll のみ。\n- 初版で受け付けるユーザー特定 hint は login_hint のみ。id_token_hint と login_hint_token は初版の対象外とし、対応範囲を文書化する。\n- 署名付き認証要求と user_code は初版では未対応と明示する。クライアント認証は必須であり、要求全体への署名とは区別する。\n- 初版の CIBA フローでは refresh token を発行しない。他の既存 grant の発行方針は変更しない。\n- アプリとの責務分界は [ADR 0002](adr/0002-limit-gem-to-ciba-op-extension.md) に従う。\n- 特定の CIBA クライアントへの対応を前提にしない。初期導入先のクライアントはアプリ側で実装する。\n- CIBA 要求は rodauth-oauth と同じ DB に保存する。専用テーブルの形とトランザクションの詳細は未確定。\n- 初版の監査連携は、イベントと共通項目を定義したフックを提供し、導入アプリがログを出力する方針とする。\n- 認証・承認結果は Ruby API で受け取る。HTTP などのトランスポートは導入アプリが選択・実装する。\n- 観測用イベントは任意とし、通知先の失敗で CIBA の成否を変えず、障害を報告する。\n- 主要な状態変更には Rodauth の慣例に沿う before / after フックを設ける。トランザクション内の拡張処理と観測用イベントの契約は [ADR 0003](adr/0003-follow-rodauth-hook-conventions.md) に従って区別する。\n- Ruby の下限は 3.3 とする。2026-09-28 時点で 3.3 はセキュリティ保守、3.4 と 4.0 は通常保守中（[公式保守一覧](https://www.ruby-lang.org/en/downloads/branches/)）。将来の下限変更を自動化する方針までは決めていない。\n- DB 対応は rodauth-oauth に従い、Sequel を通じて実装する。特定 DB 専用の拡張には限定しない。Sequel にアダプタがあることだけで上流や本 gem の動作検証済みとは扱わず、CI で検証した組み合わせを明記する。\n\n## 検証方針\n\nCIBA Core、関連する OIDC/OAuth 仕様および RFC の適用可能な要求を、要求と対応付けた単体テストで検証する。OIDC Conformance Suite の該当ケースをテスト設計の参照にする。\n\nOIDC Certified の取得、Conformance Suite 自体の実行・通過、独立クライアントによる接続試験は初版の公開条件としない。単体テストの成功を、認定取得や未検証の相互運用性の証明として扱わない。\n\n## 未決定\n\n- 要求の保存スキーマ、依存 gem のバージョン範囲、Ruby 実装と DB の具体的な CI 構成。\n- 本人特定、認証・承認結果の受け渡し、業務コンテキストとの関連付けの契約。\n- subject identifier とクライアント登録は仕様を説明したうえで判断する。public のみ・事前登録のみという案はまだ未採用。offline_access 要求時の扱いなど、既存 feature との詳細な接続も未決定。\n- before / after フックの対象となる状態変更、具体的なメソッド契約。観測イベントの実行時点・項目・障害報告方法。\n\n## Discovery と承認結果の受け渡し\n\nCIBA Core §4 は `backchannel_authentication_endpoint` と対応モードなどの OP metadata を定義する。poll の結果取得には既存の `token_endpoint` を使用する。これらはクライアントが要求を開始して結果を取得するための標準インターフェースである。\n\n顧客を認証し承認を得る過程は CIBA Core §8 で実装に委ねられており、アプリから OP に承認・拒否を伝える標準エンドポイントやその Discovery 項目は定義されていない。gem は結果を受け取る Ruby API を提供し、導入アプリとのトランスポートを固定しない。標準 CIBA API は Discovery で公開する。\n\n参照: [CIBA Core](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html)\n\n観測用イベントの失敗は CIBA の成否に影響させない。これとは別に、Rodauth の慣例に沿う before / after フックを状態変更と同じ DB トランザクション内に設ける。事例調査は [IdM 調査メモ](research/idm-ciba-integration.md) を参照。\n",
+      "docs/adr/0002-limit-gem-to-ciba-op-extension.md": "# gem の責務を汎用の CIBA OP 拡張に限定する\n\n公開 gem は rodauth-oauth に CIBA の OP 機能を追加する。初期導入先の承認・委譲フロー全体を gem に組み込む案に対し、他の導入先でも利用できる境界として、本人確認・承認・監査記録を導入アプリへ接続する拡張点を提供する方針とする。拡張点の具体的な契約は今後決定する。\n\nOkta を上流 IdP とする CS 認証、サポートアカウントへの委譲、セッションと個別操作それぞれの承認条件、実操作の監査記録は導入アプリの責務とする。CIBA の顧客認証結果と委譲後のトークンは分離し、委譲に Token Exchange を利用するかはこの gem の設計では決定しない。\n\n顧客への通知、顧客向けログイン・承認画面も導入アプリが提供する。gem はアプリから認証・承認結果を受け取り、要求対象との一致、期限、二重完了を検証して、要求の状態とトークン発行を管理する。\n\n結果の受け渡しには Ruby API を提供する。HTTP などのトランスポートはアプリケーションの要求に従って選択するものであり、gem は独自の承認完了 HTTP API を必須にしない。\n",
+      "docs/adr/0003-follow-rodauth-hook-conventions.md": "# 状態変更の拡張点を Rodauth の before / after 慣例に合わせる\n\nCIBA の主要な状態変更に、Rodauth の慣例に沿う before / after フックを設ける。専用フックを設けない案や独自の拡張機構を追加する案に対し、基盤と同じカスタマイズ方法を維持することを優先する。これらは監査専用ではなく、監査機能の導入を CIBA の利用条件にしない。\n\nbefore / after フックは状態変更と同じ DB トランザクション内で呼ぶ。after は commit 後ではない。フックから伝播する例外では DB の変更をロールバックするが、外部システムへの副作用までは取り消せない。具体的なフック名・対象となる状態変更・エラー応答は今後設計する。\n\n任意の観測用イベントは別の契約とし、通知先の失敗で CIBA の成否を変えず、障害を報告する。Rodauth の既存 audit_logging と CIBA の連携可能範囲は、実装時に検証する。\n\n根拠: [Rodauth の create_account 実装](https://github.com/jeremyevans/rodauth/blob/master/lib/rodauth/features/create_account.rb)、[audit_logging](https://rodauth.jeremyevans.net/rdoc/files/doc/audit_logging_rdoc.html)、[製品比較](../research/idm-ciba-integration.md)。\n",
+      "docs/research/upstream-integration.md": "# rodauth-oauth の既存機能との接続\n\n2026-09-28、公式作者ミラーの commit `cac77ec075b41672010126cd6961baf20afccdd7` をコードから調査。実行検証は未実施。以下の対応範囲はまだ採用決定ではない。\n\n## Refresh token\n\n[OIDC の generate_token](https://github.com/HoneyryderChuck/rodauth-oauth/blob/cac77ec075b41672010126cd6961baf20afccdd7/lib/rodauth/features/oidc.rb#L785) は、保存された scope に offline_access が含まれ、生成フラグも有効なら refresh token を生成する。一方、既存の認可要求検証は prompt と response_type に依存するため、CIBA にそのまま流用しない。CIBA での同意と発行条件の検証は別途必要。\n\n## Subject identifier\n\n[既存実装](https://github.com/HoneyryderChuck/rodauth-oauth/blob/cac77ec075b41672010126cd6961baf20afccdd7/lib/rodauth/features/oidc.rb#L387) は public と pairwise を扱うが、pairwise の sector 決定は redirect URI を前提とする経路を含む。CIBA poll では jwks_uri 等に関する追加要件があるため、既存処理を呼ぶだけで対応済みとはしない。初版を public に限定する場合でも、他の OIDC フローの Discovery を不用意に変更しない。\n\n## クライアント登録\n\n[Dynamic Client Registration](https://github.com/HoneyryderChuck/rodauth-oauth/blob/cac77ec075b41672010126cd6961baf20afccdd7/lib/rodauth/features/oauth_dynamic_client_registration.rb) は別 feature であり、既定値に redirect flow の前提がある。CIBA のクライアント metadata と組み合わせ検証の追加が必要になる。\n\n既存の oauth_applications に事前登録したクライアントは DCR を通さず実行時に利用できる。静的登録を選ぶ場合も、CIBA grant、poll モード、クライアント認証などの適格性検証は省略しない。\n"
+    },
+    "evaluation_rules": [
+      "The user wants advisory judgments on remaining design decisions before discussion resumes. Do not treat your choices as user approval.",
+      "The docs distinguish confirmed decisions, proposals and unresolved details. Preserve confirmed scope.",
+      "Assess tradeoffs, not normative protocol correctness. Mandatory CIBA/OIDC validation, correct identity binding, expiry, authenticated clients and preventing double token issuance are fixed requirements.",
+      "No established workload, SLA, external self-service onboarding, required retention duration or deployment queue is known. Select insufficient when material facts are missing.",
+      "Each question is independent. Conditional premises are explicit. Do not infer answers to other questions.",
+      "The candidate options were authored by the assistant, not independently generated by Jev. You may reject the offered alternatives."
+    ]
+  },
+  "questions": {
+    "subject_scope": {
+      "type": "choice",
+      "instructions": "Which initial subject identifier support fits this project?",
+      "criteria": {
+        "public_only": "Public only, explicitly limit CIBA clients; keep other OIDC flows unchanged.",
+        "both": "Public and CIBA-correct pairwise from v1.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "registration_scope": {
+      "type": "choice",
+      "instructions": "Which initial client provisioning scope fits this project?",
+      "criteria": {
+        "static_only": "Preprovisioned application records with validated CIBA metadata.",
+        "dynamic_also": "Implement CIBA metadata support in upstream DCR feature in v1.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "request_storage": {
+      "type": "choice",
+      "instructions": "Given same DB is fixed, which persistence shape best fits pending CIBA requests?",
+      "criteria": {
+        "dedicated_table": "Dedicated CIBA request table, create/link ordinary OAuth grants only as appropriate for token issuance.",
+        "extend_grants": "Represent pending requests in existing oauth_grants, adding CIBA-specific columns and lifecycle handling.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "resolver_default": {
+      "type": "choice",
+      "instructions": "How should login_hint map to a local Rodauth account in a reusable gem?",
+      "criteria": {
+        "required_override": "Require application to configure a resolver; fail setup/use clearly when absent.",
+        "login_default": "Default to configured Rodauth login column lookup, allow override.",
+        "structured_default": "Define a gem-specific structured hint format and map it to local accounts.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "completion_identity": {
+      "type": "choice",
+      "instructions": "What should the trusted application pass to the Ruby approval API for identity evidence?",
+      "criteria": {
+        "account_context": "Explicit authenticated local account ID plus authentication time and optional acr/amr; gem checks binding, app owns upstream verification.",
+        "rodauth_session": "Only the current Rodauth session account and session authentication context.",
+        "upstream_token": "Upstream ID token that the gem itself verifies and maps.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "completion_shape": {
+      "type": "choice",
+      "instructions": "Which public Ruby API shape best fits application integration?",
+      "criteria": {
+        "separate_methods": "Approve, deny and fail methods with common internal transition validation.",
+        "one_complete": "One complete method with explicit authorized/denied/failed outcome and typed arguments.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "completion_retries": {
+      "type": "choice",
+      "instructions": "For internal approval/denial API only (not token endpoint), what retry contract fits?",
+      "criteria": {
+        "idempotent_same": "Exact same outcome and identity/context returns already-completed result without repeat hooks; conflicts rejected.",
+        "strict_once": "Any repeated completion is an explicit already-completed error for the app to handle.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "reference_design": {
+      "type": "choice",
+      "instructions": "How should application-side request references relate to client-facing auth_req_id?",
+      "criteria": {
+        "shared_reference": "Use auth_req_id for trusted internal API too; it never grants approval authority by itself.",
+        "separate_handle": "Provide a separate opaque internal request handle in addition to auth_req_id; neither replaces application authentication.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "context_storage": {
+      "type": "choice",
+      "instructions": "How should app-specific approval/session/action context be associated?",
+      "criteria": {
+        "app_owned": "App stores context keyed by request reference; gem stores protocol fields only.",
+        "opaque_metadata": "Gem exposes size-limited opaque metadata storage through trusted Ruby API, no business interpretation.",
+        "request_extension": "Define custom wire request fields for business approval details in v1.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "dispatch_reliability": {
+      "type": "choice",
+      "instructions": "With UI/transport/queue application-owned, what dispatch guarantee should v1 gem expose?",
+      "criteria": {
+        "callback_only": "After committed acceptance, call application integration callback; recovery/durable enqueue is application responsibility and limitations documented.",
+        "recoverable_requests": "Expose pending-request lookup so app can recover missed dispatches, plus callback; app owns scheduling/deduplication.",
+        "gem_outbox": "Ship a built-in durable outbox and dispatcher for application notifications.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "observation_delivery": {
+      "type": "choice",
+      "instructions": "For successful persisted state changes, when should non-failing observation notifications be emitted?",
+      "criteria": {
+        "after_commit": "Only after enclosing DB transaction commits; separate attempt/failure events as needed.",
+        "in_transaction": "Inside DB transaction, catch observer errors, label notifications as attempts until commit.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "observation_failure": {
+      "type": "choice",
+      "instructions": "How should observational listener failures be surfaced without changing CIBA success?",
+      "criteria": {
+        "logger": "Configurable error reporter with ordinary logger fallback; reporter failures must not change CIBA outcome.",
+        "callback_only": "Only a mandatory app-supplied observer error callback.",
+        "silent": "Suppress without reporting.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "observation_payload": {
+      "type": "choice",
+      "instructions": "What event payload scope best fits privacy and extensibility?",
+      "criteria": {
+        "minimal_allowlist": "Stable versioned event name, event/correlation IDs, time, client/account references as applicable, transition/outcome and safe error code; no tokens/secrets/raw hints by default.",
+        "full_request": "Include full parsed request and authentication context by default for easy auditing.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "hook_surface": {
+      "type": "choice",
+      "instructions": "Given Rodauth-style transactional hooks are agreed, how broad should v1 hook surface be?",
+      "criteria": {
+        "lifecycle_only": "Request acceptance, completion and token consumption/issuance lifecycle hooks.",
+        "fine_grained": "Also expose hooks for every validation, SQL operation and polling request.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "expiry_defaults": {
+      "type": "choice",
+      "instructions": "Which configurable request expiry default policy is justified by present requirements? All options cap requested_expiry and enforce expiry.",
+      "criteria": {
+        "short_five_minutes": "Default five minutes; configurable maximum and application override.",
+        "long_fifteen_minutes": "Default fifteen minutes; configurable maximum and application override.",
+        "require_config": "Require applications to choose default/max explicitly, no implicit expiry policy.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "poll_strategy": {
+      "type": "choice",
+      "instructions": "Which initial poll implementation fits?",
+      "criteria": {
+        "immediate": "Return current state promptly, enforce polling interval; no long polling.",
+        "long_poll": "Implement optional long polling in first release.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "cleanup": {
+      "type": "choice",
+      "instructions": "Which maintenance interface fits a gem with no selected scheduler?",
+      "criteria": {
+        "explicit_cleanup": "Provide explicit cleanup method/task with documented retention configuration, app schedules it.",
+        "request_cleanup": "Opportunistically delete old rows during normal requests.",
+        "background_thread": "Gem starts periodic background cleanup thread.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "retention": {
+      "type": "choice",
+      "instructions": "Who should determine how long expired/consumed CIBA request rows remain?",
+      "criteria": {
+        "short_default": "Ship short configurable operational retention, explicitly not audit retention.",
+        "explicit_policy": "Require retention choice when enabling cleanup; provide examples, avoid claiming a universal period.",
+        "indefinite": "Never delete request records by default or expose cleanup in v1.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "concurrency_method": {
+      "type": "choice",
+      "instructions": "What starting strategy best balances Sequel portability and atomic request consumption? This is provisional until DB tests prove it.",
+      "criteria": {
+        "conditional_update": "Atomic conditional state update in same transaction as issuance; use DB-specific adjustments only when necessary.",
+        "row_locks": "SELECT FOR UPDATE as primary mechanism with explicit SQLite-compatible fallback.",
+        "external_lock": "Use a distributed lock service for all transitions.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "ci_matrix": {
+      "type": "choice",
+      "instructions": "What first CI coverage fits Ruby >=3.3 and DB scope following upstream?",
+      "criteria": {
+        "representative": "Ruby 3.3/3.4/4.0 on SQLite, plus PostgreSQL/MySQL concurrency coverage on one maintained MRI; expand based on failures.",
+        "full_cross_product": "All maintained MRI versions crossed with SQLite/PostgreSQL/MySQL from v1.",
+        "sqlite_only": "Only SQLite CI initially; document other DBs as unverified.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "migration_delivery": {
+      "type": "choice",
+      "instructions": "How should schema installation be delivered?",
+      "criteria": {
+        "explicit_migration": "Versioned Sequel migration example/helper with configurable identifiers, explicitly run by app owner.",
+        "auto_migrate": "Apply schema changes automatically on feature enable/startup.",
+        "docs_only": "Only prose schema requirements, no executable migration example.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "dependency_policy": {
+      "type": "choice",
+      "instructions": "What dependency compatibility policy fits an extension against evolving upstream? Actual version numbers must be verified separately.",
+      "criteria": {
+        "tested_range": "Bound dependency range to verified compatible releases; test minimum and latest permitted release.",
+        "exact_pin": "Pin one exact upstream release until each upgrade.",
+        "unbounded": "Declare minimum only and accept all future major releases.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "example_app": {
+      "type": "choice",
+      "instructions": "What example should accompany initial OSS release?",
+      "criteria": {
+        "minimal_runnable": "Minimal local RP/poll and browser approval example with explicit demo authentication, no vendor credentials.",
+        "snippets_only": "Only integration snippets and spec tests.",
+        "production_integration": "Include production Okta federation and support delegation implementation.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    },
+    "release_readiness": {
+      "type": "choice",
+      "instructions": "What is the best next artifact before coding, considering remaining uncertainty?",
+      "criteria": {
+        "contract_draft": "Concrete API signatures, request state machine, transaction/event timing and spec-test mapping for user review.",
+        "full_implementation": "Start implementing entire gem immediately.",
+        "more_options": "Continue broad feature questions without a concrete contract draft.",
+        "insufficient_or_other": "Insufficient evidence, conflict with agreed requirements, or none of these alternatives is suitable."
+      }
+    }
+  }
+}

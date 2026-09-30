@@ -1,0 +1,22 @@
+{
+  "lib/rodauth/ciba/schema.rb": "919bddcaafb34457fc9f90757d6c0eab03f530cc7da1f7dda90fda5f441a82b1",
+  "lib/rodauth/ciba/version.rb": "bc4e4c0cfb661bc8c626cc12c37cef4bfa8a158b3d87402ea664627d656ce501",
+  "lib/rodauth/ciba.rb": "b74a0e6ce305dc96230865db2a08aaed17137f6d50a510dddcdd54a192b64e85",
+  "lib/rodauth/features/ciba.rb": "8cbf3baca8a56625326d8cf77ef5173feabaf779c04a7f71adddc11126111ec4",
+  "test/ciba_configuration_test.rb": "d555cf32796f15c0a02e5e561a14003588b6a32232809d1a644e713a58314745",
+  "test/ciba_integration_test.rb": "40fac7bac239d20713ae32d60742e92ef457bb26358c4cb483c0870079b3420e",
+  "test/ciba_lifecycle_test.rb": "0e809fdbc3a26e79a9af9c02ab6a54f550374457a0caf581adac7e1794d955f1",
+  "test/ciba_protocol_test.rb": "0065bb0139b65b7a69fadbf735b73033da3ab10b4cea44788155314756493a07",
+  "test/demo_test.rb": "6956a9740e604a5fece845bb6678bae4a129833b83fafec7033d3bd3db80d9ce",
+  "test/run.rb": "31544442a914849b940dee92ffe255972633414b62fdee58e90775414e92a58b",
+  "test/test_helper.rb": "04e8a751a340603f58fa683d7e0e073dfef87a48110e662bf9648453ed2c5885",
+  "docs/api.md": "f4da09083f365b4c830d68c8930a4673d12690b26c8e91cec5126073608c6098",
+  "docs/operations.md": "f5c74ece512b00ef500f8e1754464563143cea75e0c3cc4c695124e98dd1849a",
+  "upstream/rodauth-oauth-1.7.0/oauth_base.rb": "9af06c73f68371a294cdaf59dfcae45a3267a82c8395a9009aeb3ccc975620eb",
+  "upstream/rodauth-oauth-1.7.0/oidc.rb": "39852317b71f2e3fc4cd37eec7bb79ed127aa22774c9e78ede66ea66bb2ded7b",
+  "upstream/rodauth-oauth-1.7.0/oauth_jwt.rb": "4623bd3f8217991588bb122f9aab693337c8744dd7e7a1a56ce55d1f75943b0f",
+  "upstream/rodauth-oauth-1.7.0/oauth_jwt_base.rb": "59894574753744fb662daf20faa4d9dbb5cd01647804abeb44fbe316fadb82d8",
+  "upstream/rodauth-oauth-1.7.0/oauth_token_introspection.rb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "upstream/rodauth-oauth-1.7.0/oauth_assertion_base.rb": "18e5d83e0f769ff3a0b91f3870c35c458f293292776b359505d7716700cdae53",
+  "upstream/rodauth-oauth-1.7.0/oauth_jwt_bearer_grant.rb": "df1d036f63ccf52f9e2b6fa0c708f3c70940004a9ee3c8834df350e3f774d4c7"
+}

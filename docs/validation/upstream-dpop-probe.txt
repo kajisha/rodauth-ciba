@@ -1,0 +1,13 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 44810
+
+# Running:
+
+OBSERVED upstream rejects random proof jti before CIBA issuance
+OBSERVED upstream accepts one-hour-old proof with its custom jti and issues a bound token
+OBSERVED the identical proof can issue another independently approved CIBA request
+.
+
+Finished in 0.024490s, 40.8330 runs/s, 530.8289 assertions/s.
+
+1 runs, 13 assertions, 0 failures, 0 errors, 0 skips

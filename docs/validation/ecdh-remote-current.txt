@@ -1,0 +1,9 @@
+Run options: --name /test_ecdh_remote_/ --seed 46081
+
+# Running:
+
+....
+
+Finished in 0.192617s, 20.7666 runs/s, 664.5312 assertions/s.
+
+4 runs, 128 assertions, 0 failures, 0 errors, 0 skips

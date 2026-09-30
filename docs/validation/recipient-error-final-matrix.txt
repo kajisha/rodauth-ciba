@@ -1,0 +1,56 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --name "/test_ciba_rsa_recipient_key_operations|test_ciba_encryption_missing_recipient|test_ciba_id_token_encryption_rejects|test_ciba_ecdh_encryption_rejects/" --seed 24022
+
+# Running:
+
+....
+
+Finished in 0.142930s, 27.9857 runs/s, 783.5988 assertions/s.
+
+4 runs, 112 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --name "/test_ciba_rsa_recipient_key_operations|test_ciba_encryption_missing_recipient|test_ciba_id_token_encryption_rejects|test_ciba_ecdh_encryption_rejects/" --seed 20381
+
+# Running:
+
+....
+
+Finished in 0.316406s, 12.6420 runs/s, 353.9757 assertions/s.
+
+4 runs, 112 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --name "/test_ciba_rsa_recipient_key_operations|test_ciba_encryption_missing_recipient|test_ciba_id_token_encryption_rejects|test_ciba_ecdh_encryption_rejects/" --seed 55838
+
+# Running:
+
+....
+
+Finished in 0.383930s, 10.4186 runs/s, 291.7197 assertions/s.
+
+4 runs, 112 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

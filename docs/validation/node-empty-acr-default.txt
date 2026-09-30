@@ -1,0 +1,30 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS client0 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection

@@ -1,0 +1,64 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "goal": "Design an OSS Ruby gem extending rodauth-oauth with a CIBA OP. No implementation yet.",
+    "first_use": "A CS backend requests customer approval for privileged support access. CS authenticates with workforce OIDC. Customer authenticates through an existing customer OP in a new approval service. CIBA customer authentication and subsequent support-account delegation are separate.",
+    "roles": {
+      "CD": "CS browser/device",
+      "CIBA client": "support backend",
+      "CIBA OP": "approval service",
+      "AD": "customer browser/device"
+    },
+    "agreed": [
+      "poll only",
+      "login_hint only",
+      "no signed authentication requests or user_code initially",
+      "no refresh token for CIBA initially",
+      "Ruby >=3.3",
+      "DB support follows rodauth-oauth via Sequel",
+      "same DB as rodauth-oauth",
+      "Ruby API for completion; transport/UI/notification belongs to application",
+      "Rodauth-style transactional before/after hooks distinct from non-failing observational events",
+      "spec-based automated tests; certification not required"
+    ],
+    "pending": [
+      "public vs pairwise subjects",
+      "static vs dynamic client registration"
+    ],
+    "tradeoffs": [
+      "Public subject uses same ID across clients of issuer. Pairwise reduces cross-sector correlation; poll requires sector/key ownership handling beyond redirect-flow implementation.",
+      "Static registration provisions OAuth client applications, not end-user devices. Dynamic registration standardizes provisioning through API and can require authorization. No external-client self-service need established."
+    ],
+    "instruction": "Evaluate design fit only from this state. Your selection is advisory, not specification verification or user approval."
+  },
+  "questions": {
+    "subject_scope": {
+      "type": "choice",
+      "instructions": "Which initial subject-identifier scope best fits the stated requirements?",
+      "criteria": {
+        "public_only": "Start public-only and document future migration implications.",
+        "include_pairwise": "Implement both public and pairwise initially.",
+        "insufficient_information": "Requirements do not justify a choice yet."
+      }
+    },
+    "registration_scope": {
+      "type": "choice",
+      "instructions": "Which initial client-registration scope best fits the stated requirements?",
+      "criteria": {
+        "static_only": "Use preprovisioned clients with CIBA metadata validation.",
+        "include_dcr": "Add CIBA Dynamic Client Registration support initially.",
+        "insufficient_information": "Requirements do not justify a choice yet."
+      }
+    },
+    "next_step": {
+      "type": "choice",
+      "instructions": "What is the most useful next design step given the decisions and remaining uncertainty?",
+      "criteria": {
+        "api_state_contract": "Specify completion API, identity binding, state transitions and concurrency invariants.",
+        "expand_protocol": "Expand optional protocol features first.",
+        "clarify_roles": "Clarify CD/AD/client/OP roles with the user before further decisions.",
+        "other_or_insufficient": "None of these or insufficient information."
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+Run options: --name /registered_remote_assertion/ --seed 52820
+
+# Running:
+
+.
+
+Finished in 0.739808s, 1.3517 runs/s, 14.8687 assertions/s.
+
+1 runs, 11 assertions, 0 failures, 0 errors, 0 skips

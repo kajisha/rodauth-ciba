@@ -1,0 +1,797 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "scope": {
+      "product": "CIBA OP extension gem 0.1.0; latest code after removal of OP-wide authentication restrictions",
+      "implemented_intent": [
+        "poll",
+        "login_hint",
+        "trusted Ruby completion API",
+        "upstream enabled confidential authentication",
+        "same DB atomic consumption",
+        "transactional hooks and optional observation"
+      ],
+      "excluded_features": [
+        "ping",
+        "push",
+        "signed authentication requests (distinct from JWT client authentication)",
+        "user_code",
+        "id_token_hint",
+        "login_hint_token",
+        "CIBA pairwise subjects",
+        "CIBA dynamic registration",
+        "CIBA refresh tokens"
+      ],
+      "app_responsibility": [
+        "upstream end-user identity verification",
+        "end-user authorization UI and policy",
+        "notification transport",
+        "business delegation",
+        "strict audit delivery",
+        "proxy/TLS deployment"
+      ],
+      "warning": "Scope exclusions are author declarations, not proof they are permitted by the specification. If an unconditional requirement applies, do not excuse its absence merely due to author scope."
+    },
+    "hashes": {
+      "lib/rodauth/ciba/schema.rb": "919bddcaafb34457fc9f90757d6c0eab03f530cc7da1f7dda90fda5f441a82b1",
+      "lib/rodauth/ciba/version.rb": "bc4e4c0cfb661bc8c626cc12c37cef4bfa8a158b3d87402ea664627d656ce501",
+      "lib/rodauth/ciba.rb": "b74a0e6ce305dc96230865db2a08aaed17137f6d50a510dddcdd54a192b64e85",
+      "lib/rodauth/features/ciba.rb": "8cbf3baca8a56625326d8cf77ef5173feabaf779c04a7f71adddc11126111ec4",
+      "test/ciba_configuration_test.rb": "d555cf32796f15c0a02e5e561a14003588b6a32232809d1a644e713a58314745",
+      "test/ciba_integration_test.rb": "40fac7bac239d20713ae32d60742e92ef457bb26358c4cb483c0870079b3420e",
+      "test/ciba_lifecycle_test.rb": "0e809fdbc3a26e79a9af9c02ab6a54f550374457a0caf581adac7e1794d955f1",
+      "test/ciba_protocol_test.rb": "0065bb0139b65b7a69fadbf735b73033da3ab10b4cea44788155314756493a07",
+      "test/demo_test.rb": "6956a9740e604a5fece845bb6678bae4a129833b83fafec7033d3bd3db80d9ce",
+      "test/run.rb": "31544442a914849b940dee92ffe255972633414b62fdee58e90775414e92a58b",
+      "test/test_helper.rb": "04e8a751a340603f58fa683d7e0e073dfef87a48110e662bf9648453ed2c5885",
+      "docs/api.md": "f4da09083f365b4c830d68c8930a4673d12690b26c8e91cec5126073608c6098",
+      "docs/operations.md": "f5c74ece512b00ef500f8e1754464563143cea75e0c3cc4c695124e98dd1849a",
+      "upstream/rodauth-oauth-1.7.0/oauth_base.rb": "9af06c73f68371a294cdaf59dfcae45a3267a82c8395a9009aeb3ccc975620eb",
+      "upstream/rodauth-oauth-1.7.0/oidc.rb": "39852317b71f2e3fc4cd37eec7bb79ed127aa22774c9e78ede66ea66bb2ded7b",
+      "upstream/rodauth-oauth-1.7.0/oauth_jwt.rb": "4623bd3f8217991588bb122f9aab693337c8744dd7e7a1a56ce55d1f75943b0f",
+      "upstream/rodauth-oauth-1.7.0/oauth_jwt_base.rb": "59894574753744fb662daf20faa4d9dbb5cd01647804abeb44fbe316fadb82d8",
+      "upstream/rodauth-oauth-1.7.0/oauth_token_introspection.rb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "upstream/rodauth-oauth-1.7.0/oauth_assertion_base.rb": "18e5d83e0f769ff3a0b91f3870c35c458f293292776b359505d7716700cdae53",
+      "upstream/rodauth-oauth-1.7.0/oauth_jwt_bearer_grant.rb": "df1d036f63ccf52f9e2b6fa0c708f3c70940004a9ee3c8834df350e3f774d4c7"
+    },
+    "validation": {
+      "current": "50 tests /376 assertions pass on macOS Ruby4.0.6 SQLite after authentication changes",
+      "previous": "46 tests /355 assertions passed Linux Ruby3.3/3.4 SQLite and Ruby4 SQLite/PG17/MySQL8.4 before authentication changes",
+      "limits": "No complete Conformance Suite, independent certification, security audit, deployment integration or current-code Docker matrix. This review executes no tests."
+    },
+    "instructions": "Use actual supplied code and tests, not author claims alone. Missing upstream/application source is an evidence limit. You provide typed judgments only, no generated justification. Do not treat client obligations as OP library obligations. Score implementation evidence, not the desirability of omitted optional features. Evaluate each unit independently with its section context.",
+    "evidence": {
+      "lib/rodauth/ciba/schema.rb": "# frozen_string_literal: true\n\nmodule Rodauth\n  module CibaSupport\n    # Explicit migration helper. Never called automatically on application startup.\n    module Schema\n      def self.add_client_metadata(db, table: :oauth_applications, column: :backchannel_token_delivery_mode)\n        db.alter_table(table) { add_column column, String, size: 8 }\n      end\n\n      def self.create(db, table: :ciba_requests, columns: {}, accounts_table: :accounts,\n                      account_key: :id, account_type: Integer, applications_table: :oauth_applications,\n                      application_key: :id, application_type: Integer)\n        col = ->(name) { columns.fetch(name, name) }\n        db.create_table(table) do\n          primary_key col[:id]\n          String col[:auth_req_id_digest], size: 64, unique: true, null: false\n          foreign_key col[:account_id], accounts_table, key: account_key, type: account_type, null: false, on_delete: :cascade\n          foreign_key col[:oauth_application_id], applications_table, key: application_key, type: application_type, null: false, on_delete: :cascade\n          String col[:scopes], text: true, null: false\n          String col[:status], size: 16, null: false, default: \"pending\"\n          Integer col[:lock_version], null: false, default: 0\n          %i[created_at expires_at].each { |name| Bignum col[name], null: false }\n          %i[last_polled_at completed_at consumed_at auth_time].each { |name| Bignum col[name] }\n          Integer col[:interval], null: false, default: 5\n          %i[binding_message acr_values acr amr].each { |name| String col[name], text: true }\n          index [col[:status], col[:id]]\n          index col[:expires_at]\n          check(Sequel[col[:interval]] > 0)\n          check(Sequel[col[:lock_version]] >= 0)\n          check(Sequel[col[:status]] => %w[pending approved denied consumed])\n        end\n      end\n    end\n  end\nend\n",
+      "lib/rodauth/ciba/version.rb": "# frozen_string_literal: true\nmodule Rodauth\n  module CibaSupport\n    VERSION = \"0.1.0\"\n  end\nend\n",
+      "lib/rodauth/ciba.rb": "# frozen_string_literal: true\nrequire \"rodauth/ciba/version\"\nrequire \"rodauth/ciba/schema\"\nrequire \"rodauth/features/ciba\"\n",
+      "lib/rodauth/features/ciba.rb": "# frozen_string_literal: true\nrequire \"jwt\"\nrequire \"rodauth/oauth\"\nrequire \"json\"\nrequire \"digest\"\nrequire \"securerandom\"\nrequire \"uri\"\nrequire \"stringio\"\n\nmodule Rodauth\n  module CibaSupport\n    GRANT_TYPE = \"urn:openid:params:grant-type:ciba\"\n    class CompletionError < StandardError; end\n    class NotFound < CompletionError; end\n    class IdentityMismatch < CompletionError; end\n    class Conflict < CompletionError; end\n    class Expired < CompletionError; end\n    class Ineligible < CompletionError; end\n    class ReentrantMutation < CompletionError; end\n    module StaticRegistration\n      private\n      def validate_client_registration_params(params, *args)\n        if Array(params[\"grant_types\"]).include?(GRANT_TYPE) || params.keys.any? { |key| key.start_with?(\"backchannel_\") }\n          register_throw_json_response_error(\"invalid_client_metadata\", \"CIBA clients require static registration\")\n        end\n        super\n      end\n    end\n    # Prepend when the upstream assertion feature is enabled, regardless of load order.\n    module ClientAssertions\n      private\n      def jwt_assertion(assertion, **kwargs)\n        return super unless request.path == backchannel_authentication_path\n        claims = jwt_decode(assertion, verify_iss: false, verify_aud: false, verify_jti: false, **kwargs)\n        return unless claims && [oauth_jwt_issuer, token_url, backchannel_authentication_url].any? { |aud| verify_aud(aud, claims[\"aud\"]) }\n        claims\n      end\n    end\n    class ProtocolError < StandardError\n      attr_reader :code\n      def initialize(code)\n        @code = code\n        super(code)\n      end\n    end\n  end\n\n  Feature.define(:ciba, :Ciba) do\n    depends :oidc\n    %w[ciba_request ciba_approve ciba_deny ciba_issue].each do |action|\n      before action\n      after action\n    end\n\n    auth_value_method :ciba_requests_table, :ciba_requests\n    auth_value_method :ciba_request_columns, {}.freeze\n    auth_value_method :ciba_request_lifetime, nil\n    auth_value_method :ciba_max_request_lifetime, nil\n    auth_value_method :ciba_poll_interval, 5\n    auth_value_method :ciba_max_request_bytes, 16_384\n    auth_value_method :ciba_require_tls, true\n    auth_value_method :oauth_applications_backchannel_token_delivery_mode_column, :backchannel_token_delivery_mode\n    auth_methods :resolve_ciba_login_hint, :approve_ciba_request, :deny_ciba_request,\n                 :ciba_request, :pending_ciba_requests, :cleanup_ciba_requests,\n                 :ciba_current_request, :ciba_request_accepted, :observe_ciba_event,\n                 :report_ciba_observer_error, :report_ciba_processing_error, :ciba_now,\n                 :ciba_account_eligible?\n\n    auth_server_route(:backchannel_authentication, \"backchannel-authentication\") do |r|\n      r.post do\n        ciba_http do\n          validate_ciba_transport!\n          require_oauth_application\n          ciba_error(\"unauthorized_client\") unless ciba_client_eligible?(oauth_application)\n          requested = validate_ciba_request!\n          account_id = resolve_ciba_login_hint(requested.delete(:login_hint), oauth_application: oauth_application)\n          ciba_error(\"unknown_user_id\") unless ciba_account_eligible?(account_id)\n          public_id = SecureRandom.urlsafe_base64(32)\n          lifetime = requested.delete(:lifetime)\n          now = ciba_now\n          row = requested.merge(auth_req_id_digest: Digest::SHA256.hexdigest(public_id),\n            account_id: account_id, oauth_application_id: oauth_application[oauth_applications_id_column],\n            created_at: now, expires_at: now + lifetime,\n            status: \"pending\", lock_version: 0, interval: ciba_poll_interval)\n          ciba_transaction do\n            @ciba_current_request = ciba_snapshot(row)\n            before_ciba_request\n            row[:id] = ciba_ds.insert(ciba_values(row))\n            @ciba_current_request = ciba_snapshot(row)\n            after_ciba_request\n            ciba_emit(row, \"request_accepted\", nil, \"pending\")\n            snapshot = ciba_snapshot(row)\n            db.after_commit(savepoint: true) { ciba_observe { ciba_request_accepted(snapshot) } }\n          end\n          json_response_success(auth_req_id: public_id, expires_in: row[:expires_at] - row[:created_at], interval: row[:interval])\n        ensure\n          @ciba_current_request = nil\n        end\n      end\n    end\n\n    def resolve_ciba_login_hint(_hint, oauth_application:)\n      raise NotImplementedError, \"configure resolve_ciba_login_hint\"\n    end\n\n    def ciba_now\n      Time.now.to_i\n    end\n\n    def ciba_current_request\n      @ciba_current_request\n    end\n\n    def ciba_request_accepted(_request)\n    end\n\n    def observe_ciba_event(_event)\n    end\n\n    def report_ciba_observer_error(error)\n      warn \"CIBA observer failed (#{error.class})\"\n    end\n\n    def report_ciba_processing_error(error)\n      warn \"CIBA processing failed (#{error.class})\"\n    end\n\n    def ciba_account_eligible?(id)\n      id && db[accounts_table].where(account_id_column => id, account_status_column => account_open_status_value).any?\n    end\n\n    def approve_ciba_request(id, account_id:, auth_time: nil, acr: nil, amr: nil)\n      unless auth_time.nil? || (auth_time.is_a?(Integer) && auth_time >= 0 && auth_time <= ciba_now)\n        raise ArgumentError, \"invalid auth_time\"\n      end\n      raise ArgumentError, \"invalid acr\" unless acr.nil? || (acr.is_a?(String) && acr.bytesize <= 1024 && acr.valid_encoding?)\n      unless amr.nil? || (amr.is_a?(Array) && amr.size <= 32 && amr.all? { |v| v.is_a?(String) && v.valid_encoding? && v.bytesize <= 128 })\n        raise ArgumentError, \"invalid amr\"\n      end\n      ciba_complete(id, account_id, \"approved\", auth_time: auth_time, acr: acr, amr: amr && JSON.generate(amr.uniq.sort))\n    end\n\n    def deny_ciba_request(id, account_id:)\n      ciba_complete(id, account_id, \"denied\", {})\n    end\n\n    def ciba_request(id)\n      ciba_validate_id!(id)\n      row = ciba_read(ciba_ds.where(ciba_values(id: id)).first)\n      raise CibaSupport::NotFound, \"request not found\" unless row\n      ciba_snapshot(row)\n    end\n\n    def pending_ciba_requests(after_id: nil, limit: 100)\n      ciba_validate_limit!(limit)\n      ciba_validate_id!(after_id) if after_id\n      ds = ciba_ds.where(ciba_values(status: \"pending\")).where(Sequel[ciba_column(:expires_at)] > ciba_now)\n      ds = ds.where(Sequel[ciba_column(:id)] > after_id) if after_id\n      ds.order(ciba_column(:id)).limit(limit).all.map { |row| ciba_snapshot(ciba_read(row)) }.freeze\n    end\n\n    def cleanup_ciba_requests(before:, limit: 100)\n      raise ArgumentError, \"before must be a past epoch second\" unless before.is_a?(Integer) && before <= ciba_now\n      ciba_validate_limit!(limit)\n      expired = Sequel.&(ciba_values(status: %w[pending approved]), Sequel[ciba_column(:expires_at)] < before)\n      denied = Sequel.&(ciba_values(status: \"denied\"), Sequel[ciba_column(:completed_at)] < before)\n      consumed = Sequel.&(ciba_values(status: \"consumed\"), Sequel[ciba_column(:consumed_at)] < before)\n      eligible = ciba_ds.where(Sequel.|(expired, denied, consumed))\n      ciba_transaction do\n        ids = eligible.order(ciba_column(:id)).limit(limit).select_map(ciba_column(:id))\n        eligible.where(ciba_values(id: ids)).delete\n      end\n    end\n\n    def oauth_grant_types_supported\n      super | [CibaSupport::GRANT_TYPE]\n    end\n\n    def check_csrf?\n      request.path == backchannel_authentication_path ? false : super\n    end\n\n    def accepts_json?\n      request.path == backchannel_authentication_path || super\n    end\n\n    private\n\n    def post_configure\n      super\n      if features.include?(:oauth_dynamic_client_registration) && !self.class.ancestors.include?(CibaSupport::StaticRegistration)\n        self.class.prepend(CibaSupport::StaticRegistration)\n      end\n      if method(:resolve_ciba_login_hint).owner == Rodauth::Ciba\n        raise ArgumentError, \"configure resolve_ciba_login_hint\"\n      end\n      if oauth_jwt_keys.empty? || oauth_jwt_keys.key?(\"none\")\n        raise ArgumentError, \"configure ID Token signing keys\"\n      end\n      unless [ciba_request_lifetime, ciba_max_request_lifetime, ciba_poll_interval, ciba_max_request_bytes].all? { |v| v.is_a?(Integer) && v.positive? } &&\n             ciba_request_lifetime <= ciba_max_request_lifetime && ciba_max_request_lifetime <= 2_147_483_647 && ciba_poll_interval <= 2_147_483_647\n        raise ArgumentError, \"configure positive CIBA lifetime/maximum/interval/body limit (lifetime <= maximum)\"\n      end\n      if features.include?(:oauth_jwt_bearer_grant) && !self.class.ancestors.include?(CibaSupport::ClientAssertions)\n        self.class.prepend(CibaSupport::ClientAssertions)\n      end\n    end\n\n    public :post_configure\n\n    def ciba_metadata\n      {backchannel_authentication_endpoint: backchannel_authentication_url,\n       backchannel_token_delivery_modes_supported: [\"poll\"], backchannel_user_code_parameter_supported: false}\n    end\n\n    def oauth_server_metadata_body(*)\n      super.merge(ciba_metadata)\n    end\n\n    def openid_configuration_body(*)\n      super.merge(ciba_metadata)\n    end\n\n    def ciba_column(name)\n      ciba_request_columns.fetch(name, name)\n    end\n\n    def ciba_values(values)\n      values.to_h { |key, value| [ciba_column(key), value] }\n    end\n\n    def ciba_read(row)\n      return unless row\n      names = ciba_request_columns.invert\n      row.to_h { |key, value| [names.fetch(key, key), value] }\n    end\n\n    def ciba_ds\n      db[ciba_requests_table]\n    end\n\n    def ciba_snapshot(row)\n      row.reject { |key, _| key == :auth_req_id_digest }.to_h do |key, value|\n        [key, value.is_a?(String) ? value.dup.freeze : value]\n      end.freeze\n    end\n\n    def ciba_validate_id!(id)\n      raise ArgumentError, \"request ID must be a positive integer\" unless id.is_a?(Integer) && id.positive?\n    end\n\n    def ciba_validate_limit!(limit)\n      raise ArgumentError, \"limit must be 1..1000\" unless limit.is_a?(Integer) && (1..1000).cover?(limit)\n    end\n\n    # Locking reads prevent stale REPEATABLE READ snapshots during pending polls.\n    # SQLite obtains its write reservation when the transaction starts instead.\n    def ciba_locked_row(ds)\n      ciba_read((db.database_type == :sqlite ? ds : ds.for_update).first)\n    end\n\n    def ciba_claim!(row)\n      changed = ciba_ds.where(ciba_values(id: row[:id], status: row[:status], lock_version: row[:lock_version]))\n                       .update(ciba_values(lock_version: row[:lock_version] + 1))\n      raise CibaSupport::Conflict, \"concurrent modification\" unless changed == 1\n      raise CibaSupport::Expired, \"request expired\" if row[:expires_at] <= ciba_now\n    end\n\n    def ciba_guard(id)\n      registry = Thread.current[:rodauth_ciba_mutations] ||= {}\n      key = [db.object_id, id]\n      raise CibaSupport::ReentrantMutation, \"request mutation is already active\" if registry[key]\n      registry[key] = true\n      begin\n        yield\n      ensure\n        registry.delete(key)\n      end\n    end\n\n    def ciba_complete(id, account_id, outcome, context)\n      ciba_validate_id!(id)\n      ciba_guard(id) do\n        ciba_transaction do\n          row = ciba_locked_row(ciba_ds.where(ciba_values(id: id)))\n          raise CibaSupport::NotFound, \"request not found\" unless row\n          raise CibaSupport::IdentityMismatch, \"account does not match\" unless row[:account_id] == account_id\n          raise CibaSupport::Expired, \"request expired\" if row[:expires_at] <= ciba_now\n          if row[:status] != \"pending\"\n            same_outcome = row[:status] == outcome || (outcome == \"approved\" && row[:status] == \"consumed\")\n            same_context = context.all? { |key, value| row[key] == value }\n            raise CibaSupport::Conflict, \"completion conflicts with existing result\" unless same_outcome && same_context\n            next :already_completed\n          end\n          application = oauth_application_ds(row[:oauth_application_id]).first\n          unless ciba_account_eligible?(account_id) && ciba_client_eligible?(application, row[:scopes].split)\n            raise CibaSupport::Ineligible, \"account or client unavailable\"\n          end\n          ciba_claim!(row)\n          action = outcome == \"approved\" ? \"approve\" : \"deny\"\n          @ciba_current_request = ciba_snapshot(row)\n          send(\"before_ciba_#{action}\")\n          raise CibaSupport::Expired, \"request expired\" if row[:expires_at] <= ciba_now\n          updates = context.merge(status: outcome, completed_at: ciba_now)\n          ciba_ds.where(ciba_values(id: id)).update(ciba_values(updates))\n          row.merge!(updates)\n          @ciba_current_request = ciba_snapshot(row)\n          send(\"after_ciba_#{action}\")\n          ciba_emit(row, outcome, \"pending\", outcome)\n          outcome.to_sym\n        end\n      end\n    ensure\n      @ciba_current_request = nil\n    end\n\n    def ciba_client_eligible?(application, requested_scopes = [\"openid\"])\n      return false unless application\n      algorithm = application[oauth_applications_id_token_signed_response_alg_column] || oauth_jwt_keys.keys.first\n      return false unless algorithm != \"none\" && oauth_jwt_keys.key?(algorithm)\n      return false if application[:backchannel_authentication_request_signing_alg]\n      return false if application[:backchannel_user_code_parameter]\n      return false unless (requested_scopes - oauth_application_scopes).empty?\n      methods = application[oauth_applications_token_endpoint_auth_method_column].to_s.split\n      methods = oauth_default_token_endpoint_auth_methods if methods.empty?\n      application[oauth_applications_grant_types_column].to_s.split.include?(CibaSupport::GRANT_TYPE) &&\n        application[oauth_applications_backchannel_token_delivery_mode_column] == \"poll\" &&\n        (application[oauth_applications_subject_type_column] || oauth_jwt_subject_type) == \"public\" &&\n        !methods.empty? && (methods - (oauth_confidential_token_endpoint_auth_methods & oauth_token_endpoint_auth_methods_supported)).empty? &&\n        (requested_scopes - application[oauth_applications_scopes_column].to_s.split).empty?\n    end\n\n    def ciba_protocol_request?\n      request.path == backchannel_authentication_path ||\n        (request.path == token_path && request.params[\"grant_type\"] == CibaSupport::GRANT_TYPE)\n    end\n\n    # RFC 6749 section 2.3.1 encodes each Basic credential as form data.\n    # Reuse upstream method registration and secret verification after decoding.\n    def require_oauth_application_from_client_secret_basic(token)\n      return super unless ciba_protocol_request?\n      begin\n        encoded = Base64.strict_decode64(token)\n        client, secret = encoded.split(\":\", 2)\n        authorization_required unless client && secret\n        client = URI.decode_www_form_component(client)\n        secret = URI.decode_www_form_component(secret)\n        authorization_required unless client.valid_encoding? && secret.valid_encoding?\n      rescue ArgumentError\n        authorization_required\n      end\n      application = db[oauth_applications_table].where(oauth_applications_client_id_column => client).first\n      authorization_required unless supports_auth_method?(application, \"client_secret_basic\") && secret_matches?(application, secret)\n      application\n    end\n\n    def www_authenticate_header(*)\n      ciba_protocol_request? ? 'Basic realm=\"CIBA\"' : super\n    end\n\n    def validate_ciba_transport!\n      ciba_error(\"invalid_request\") if ciba_require_tls && !request.ssl?\n      ciba_error(\"invalid_request\") unless request.media_type == \"application/x-www-form-urlencoded\" && request.query_string.empty?\n      # Rack 3 inputs need not support rewind. Reuse Rack's parsed form buffer,\n      # or replace an as-yet unread input with our bounded copy for later parsing.\n      body = request.env[\"rack.request.form_vars\"]\n      unless body\n        body = request.body&.read(ciba_max_request_bytes + 1).to_s\n        request.env[\"rack.input\"] = StringIO.new(body)\n      end\n      ciba_error(\"invalid_request\") if body.bytesize > ciba_max_request_bytes || body.match?(/%(?![0-9a-fA-F]{2})/)\n      pairs = body.split(\"&\").map do |part|\n        part.split(\"=\", 2).map { |value| URI.decode_www_form_component(value, Encoding::UTF_8) }\n      end\n      ciba_error(\"invalid_request\") if pairs.any? { |pair| pair.any? { |value| !value.valid_encoding? } }\n      pairs = URI.decode_www_form(body, Encoding::UTF_8)\n      keys = pairs.map(&:first)\n      if (keys.include?(\"client_secret\") && request.env[\"HTTP_AUTHORIZATION\"]) ||\n         (keys.include?(\"client_assertion\") && (keys.include?(\"client_secret\") || request.env[\"HTTP_AUTHORIZATION\"]))\n        ciba_error(\"invalid_request\")\n      end\n      ciba_error(\"invalid_request\") unless keys.uniq.length == keys.length\n      ciba_error(\"invalid_request\") if pairs.any? { |key, value| !key.valid_encoding? || !value.valid_encoding? }\n    rescue ArgumentError\n      ciba_error(\"invalid_request\")\n    end\n\n    def ciba_parameter(name, required: false, max: 1024, error: \"invalid_request\")\n      value = request.params[name]\n      if value.nil?\n        ciba_error(error) if required\n        return\n      end\n      ciba_error(error) unless value.is_a?(String) && value.valid_encoding? && !value.empty? && value.bytesize <= max\n      value\n    end\n\n    def validate_ciba_request!\n      %w[id_token_hint login_hint_token request request_uri user_code].each do |name|\n        ciba_error(\"invalid_request\") if request.params.key?(name)\n      end\n      hint = ciba_parameter(\"login_hint\", required: true)\n      scope = ciba_parameter(\"scope\", required: true, max: 4096, error: \"invalid_scope\")\n      ciba_error(\"invalid_scope\") unless scope.match?(/\\A[\\x21\\x23-\\x5B\\x5D-\\x7E]+(?: [\\x21\\x23-\\x5B\\x5D-\\x7E]+)*\\z/)\n      scopes = scope.split.uniq - [\"offline_access\"]\n      allowed = oauth_application_scopes & oauth_application[oauth_applications_scopes_column].to_s.split\n      ciba_error(\"invalid_scope\") unless scopes.include?(\"openid\") && (scopes - allowed).empty?\n      binding = ciba_parameter(\"binding_message\", max: 128, error: \"invalid_binding_message\")\n      ciba_error(\"invalid_binding_message\") if binding && binding.match?(/[[:cntrl:]]/)\n      acr = ciba_parameter(\"acr_values\")\n      expiry = ciba_parameter(\"requested_expiry\", max: 20)\n      ciba_error(\"invalid_request\") if expiry && !expiry.match?(/\\A[0-9]+\\z/)\n      ciba_error(\"invalid_request\") if expiry && expiry.to_i.zero?\n      lifetime = expiry ? [expiry.to_i, ciba_max_request_lifetime].min : ciba_request_lifetime\n      {login_hint: hint, scopes: scopes.join(oauth_scope_separator), binding_message: binding, acr_values: acr, lifetime: lifetime}\n    end\n\n    def validate_token_params\n      super\n      return unless param(\"grant_type\") == CibaSupport::GRANT_TYPE\n      validate_ciba_transport!\n      ciba_error(\"unauthorized_client\") unless ciba_client_eligible?(oauth_application)\n      ciba_parameter(\"auth_req_id\", required: true)\n    end\n\n    def create_token(grant_type)\n      return super unless grant_type == CibaSupport::GRANT_TYPE\n      row = ciba_locked_row(ciba_ds.where(ciba_values(\n        auth_req_id_digest: Digest::SHA256.hexdigest(param(\"auth_req_id\")),\n        oauth_application_id: oauth_application[oauth_applications_id_column])))\n      ciba_error(\"invalid_grant\") unless row\n      ciba_error(\"invalid_grant\") if row[:status] == \"consumed\"\n      ciba_error(\"expired_token\") if row[:expires_at] <= ciba_now\n      ciba_error(\"access_denied\") if row[:status] == \"denied\"\n      ciba_guard(row[:id]) do\n        ciba_claim!(row)\n        if row[:status] == \"pending\"\n          too_fast = row[:last_polled_at] && ciba_now < row[:last_polled_at] + row[:interval]\n          interval = [row[:interval] + (too_fast ? 5 : 0), 2_147_483_647].min\n          ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(last_polled_at: ciba_now, interval: interval))\n          ciba_error(too_fast ? \"slow_down\" : \"authorization_pending\")\n        end\n        application = oauth_application_ds(row[:oauth_application_id]).first\n        unless row[:status] == \"approved\" && ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, row[:scopes].split)\n          raise CibaSupport::ProtocolError, \"invalid_grant\"\n        end\n        @oauth_application = application\n        @ciba_current_request = ciba_snapshot(row)\n        before_ciba_issue\n        raise CibaSupport::Expired, \"request expired\" if row[:expires_at] <= ciba_now\n        updates = {status: \"consumed\", consumed_at: ciba_now}\n        ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(updates))\n        @ciba_authentication = row\n        grant = generate_token({oauth_grants_account_id_column => row[:account_id],\n          oauth_grants_oauth_application_id_column => row[:oauth_application_id],\n          oauth_grants_scopes_column => row[:scopes], oauth_grants_type_column => CibaSupport::GRANT_TYPE}, false)\n        generate_id_token(grant)\n        raise \"ID Token generation did not complete\" unless grant[:id_token]\n        row.merge!(updates)\n        @ciba_current_request = ciba_snapshot(row)\n        after_ciba_issue\n        ciba_emit(row, \"token_issued\", \"approved\", \"consumed\")\n        grant\n      end\n    ensure\n      if grant_type == CibaSupport::GRANT_TYPE\n        @ciba_authentication = @ciba_current_request = nil\n      end\n    end\n\n    def id_token_claims(grant, algorithm)\n      return super unless @ciba_authentication\n      claims = jwt_claims(grant)\n      # ID Token audience is the RP, even when access-token resource audiences differ.\n      claims[:aud] = oauth_application[oauth_applications_client_id_column]\n      row = @ciba_authentication\n      claims[:auth_time] = row[:auth_time] if row[:auth_time]\n      claims[:acr] = row[:acr] if row[:acr]\n      claims[:amr] = JSON.parse(row[:amr]) if row[:amr]\n      claims[:at_hash] = id_token_hash(grant[oauth_grants_token_column], algorithm)\n      claims\n    end\n\n    def ciba_emit(row, type, from, to)\n      event = {version: 1, event_id: SecureRandom.uuid.freeze, request_id: row[:id], type: type.freeze,\n        occurred_at: ciba_now, account_id: row[:account_id], oauth_application_id: row[:oauth_application_id],\n        from: from&.freeze, to: to.freeze}.freeze\n      db.after_commit(savepoint: true) { ciba_observe { observe_ciba_event(event) } }\n    end\n\n    def ciba_observe\n      yield\n    rescue StandardError => error\n      begin\n        report_ciba_observer_error(error)\n      rescue StandardError\n        # An unavailable reporter cannot change the committed result.\n      end\n    end\n\n    def ciba_http\n      yield\n    rescue CibaSupport::Expired\n      ciba_error(\"expired_token\")\n    rescue CibaSupport::ProtocolError => error\n      ciba_error(error.code)\n    rescue Sequel::DatabaseLockTimeout, Sequel::SerializationFailure\n      response[\"Retry-After\"] = ciba_poll_interval.to_s\n      ciba_error(\"temporarily_unavailable\", 503)\n    rescue StandardError => error\n      begin\n        report_ciba_processing_error(error)\n      rescue StandardError\n        # Do not leak exception messages (which can contain credentials).\n      end\n      ciba_error(\"server_error\", 500)\n    end\n\n    def ciba_error(code, status = 400)\n      response[\"Cache-Control\"] = \"no-store\"\n      response[\"Pragma\"] = \"no-cache\"\n      throw_json_response_error(status, code)\n    end\n\n    def ciba_transaction(&block)\n      opts = {savepoint: true}\n      opts[:mode] = :immediate if db.database_type == :sqlite\n      db.transaction(opts, &block)\n    end\n\n    def transaction(opts = {}, &block)\n      return super unless request.path == token_path && param(\"grant_type\") == CibaSupport::GRANT_TYPE\n      opts = opts.merge(savepoint: true)\n      opts[:mode] = :immediate if db.database_type == :sqlite\n      ciba_http { super(opts, &block) }\n    end\n  end\nend\n",
+      "docs/api.md": "# Configuration and Ruby API (0.1.0)\n\nEnable `:ciba` after requiring `rodauth/ciba`. It depends on upstream `:oidc`. Configure your usual accounts, OAuth application/grant tables, signing keys and issuer first. Existing authorization-code behavior is delegated to upstream.\n\n## Required configuration\n\n```ruby\nciba_request_lifetime 300\nciba_max_request_lifetime 600\nresolve_ciba_login_hint do |hint, oauth_application:|\n  # Validate your own identifier format and tenant/client authorization here.\n  # Return a local account primary key, or nil for an unknown/ineligible user.\n  db[:accounts].where(email: hint).get(:id)\nend\n```\n\nLifetime values are seconds, positive integers; default must not exceed maximum (maximum <= 2^31-1). There is no implicit email lookup. Explicit signing keys are required; `none` is rejected. Default account eligibility is an existing open Rodauth account; override `ciba_account_eligible?(account_id)` for another account model.\n\nBoth endpoints use upstream client authentication. CIBA uses the upstream enabled confidential client authentication methods and preserves the OP-wide Discovery metadata. It does not restrict other OAuth flows. Public clients (`none`) cannot use CIBA. CIBA Basic credentials are strictly base64-decoded and form-decoded before upstream secret verification; supplying Basic and post credentials together is rejected. Shared secrets should retain upstream's default hashing configuration. The demo explicitly disables hashing for its disposable fixture only.\n\nEnable upstream `:oauth_jwt_bearer_grant` to use `private_key_jwt` or, where upstream permits shared-secret storage, `client_secret_jwt`. JWT signature/key verification is delegated to upstream. At the Backchannel Endpoint, assertion audiences accept the OP issuer, token URL or backchannel URL as required by CIBA Core §7.1; other endpoints retain upstream audience validation. This does not enable signed CIBA authentication requests (`request`). Basic/post and both JWT methods have integration coverage; other upstream mechanisms require deployment-specific validation.\n\nStatically provision each CIBA application with:\n\n- `grant_types` containing `urn:openid:params:grant-type:ciba` (space separated, as upstream stores it).\n- `backchannel_token_delivery_mode = 'poll'`.\n- `subject_type = 'public'` (or the OP's public fallback).\n- Allowed `scopes` containing `openid` and a registered supported authentication method.\n\nCIBA DCR requests are rejected. Existing non-CIBA registration validation is forwarded to upstream. Pairwise remains advertised for upstream flows; CIBA rejects a pairwise client.\n\n## Other settings\n\n| Rodauth setting | Default / meaning |\n|---|---|\n| `ciba_requests_table` | `:ciba_requests` |\n| `ciba_request_columns` | `{}`; canonical column symbol → physical column symbol |\n| `oauth_applications_backchannel_token_delivery_mode_column` | `:backchannel_token_delivery_mode` |\n| `ciba_poll_interval` | `5` seconds, positive integer <= 2^31-1 |\n| `ciba_max_request_bytes` | `16384`, maximum form-body bytes |\n| `ciba_require_tls` | `true`; disable only for local test/demo |\n| `backchannel_authentication_route` | `\"backchannel-authentication\"`, normal Rodauth route setting |\n\n`binding_message` accepts up to128 UTF-8 bytes without control characters; hint/acr_values up to1024 bytes, scope up to4096 bytes. These are library policy limits, not limits imposed by CIBA. Unknown parameters are ignored. Known unsupported `request`, `request_uri`, other hints and `user_code` are rejected. `offline_access` is removed; the token response reflects effective scopes and never includes a CIBA refresh token. `requested_expiry` is capped at the configured maximum.\n\nTo publish Discovery in a Roda app, use upstream routing explicitly:\n\n```ruby\nroute do |r|\n  rodauth.load_openid_configuration_route\n  rodauth.load_oauth_server_metadata_route # optional OAuth metadata endpoint\n  r.rodauth\nend\n```\n\n## Completion API\n\nThese are trusted in-process calls; none creates an HTTP approval endpoint. Authenticate the customer and authorize the decision in your application before calling them. Use the internal integer `id`, never the client's `auth_req_id` as proof of approval.\n\n```ruby\nrequest = rodauth.ciba_request(id)\nrodauth.approve_ciba_request(id, account_id: local_customer_id,\n  auth_time: authentication_time.to_i, acr: \"urn:example:mfa\", amr: [\"pwd\", \"otp\"])\nrodauth.deny_ciba_request(id, account_id: local_customer_id)\n```\n\nReturns `:approved` / `:denied` on a new decision; `:already_completed` on an identical retry. Approval retries compare account, auth_time, acr and sorted/deduplicated amr. An identical approval after consumption is permitted until request expiry but never returns a token. Completion retries do not repeat hooks/events. Expiry wins over retry, including terminal states. Authentication context is optional; do not substitute approval time for unknown authentication time. Requested `acr_values` is visible in the snapshot; your application decides which authentication is necessary and reports the achieved acr.\n\nExceptions in `Rodauth::CibaSupport`:\n\n| Class | Meaning |\n|---|---|\n| `NotFound` | Request absent/cleaned up |\n| `IdentityMismatch` | Supplied customer differs from the fixed request target |\n| `Expired` | Deadline reached |\n| `Conflict` | Different decision/context, or a conflicting modification |\n| `Ineligible` | Account/client no longer eligible |\n| `ReentrantMutation` | Another mutation of this request is active in the same execution context |\n\nAll inherit `CompletionError`. Invalid argument shapes raise `ArgumentError`. DB and application-hook failures propagate to the Ruby caller and roll back its operation. HTTP processing failures roll back first and return a generic server error; exception text is not returned.\n\n## Snapshots and recovery\n\n`ciba_request(id)` returns a frozen hash with frozen strings; canonical column names are used even with custom columns. It excludes the public-ID digest. The stored status can remain pending/approved after expiry; always check `expires_at` when displaying it. Completion and polling check deadlines themselves.\n\n```ruby\nrodauth.pending_ciba_requests(after_id: nil, limit: 100)\nrodauth.cleanup_ciba_requests(before: Time.now.to_i - 86_400, limit: 100)\n```\n\nPending lookup returns unexpired pending requests sorted by internal ID, limit1..1000. For notification recovery, periodically restart scanning from the beginning and deduplicate deliveries in the app; do not permanently advance a cursor past undelivered requests.\n\nCleanup returns the deleted count. The cutoff must be an integer epoch second not in the future. It removes bounded batches of expired pending/approved rows, denied rows completed before cutoff, and consumed rows consumed before cutoff. It never deletes OAuth grants/tokens. No background worker or automatic migration is installed.\n\n## Hooks and events\n\nConfigure `before_ciba_request`, `after_ciba_request`, `before_ciba_approve`, `after_ciba_approve`, `before_ciba_deny`, `after_ciba_deny`, `before_ciba_issue`, `after_ciba_issue` using Rodauth's usual block configuration. They run in the state change's transaction/savepoint. Exceptions roll back. `ciba_current_request` is a frozen snapshot: before hooks see the previous state, after hooks see the resulting state; the before-request hook has no assigned database ID yet. Hooks must not perform a Rack halt/throw or send an HTTP response; signal failure by raising an exception.\n\nUse a transactional after hook to persist required audit data or an outbox entry in the same database. Avoid external network calls there. After does not mean after commit.\n\n`ciba_request_accepted(snapshot)` runs after the outermost commit, for app-owned dispatch. `observe_ciba_event(event)` receives post-commit events: `request_accepted`, `approved`, `denied`, `token_issued`.\n\nEvents contain `version: 1`, `event_id`, internal `request_id`, `occurred_at` (epoch seconds), local `account_id`, local `oauth_application_id`, `type`, `from`, `to`. Tokens, raw hints, public auth_req_id, secrets and binding messages are excluded. Event hashes are frozen. Observer/dispatch failure is passed to `report_ciba_observer_error(error)`; failure of that reporter cannot change an already committed result. The default reporter writes only the exception class to stderr. Callbacks are best-effort, not durable delivery, and process death can lose an event.\n",
+      "docs/operations.md": "# Deployment and operating boundaries\n\n## Database migration\n\nRun `examples/migration.rb` as an explicit Sequel migration after the upstream account/application/grant schema exists. Add it under your app's numbered migration directory. Load Sequel's migration extension before running `Sequel::Migrator.run`. The down migration deletes CIBA request state; normal deployment must preserve existing requests.\n\n`Rodauth::CibaSupport::Schema.create` accepts the request table/column mapping, referenced account/application table/key and their key types. Pass `account_type:` / `application_type:` when upstream uses a type other than Integer, and configure matching table/column mappings in Rodauth. The helper uses foreign keys with cascading deletion; the request table is not an audit archive. `Schema.add_client_metadata` accepts its own table/column names. These helpers deliberately fail on an existing table/column rather than silently changing it.\n\n## Transactions and concurrency\n\nState changes, token/grant creation, signing and transactional hooks share a savepoint. An outer transaction may catch an operation failure and still commit its other work; the failed CIBA operation stays rolled back. Events are registered with savepoint-aware after_commit and wait for the outermost commit.\n\nPostgreSQL/MySQL read the request with a row lock; SQLite obtains a write reservation using IMMEDIATE transactions. Conditional version updates also check ownership of the state transition. Reading under a lock avoids using an earlier repeatable-read snapshot for pending-poll updates. The library does not retry application hooks automatically: they can contain side effects. Recognized lock-timeout/serialization failures return HTTP503 with Retry-After. Other unexpected processing errors return a generic500; Ruby API callers receive exceptions and can retry the whole operation according to app policy.\n\nAn already-open SQLite deferred outer transaction cannot be converted to IMMEDIATE. Start such outer write transactions in IMMEDIATE mode. PostgreSQL/MySQL isolation levels other than the tested defaults, deadlock recovery and failover behavior are not certified. Use short transactions, database lock timeouts, request timeouts, and app-owned admission/rate limiting appropriate to your service.\n\nNever send a constructed successful HTTP response before an enclosing application transaction commits. A response loss after commit does not make the token exchange replayable: the client must initiate a new CIBA request. The request deadline applies to approval and token collection; token expiry is independent once issued.\n\n## Identity and transport\n\nConfigure a stable upstream issuer/base URL and trusted reverse-proxy handling. Production communication must use TLS; the app must correctly indicate HTTPS after trusted TLS termination. Backchannel/token requests use form POST bodies, not query parameters or JSON. Reject untrusted forwarded headers at the deployment boundary. This library does not add its own reverse-proxy trust policy.\n\nThe login_hint resolver must apply tenant/client eligibility and return a local account reference. The application must verify upstream customer authentication and approval permission before invoking the internal Ruby API. Request IDs are not bearer authority. Browser CSRF protection, customer sessions, notifications and CS delegation are outside the gem. Disabling an account or changing client eligibility is rechecked before approval/issuance, within database transaction visibility; there is no new guarantee of instantaneous revocation across concurrent admin transactions.\n\nLimit unsolicited requests in your application. This version has no user_code defense and no rate-limiting service. Store only the needed binding message/authentication context and periodically run bounded cleanup. The library omits raw hints and public request identifiers from its stored snapshots/events; application/proxy request logging and custom reporters must apply their own secret redaction.\n\n## Scope and compatibility\n\n0.1.0 targets poll with login_hint, public subjects and statically provisioned CIBA clients. It delegates confidential client authentication to enabled upstream mechanisms, preserves shared Discovery metadata, and issues signed ID Tokens using upstream's JWT implementation. Basic/post and private_key_jwt/client_secret_jwt have integration coverage; other mechanisms (including mTLS) have not been validated here. Unsupported features are not silently treated as implemented. Read the gemspec for narrow initial dependency bounds and `docs/release-validation.md` in the repository for actual tested environments.\n\nNo OpenID certification, full Conformance Suite pass, security audit, or blanket support for all Sequel adapters is claimed. Existing authorization-code behavior has a regression test, not the complete upstream test suite. Consumers should use the included protocol mapping as a starting point for application-specific interoperability tests.\n",
+      "test/ciba_protocol_test.rb#test_discovery_describes_poll_and_keeps_existing_oidc_metadata": "  def test_discovery_describes_poll_and_keeps_existing_oidc_metadata\n    response = Rack::MockRequest.new(@app).get(\"https://op.example.test/.well-known/openid-configuration\")\n    assert_equal 200, response.status\n    metadata = JSON.parse(response.body)\n    assert_equal \"https://op.example.test/backchannel-authentication\", metadata[\"backchannel_authentication_endpoint\"]\n    assert_equal [\"poll\"], metadata[\"backchannel_token_delivery_modes_supported\"]\n    assert_equal false, metadata[\"backchannel_user_code_parameter_supported\"]\n    refute metadata.key?(\"backchannel_authentication_request_signing_alg_values_supported\")\n    assert_includes metadata[\"grant_types_supported\"], GRANT\n    assert_includes metadata[\"grant_types_supported\"], \"authorization_code\"\n    assert_equal %w[public pairwise], metadata[\"subject_types_supported\"]\n  end\n",
+      "test/ciba_configuration_test.rb#test_upstream_jwt_authentication_coexists_with_ciba_and_discovery": "  def test_upstream_jwt_authentication_coexists_with_ciba_and_discovery\n    configure_assertion_client\n    metadata = JSON.parse(Rack::MockRequest.new(@app).get(\"https://op.example.test/.well-known/openid-configuration\").body)\n    assert_includes metadata.fetch(\"token_endpoint_auth_methods_supported\"), \"private_key_jwt\"\n    [\"https://op.example.test\", \"https://op.example.test/token\", \"https://op.example.test/backchannel-authentication\"].each do |audience|\n      response = post(\"/backchannel-authentication\", assertion_params(audience).merge(\n        login_hint: \"customer@example.test\", scope: \"openid\"), \"HTTP_AUTHORIZATION\" => nil)\n      assert_equal 200, response.status, response.body\n      id = JSON.parse(response.body).fetch(\"auth_req_id\")\n      approve(id)\n      result = post(\"/token\", assertion_params(\"https://op.example.test/token\").merge(\n        grant_type: GRANT, auth_req_id: id), \"HTTP_AUTHORIZATION\" => nil)\n      assert_equal 200, result.status, result.body\n      decode_id_token(result)\n    end\n    @db[:oauth_grants].insert(account_id: @account_id, oauth_application_id: @client_id,\n      type: \"authorization_code\", code: \"jwt-code\", scopes: \"openid\", expires_in: Time.now + 60,\n      redirect_uri: \"https://rp.example.test/callback\")\n    result = post(\"/token\", assertion_params(\"https://op.example.test/token\").merge(\n      grant_type: \"authorization_code\", code: \"jwt-code\", redirect_uri: \"https://rp.example.test/callback\"),\n      \"HTTP_AUTHORIZATION\" => nil)\n    assert_equal 200, result.status, result.body\n    @db[:oauth_applications].update(token_endpoint_auth_method: \"client_secret_basic\")\n    id = accept_request\n    approve(id)\n    assert_equal 200, poll(id).status\n  end\n",
+      "test/ciba_configuration_test.rb#test_dcr_rejects_ciba_but_preserves_other_grant_validation": "  def test_dcr_rejects_ciba_but_preserves_other_grant_validation\n    @app.plugin(:rodauth) do\n      enable :oauth_dynamic_client_registration\n      before_register { throw_json_response_error(418, \"existing_registration_handler\") }\n    end\n    params = {\"redirect_uris\" => [\"https://rp.example.test/callback\"], \"client_name\" => \"RP\", \"grant_types\" => [GRANT]}\n    response = post(\"/register\", {}, \"CONTENT_TYPE\" => \"application/json\", input: JSON.generate(params))\n    assert_error response, \"invalid_client_metadata\"\n    params[\"grant_types\"] = [\"authorization_code\"]\n    response = post(\"/register\", {}, \"CONTENT_TYPE\" => \"application/json\", input: JSON.generate(params))\n    assert_equal 418, response.status, response.body\n  end\n",
+      "test/ciba_protocol_test.rb#test_rack_inputs_without_rewind_work_on_both_endpoints": "  def test_rack_inputs_without_rewind_work_on_both_endpoints\n    body_class = Class.new do\n      def initialize(body)\n        @io = StringIO.new(body)\n      end\n      def read(*args)\n        @io.read(*args)\n      end\n    end\n    headers = {\"HTTP_AUTHORIZATION\" => \"Basic #{Base64.strict_encode64('support:test-secret')}\", \"CONTENT_TYPE\" => \"application/x-www-form-urlencoded\"}\n    http = Rack::MockRequest.new(@app)\n    response = http.post(\"https://op.example.test/backchannel-authentication\", headers.merge(\"rack.input\" => body_class.new(\"scope=openid&login_hint=customer%40example.test\")))\n    assert_equal 200, response.status, response.body\n    id = JSON.parse(response.body)[\"auth_req_id\"]\n    approve(id)\n    response = http.post(\"https://op.example.test/token\", headers.merge(\"rack.input\" => body_class.new(URI.encode_www_form(grant_type: GRANT, auth_req_id: id))))\n    assert_equal 200, response.status, response.body\n  end",
+      "test/ciba_integration_test.rb#test_client_authentication_is_required_at_both_endpoints": "  def test_client_authentication_is_required_at_both_endpoints\n    response = post(\"/backchannel-authentication\", {login_hint: \"customer@example.test\", scope: \"openid\"}, \"HTTP_AUTHORIZATION\" => nil)\n    assert_equal 401, response.status\n    assert_equal 0, @db[:ciba_requests].count\n    id = accept_request\n    approve(id)\n    assert_equal 401, poll(id, \"HTTP_AUTHORIZATION\" => nil).status\n    assert_equal 0, @db[:oauth_grants].count\n  end\n",
+      "test/ciba_configuration_test.rb#test_unavailable_or_unsupported_client_metadata_is_rejected": "  def test_unavailable_or_unsupported_client_metadata_is_rejected\n    [{subject_type: \"pairwise\"}, {backchannel_token_delivery_mode: \"push\"}, {grant_types: \"authorization_code\"}].each do |changes|\n      original = @db[:oauth_applications].first\n      @db[:oauth_applications].update(changes)\n      response = post(\"/backchannel-authentication\", login_hint: \"customer@example.test\", scope: \"openid\")\n      assert_error response, \"unauthorized_client\"\n      @db[:oauth_applications].where(id: original[:id]).update(original)\n    end\n    assert_equal 0, @db[:ciba_requests].count\n  end",
+      "test/ciba_configuration_test.rb#test_public_clients_can_exist_but_cannot_use_ciba": "  def test_public_clients_can_exist_but_cannot_use_ciba\n    @app.plugin(:rodauth) { oauth_token_endpoint_auth_methods_supported %w[client_secret_basic client_secret_post none] }\n    @db[:oauth_applications].update(token_endpoint_auth_method: \"none\")\n    response = post(\"/backchannel-authentication\", {client_id: \"support\", login_hint: \"customer@example.test\", scope: \"openid\"},\n      \"HTTP_AUTHORIZATION\" => nil)\n    assert_error response, \"unauthorized_client\"\n    assert_equal 0, @db[:ciba_requests].count\n  end",
+      "test/ciba_configuration_test.rb#test_upstream_client_secret_jwt_works_for_ciba": "  def test_upstream_client_secret_jwt_works_for_ciba\n    @app.plugin(:rodauth) { enable :oauth_jwt_bearer_grant }\n    @db[:oauth_applications].update(token_endpoint_auth_method: \"client_secret_jwt\")\n    make_assertion = lambda do |audience|\n      {client_id: \"support\", client_assertion_type: \"urn:ietf:params:oauth:client-assertion-type:jwt-bearer\",\n        client_assertion: JWT.encode({iss: \"support\", sub: \"support\", aud: audience,\n          exp: Time.now.to_i + 60, jti: SecureRandom.uuid}, \"test-secret\", \"HS256\")}\n    end\n    response = post(\"/backchannel-authentication\", make_assertion.call(\"https://op.example.test\").merge(\n      login_hint: \"customer@example.test\", scope: \"openid\"), \"HTTP_AUTHORIZATION\" => nil)\n    assert_equal 200, response.status, response.body\n    id = JSON.parse(response.body).fetch(\"auth_req_id\")\n    approve(id)\n    response = post(\"/token\", make_assertion.call(\"https://op.example.test/token\").merge(\n      grant_type: GRANT, auth_req_id: id), \"HTTP_AUTHORIZATION\" => nil)\n    assert_equal 200, response.status, response.body\n  end\n",
+      "test/ciba_configuration_test.rb#test_ciba_jwt_authentication_rejects_wrong_audience_signature_and_mixed_credentials": "  def test_ciba_jwt_authentication_rejects_wrong_audience_signature_and_mixed_credentials\n    configure_assertion_client\n    [assertion_params(\"https://wrong.example.test\"),\n     assertion_params(\"https://op.example.test\", key: OpenSSL::PKey::RSA.generate(2048))].each do |params|\n      response = post(\"/backchannel-authentication\", params.merge(login_hint: \"customer@example.test\", scope: \"openid\"),\n        \"HTTP_AUTHORIZATION\" => nil)\n      assert_equal 401, response.status, response.body\n    end\n    response = post(\"/backchannel-authentication\", assertion_params(\"https://op.example.test\").merge(\n      login_hint: \"customer@example.test\", scope: \"openid\"))\n    assert_error response, \"invalid_request\"\n    assert_equal 0, @db[:ciba_requests].count\n  end\n",
+      "test/ciba_protocol_test.rb#test_non_tls_and_json_requests_are_rejected": "  def test_non_tls_and_json_requests_are_rejected\n    response = Rack::MockRequest.new(@app).post(\"http://op.example.test/backchannel-authentication\", params: {scope: \"openid\", login_hint: \"customer@example.test\"})\n    assert_error response, \"invalid_request\"\n    response = request_ciba({}, \"CONTENT_TYPE\" => \"application/json\", input: '{\"scope\":\"openid\",\"login_hint\":\"customer@example.test\"}')\n    assert_error response, \"invalid_request\"\n  end\n",
+      "upstream/rodauth-oauth-1.7.0/oauth_base.rb": "354:     def oauth_confidential_token_endpoint_auth_methods\n355:       %w[client_secret_basic client_secret_post]\n356:     end\n\n405:     def require_oauth_application\n406:       @oauth_application = if (token = (v = request.env[\"HTTP_AUTHORIZATION\"]) && v[/\\A *Basic (.*)\\Z/, 1])\n407:                              # client_secret_basic\n408:                              require_oauth_application_from_client_secret_basic(token)\n409:                            elsif (client_id = param_or_nil(\"client_id\"))\n410:                              if (client_secret = param_or_nil(\"client_secret\"))\n411:                                # client_secret_post\n412:                                require_oauth_application_from_client_secret_post(client_id, client_secret)\n413:                              else\n414:                                # none\n415:                                require_oauth_application_from_none(client_id)\n416:                              end\n417:                            else\n418:                              authorization_required\n419:                            end\n420:     end\n\n422:     def require_oauth_application_from_client_secret_basic(token)\n423:       client_id, client_secret = Base64.decode64(token).split(\":\", 2)\n424:       authorization_required unless client_id\n425:       oauth_application = db[oauth_applications_table].where(oauth_applications_client_id_column => client_id).first\n426:       authorization_required unless supports_auth_method?(oauth_application,\n427:                                                           \"client_secret_basic\") && secret_matches?(oauth_application, client_secret)\n428:       oauth_application\n429:     end\n\n431:     def require_oauth_application_from_client_secret_post(client_id, client_secret)\n432:       oauth_application = db[oauth_applications_table].where(oauth_applications_client_id_column => client_id).first\n433:       authorization_required unless supports_auth_method?(oauth_application,\n434:                                                           \"client_secret_post\") && secret_matches?(oauth_application, client_secret)\n435:       oauth_application\n436:     end\n\n438:     def require_oauth_application_from_none(client_id)\n439:       oauth_application = db[oauth_applications_table].where(oauth_applications_client_id_column => client_id).first\n440:       authorization_required unless supports_auth_method?(oauth_application, \"none\")\n441:       oauth_application\n442:     end\n\n444:     def supports_auth_method?(oauth_application, auth_method)\n445:       return false unless oauth_application\n446: \n447:       supported_auth_methods = if (auth_methods = oauth_application[oauth_applications_token_endpoint_auth_method_column])\n448:                                  auth_methods.split(/ +/)\n449:                                else\n450:                                  oauth_default_token_endpoint_auth_methods\n451:                                end\n452: \n453:       supported_auth_methods.include?(auth_method)\n454:     end\n\n456:     def require_oauth_application_from_account\n457:       ds = db[oauth_applications_table]\n458:            .join(oauth_grants_table, Sequel[oauth_grants_table][oauth_grants_oauth_application_id_column] =>\n459:                                      Sequel[oauth_applications_table][oauth_applications_id_column])\n460:            .where(oauth_grant_by_token_ds(param(\"token\")).opts.fetch(:where, true))\n461:            .where(Sequel[oauth_applications_table][oauth_applications_account_id_column] => account_id)\n462: \n463:       @oauth_application = ds.qualify.first\n464:       return if @oauth_application\n465: \n466:       set_redirect_error_flash revoke_unauthorized_account_error_flash\n467:       redirect request.referer || \"/\"\n468:     end\n\n498:     def generate_token_hash(token)\n499:       Base64.urlsafe_encode64(Digest::SHA256.digest(token))\n500:     end\n\n506:     def generate_token(grant_params = {}, should_generate_refresh_token = true)\n507:       if grant_params[oauth_grants_id_column] && oauth_reuse_access_token &&\n508:          (\n509:            if oauth_grants_token_hash_column\n510:              grant_params[oauth_grants_token_hash_column]\n511:            else\n512:              grant_params[oauth_grants_token_column]\n513:            end\n514:          )\n515:         return grant_params\n516:       end\n517: \n518:       update_params = {\n519:         oauth_grants_expires_in_column => Sequel.date_add(Sequel::CURRENT_TIMESTAMP, seconds: oauth_access_token_expires_in),\n520:         oauth_grants_code_column => nil\n521:       }\n522: \n523:       rescue_from_uniqueness_error do\n524:         access_token = _generate_access_token(update_params)\n525:         refresh_token = _generate_refresh_token(update_params) if should_generate_refresh_token\n526:         oauth_grant = store_token(grant_params, update_params)\n527: \n528:         return unless oauth_grant\n529: \n530:         oauth_grant[oauth_grants_token_column] = access_token\n531:         oauth_grant[oauth_grants_refresh_token_column] = refresh_token if refresh_token\n532:         oauth_grant\n533:       end\n534:     end\n\n698:     def validate_token_params\n699:       unless (grant_type = param_or_nil(\"grant_type\"))\n700:         redirect_response_error(\"invalid_request\")\n701:       end\n702: \n703:       redirect_response_error(\"invalid_request\") if grant_type == \"refresh_token\" && !param_or_nil(\"refresh_token\")\n704:     end\n\n788:     def oauth_server_metadata_body(path = nil)\n789:       issuer = base_url\n790:       issuer += \"/#{path}\" if path\n791: \n792:       payload = {\n793:         issuer: issuer,\n794:         token_endpoint: token_url,\n795:         scopes_supported: oauth_application_scopes,\n796:         response_types_supported: oauth_response_types_supported,\n797:         response_modes_supported: oauth_response_modes_supported,\n798:         grant_types_supported: oauth_grant_types_supported,\n799:         token_endpoint_auth_methods_supported: oauth_token_endpoint_auth_methods_supported\n800:       }\n801: \n802:       # RFC 8414, section 2: unused optional metadata parameters must be omitted, not null\n803:       payload[:service_documentation] = oauth_metadata_service_documentation if oauth_metadata_service_documentation\n804:       payload[:ui_locales_supported] = oauth_metadata_ui_locales_supported if oauth_metadata_ui_locales_supported\n805:       payload[:op_policy_uri] = oauth_metadata_op_policy_uri if oauth_metadata_op_policy_uri\n806:       payload[:op_tos_uri] = oauth_metadata_op_tos_uri if oauth_metadata_op_tos_uri\n807:       payload\n808:     end\n\n853:     def json_response_success(body, cache = false)\n854:       response.status = 200\n855:       response[\"Content-Type\"] ||= json_response_content_type\n856:       if cache\n857:         # defaulting to 1-day for everyone, for now at least\n858:         max_age = 60 * 60 * 24\n859:         response[\"Cache-Control\"] = \"private, max-age=#{max_age}\"\n860:       else\n861:         response[\"Cache-Control\"] = \"no-store\"\n862:         response[\"Pragma\"] = \"no-cache\"\n863:       end\n864:       json_payload = _json_response_body(body)\n865:       return_response(json_payload)\n866:     end\n\n868:     def throw_json_response_error(status, error_code, message = nil)\n869:       set_response_error_status(status)\n870:       payload = response_error_params(error_code, message)\n871:       json_payload = _json_response_body(payload)\n872:       response[\"Content-Type\"] ||= json_response_content_type\n873:       response[\"WWW-Authenticate\"] = www_authenticate_header(payload) if status == 401\n874:       return_response(json_payload)\n875:     end\n\n881:     def _json_response_body(hash)\n882:       return super if features.include?(:json)\n883: \n884:       if request.respond_to?(:convert_to_json)\n885:         request.send(:convert_to_json, hash)\n886:       else\n887:         JSON.dump(hash)\n888:       end\n889:     end\n\n898:     def authorization_required\n899:       throw_json_response_error(oauth_authorization_required_error_status, \"invalid_client\")\n900:     end",
+      "upstream/rodauth-oauth-1.7.0/oidc.rb": "534:     def generate_id_token(oauth_grant, include_claims = false)\n535:       oauth_scopes = oauth_grant[oauth_grants_scopes_column].split(oauth_scope_separator)\n536: \n537:       return unless oauth_scopes.include?(\"openid\")\n538: \n539:       signing_algorithm = oauth_application[oauth_applications_id_token_signed_response_alg_column] ||\n540:                           oauth_jwt_keys.keys.first\n541: \n542:       id_claims = id_token_claims(oauth_grant, signing_algorithm)\n543: \n544:       account = db[accounts_table].where(account_id_column => oauth_grant[oauth_grants_account_id_column]).first\n545: \n546:       # this should never happen!\n547:       # a newly minted oauth token from a grant should have been assigned to an account\n548:       # who just authorized its generation.\n549:       return unless account\n550: \n551:       if (claims = oauth_grant[oauth_grants_claims_column])\n552:         claims = JSON.parse(claims)\n553:         if (id_token_essential_claims = claims[\"id_token\"])\n554:           oauth_scopes |= id_token_essential_claims.to_a\n555: \n556:           include_claims = true\n557:         end\n558:       end\n559: \n560:       # OpenID Connect Core 1.0's 5.4 Requesting Claims using Scope Values:\n561:       # If standard claims (profile, email, etc) are requested as scope values in the Authorization Request,\n562:       # include in the response.\n563:       include_claims ||= (OIDC_SCOPES_MAP.keys & oauth_scopes).any?\n564: \n565:       # However, when no Access Token is issued (which is the case for the response_type value id_token),\n566:       # the resulting Claims are returned in the ID Token.\n567:       fill_with_account_claims(id_claims, account, oauth_scopes, param_or_nil(\"claims_locales\")) if include_claims\n568: \n569:       params = {\n570:         jwks: oauth_application_jwks(oauth_application),\n571:         signing_algorithm: signing_algorithm,\n572:         encryption_algorithm: oauth_application[oauth_applications_id_token_encrypted_response_alg_column],\n573:         encryption_method: oauth_application[oauth_applications_id_token_encrypted_response_enc_column],\n574: \n575:         # Not officially part of the spec, but some providers follow this convention.\n576:         # This is useful for distinguishing between ID Tokens and JWT Access Tokens.\n577:         headers: { typ: \"id_token+jwt\" }\n578:       }.compact\n579: \n580:       oauth_grant[:id_token] = jwt_encode(id_claims, **params)\n581:     end\n\n583:     def id_token_claims(oauth_grant, signing_algorithm)\n584:       claims = jwt_claims(oauth_grant)\n585: \n586:       claims[:nonce] = oauth_grant[oauth_grants_nonce_column] if oauth_grant[oauth_grants_nonce_column]\n587: \n588:       claims[:acr] = oauth_grant[oauth_grants_acr_column] if oauth_grant[oauth_grants_acr_column]\n589: \n590:       # Time when the End-User authentication occurred.\n591:       claims[:auth_time] = get_oidc_account_last_login_at(oauth_grant[oauth_grants_account_id_column]).to_i\n592: \n593:       # Access Token hash value.\n594:       if (access_token = oauth_grant[oauth_grants_token_column])\n595:         claims[:at_hash] = id_token_hash(access_token, signing_algorithm)\n596:       end\n597: \n598:       # code hash value.\n599:       if (code = oauth_grant[oauth_grants_code_column])\n600:         claims[:c_hash] = id_token_hash(code, signing_algorithm)\n601:       end\n602: \n603:       claims\n604:     end\n\n785:     def generate_token(grant_params = {}, should_generate_refresh_token = true)\n786:       scopes = grant_params[oauth_grants_scopes_column].split(oauth_scope_separator)\n787: \n788:       super(grant_params, scopes.include?(\"offline_access\") && should_generate_refresh_token)\n789:     end\n\n811:     def openid_configuration_body(path = nil)\n812:       metadata = oauth_server_metadata_body(path).slice(*VALID_METADATA_KEYS)\n813: \n814:       scope_claims = oauth_application_scopes.each_with_object([]) do |scope, claims|\n815:         oidc, param = scope.split(\".\", 2)\n816:         if param\n817:           claims << param\n818:         else\n819:           oidc_claims = OIDC_SCOPES_MAP[oidc]\n820:           claims.concat(oidc_claims) if oidc_claims\n821:         end\n822:       end\n823: \n824:       scope_claims.unshift(\"auth_time\")\n825: \n826:       metadata.merge(\n827:         userinfo_endpoint: userinfo_url,\n828:         subject_types_supported: %w[public pairwise],\n829:         acr_values_supported: oauth_acr_values_supported,\n830:         claims_parameter_supported: true,\n831: \n832:         id_token_signing_alg_values_supported: oauth_jwt_jws_algorithms_supported,\n833:         id_token_encryption_alg_values_supported: oauth_jwt_jwe_algorithms_supported,\n834:         id_token_encryption_enc_values_supported: oauth_jwt_jwe_encryption_methods_supported,\n835: \n836:         userinfo_signing_alg_values_supported: oauth_jwt_jws_algorithms_supported,\n837:         userinfo_encryption_alg_values_supported: oauth_jwt_jwe_algorithms_supported,\n838:         userinfo_encryption_enc_values_supported: oauth_jwt_jwe_encryption_methods_supported,\n839: \n840:         request_object_signing_alg_values_supported: oauth_jwt_jws_algorithms_supported,\n841:         request_object_encryption_alg_values_supported: oauth_jwt_jwe_algorithms_supported,\n842:         request_object_encryption_enc_values_supported: oauth_jwt_jwe_encryption_methods_supported,\n843: \n844:         # These Claim Types are described in Section 5.6 of OpenID Connect Core 1.0 [OpenID.Core].\n845:         # Values defined by this specification are normal, aggregated, and distributed.\n846:         # If omitted, the implementation supports only normal Claims.\n847:         claim_types_supported: %w[normal],\n848:         claims_supported: %w[sub iss iat exp aud] | scope_claims\n849:       ).reject do |key, val|\n850:         # Filter null values in optional items\n851:         (!REQUIRED_METADATA_KEYS.include?(key.to_sym) && val.nil?) ||\n852:           # Claims with zero elements MUST be omitted from the response\n853:           (val.respond_to?(:empty?) && val.empty?)\n854:       end\n855:     end\n\n881:     def id_token_hash(hash, algo)\n882:       digest = case algo\n883:                when /256/ then Digest::SHA256\n884:                when /384/ then Digest::SHA384\n885:                when /512/ then Digest::SHA512\n886:                end\n887: \n888:       return unless digest\n889: \n890:       hash = digest.digest(hash)\n891:       hash = hash[0...(hash.size / 2)]\n892:       Base64.urlsafe_encode64(hash).tr(\"=\", \"\")\n893:     end",
+      "upstream/rodauth-oauth-1.7.0/oauth_jwt.rb": "113:     def jwt_claims(oauth_grant)\n114:       issued_at = Time.now.to_i\n115: \n116:       {\n117:         iss: oauth_jwt_issuer, # issuer\n118:         iat: issued_at, # issued at\n119:         #\n120:         # sub  REQUIRED - as defined in section 4.1.2 of [RFC7519].  In case of\n121:         # access tokens obtained through grants where a resource owner is\n122:         # involved, such as the authorization code grant, the value of \"sub\"\n123:         # SHOULD correspond to the subject identifier of the resource owner.\n124:         # In case of access tokens obtained through grants where no resource\n125:         # owner is involved, such as the client credentials grant, the value\n126:         # of \"sub\" SHOULD correspond to an identifier the authorization\n127:         # server uses to indicate the client application.\n128:         sub: jwt_subject(oauth_grant[oauth_grants_account_id_column]),\n129:         client_id: oauth_application[oauth_applications_client_id_column],\n130: \n131:         exp: issued_at + oauth_access_token_expires_in,\n132:         aud: oauth_jwt_audience\n133:       }\n134:     end",
+      "upstream/rodauth-oauth-1.7.0/oauth_assertion_base.rb": "# frozen_string_literal: true\n\nrequire \"rodauth/oauth\"\n\nmodule Rodauth\n  Feature.define(:oauth_assertion_base, :OauthAssertionBase) do\n    depends :oauth_base\n\n    auth_methods(\n      :assertion_grant_type?,\n      :client_assertion_type?,\n      :assertion_grant_type,\n      :client_assertion_type\n    )\n\n    private\n\n    def validate_token_params\n      return super unless assertion_grant_type?\n\n      redirect_response_error(\"invalid_grant\") unless param_or_nil(\"assertion\")\n    end\n\n    def require_oauth_application\n      if assertion_grant_type?\n        @oauth_application = __send__(:\"require_oauth_application_from_#{assertion_grant_type}_assertion_issuer\", param(\"assertion\"))\n      elsif client_assertion_type?\n        @oauth_application = __send__(:\"require_oauth_application_from_#{client_assertion_type}_assertion_subject\",\n                                      param(\"client_assertion\"))\n\n        if (client_id = param_or_nil(\"client_id\")) &&\n           client_id != @oauth_application[oauth_applications_client_id_column]\n          # If present, the value of the\n          # \"client_id\" parameter MUST identify the same client as is\n          # identified by the client assertion.\n          redirect_response_error(\"invalid_grant\")\n        end\n      else\n        super\n      end\n    end\n\n    def account_from_bearer_assertion_subject(subject)\n      __insert_or_do_nothing_and_return__(\n        db[accounts_table],\n        account_id_column,\n        [login_column],\n        login_column => subject\n      )\n    end\n\n    def create_token(grant_type)\n      return super unless assertion_grant_type?(grant_type) && supported_grant_type?(grant_type)\n\n      account = __send__(:\"account_from_#{assertion_grant_type}_assertion\", param(\"assertion\"))\n\n      redirect_response_error(\"invalid_grant\") unless account\n\n      grant_scopes = if param_or_nil(\"scope\")\n                       redirect_response_error(\"invalid_scope\") unless check_valid_scopes?\n                       scopes\n                     else\n                       @oauth_application[oauth_applications_scopes_column]\n                     end\n\n      grant_params = {\n        oauth_grants_type_column => grant_type,\n        oauth_grants_account_id_column => account[account_id_column],\n        oauth_grants_oauth_application_id_column => @oauth_application[oauth_applications_id_column],\n        oauth_grants_scopes_column => grant_scopes\n      }\n\n      generate_token(grant_params, false)\n    end\n\n    def assertion_grant_type?(grant_type = param(\"grant_type\"))\n      grant_type.start_with?(\"urn:ietf:params:oauth:grant-type:\")\n    end\n\n    def client_assertion_type?(client_assertion_type = param(\"client_assertion_type\"))\n      client_assertion_type.start_with?(\"urn:ietf:params:oauth:client-assertion-type:\")\n    end\n\n    def assertion_grant_type(grant_type = param(\"grant_type\"))\n      grant_type.delete_prefix(\"urn:ietf:params:oauth:grant-type:\").tr(\"-\", \"_\")\n    end\n\n    def client_assertion_type(assertion_type = param(\"client_assertion_type\"))\n      assertion_type.delete_prefix(\"urn:ietf:params:oauth:client-assertion-type:\").tr(\"-\", \"_\")\n    end\n  end\nend\n",
+      "upstream/rodauth-oauth-1.7.0/oauth_jwt_bearer_grant.rb": "# frozen_string_literal: true\n\nrequire \"rodauth/oauth\"\n\nmodule Rodauth\n  Feature.define(:oauth_jwt_bearer_grant, :OauthJwtBearerGrant) do\n    depends :oauth_assertion_base, :oauth_jwt\n\n    auth_value_method :max_param_bytesize, nil if Rodauth::VERSION >= \"2.26.0\"\n\n    auth_methods(\n      :require_oauth_application_from_jwt_bearer_assertion_issuer,\n      :require_oauth_application_from_jwt_bearer_assertion_subject,\n      :account_from_jwt_bearer_assertion\n    )\n\n    def oauth_token_endpoint_auth_methods_supported\n      if oauth_applications_client_secret_hash_column.nil?\n        super | %w[client_secret_jwt private_key_jwt urn:ietf:params:oauth:client-assertion-type:jwt-bearer]\n      else\n        super | %w[private_key_jwt]\n      end\n    end\n\n    def oauth_grant_types_supported\n      super | %w[urn:ietf:params:oauth:grant-type:jwt-bearer]\n    end\n\n    private\n\n    def oauth_confidential_token_endpoint_auth_methods\n      if oauth_applications_client_secret_hash_column.nil?\n        super | %w[client_secret_jwt private_key_jwt urn:ietf:params:oauth:client-assertion-type:jwt-bearer]\n      else\n        super | %w[private_key_jwt]\n      end\n    end\n\n    def require_oauth_application_from_jwt_bearer_assertion_issuer(assertion)\n      claims = jwt_assertion(assertion)\n\n      return unless claims\n\n      db[oauth_applications_table].where(\n        oauth_applications_client_id_column => claims[\"iss\"]\n      ).first\n    end\n\n    def require_oauth_application_from_jwt_bearer_assertion_subject(assertion)\n      claims, header = jwt_decode_no_key(assertion)\n\n      client_id = claims[\"sub\"]\n\n      case header[\"alg\"]\n      when \"none\"\n        # do not accept jwts with no alg set\n        authorization_required\n      when /\\AHS/\n        require_oauth_application_from_client_secret_jwt(client_id, assertion, header[\"alg\"])\n      else\n        require_oauth_application_from_private_key_jwt(client_id, assertion)\n      end\n    end\n\n    def require_oauth_application_from_client_secret_jwt(client_id, assertion, alg)\n      oauth_application = db[oauth_applications_table].where(oauth_applications_client_id_column => client_id).first\n      authorization_required unless oauth_application && supports_auth_method?(oauth_application, \"client_secret_jwt\")\n      client_secret = oauth_application[oauth_applications_client_secret_column]\n      claims = jwt_assertion(assertion, jws_key: client_secret, jws_algorithm: alg)\n      authorization_required unless claims && claims[\"iss\"] == client_id\n      oauth_application\n    end\n\n    def require_oauth_application_from_private_key_jwt(client_id, assertion)\n      oauth_application = db[oauth_applications_table].where(oauth_applications_client_id_column => client_id).first\n      authorization_required unless oauth_application && supports_auth_method?(oauth_application, \"private_key_jwt\")\n      jwks = oauth_application_jwks(oauth_application)\n      claims = jwt_assertion(assertion, jwks: jwks)\n      authorization_required unless claims\n      oauth_application\n    end\n\n    def account_from_jwt_bearer_assertion(assertion)\n      claims = jwt_assertion(assertion)\n\n      return unless claims\n\n      account_from_bearer_assertion_subject(claims[\"sub\"])\n    end\n\n    def jwt_assertion(assertion, **kwargs)\n      claims = jwt_decode(assertion, verify_iss: false, verify_aud: false, verify_jti: false, **kwargs)\n\n      return unless claims && verify_aud(request.url, claims[\"aud\"])\n\n      claims\n    end\n  end\nend\n",
+      "upstream/rodauth-oauth-1.7.0/oauth_jwt_base.rb": "425:       def jwt_decode(\n426:         token,\n427:         jwks: nil,\n428:         jws_algorithm: oauth_jwt_public_keys.keys.first || oauth_jwt_keys.keys.first,\n429:         jws_key: oauth_jwt_keys[jws_algorithm] || _jwt_key,\n430:         verify_claims: true,\n431:         verify_jti: true,\n432:         verify_iss: true,\n433:         verify_aud: true,\n434:         verify_headers: nil\n435:       )\n436:         jws_key = jws_key.first if jws_key.is_a?(Array)\n437: \n438:         # verifying the JWT implies verifying:\n439:         #\n440:         # issuer: check that server generated the token\n441:         # aud: check the audience field (client is who he says he is)\n442:         # exp: check that the token hasn't expired\n443:         # iat: informational per RFC 7519 section 4.1.6, so we only reject a future iat, tolerating\n444:         #      oauth_jwt_iat_leeway seconds of clock skew. ruby-jwt's verify_iat offers no leeway knob\n445:         #      (iat_leeway was removed in 2.2.0, jwt/ruby-jwt#319), so verify_iat is disabled below and\n446:         #      iat is checked manually -- unifying behavior with the json-jwt path, which honors the\n447:         #      same oauth_jwt_iat_leeway.\n448:         #\n449:         # subject can't be verified automatically without having access to the account id,\n450:         # which we don't because that's the whole point.\n451:         #\n452:         verify_claims_params = if verify_claims\n453:                                  {\n454:                                    verify_iss: verify_iss,\n455:                                    iss: oauth_jwt_issuer,\n456:                                    # can't use stock aud verification, as it's dependent on the client application id\n457:                                    verify_aud: false,\n458:                                    verify_jti: (verify_jti ? method(:verify_jti) : false),\n459:                                    # iat is verified manually below (with leeway) rather than via\n460:                                    # ruby-jwt's verify_iat, which rejects a future iat with no leeway.\n461:                                    verify_iat: false\n462:                                  }\n463:                                else\n464:                                  {}\n465:                                end\n466: \n467:         # decode jwt\n468:         claims, headers = if is_authorization_server?\n469:                             if jwks\n470:                               jwks = jwks[:keys] if jwks.is_a?(Hash)\n471: \n472:                               # JWKs may be set up without a KID, when there's a single one\n473:                               if jwks.size == 1 && !jwks[0][:kid]\n474:                                 key = jwks[0]\n475:                                 algo = key[:alg]\n476:                                 key = JWT::JWK.import(key).keypair\n477:                                 JWT.decode(token, key, true, algorithms: [algo], **verify_claims_params)\n478:                               else\n479:                                 algorithms = jws_algorithm ? [jws_algorithm] : jwks.select { |k| k[:use] == \"sig\" }.map { |k| k[:alg] }\n480:                                 JWT.decode(token, nil, true, algorithms: algorithms, jwks: { keys: jwks }, **verify_claims_params)\n481:                               end\n482:                             elsif jws_key\n483:                               JWT.decode(token, jws_key, true, algorithms: [jws_algorithm], **verify_claims_params)\n484:                             else\n485:                               JWT.decode(token, jws_key, false, **verify_claims_params)\n486:                             end\n487:                           elsif (jwks = auth_server_jwks_set)\n488:                             algorithms = jwks[:keys].select { |k| k[:use] == \"sig\" }.map { |k| k[:alg] }\n489:                             JWT.decode(token, nil, true, jwks: jwks, algorithms: algorithms, **verify_claims_params)\n490:                           end\n491: \n492:         # iat is only rejected when issued in the future, tolerating oauth_jwt_iat_leeway seconds of\n493:         # clock skew -- mirroring the json-jwt path so both backends behave identically. ruby-jwt\n494:         # claims are string-keyed. Since verify_iat is disabled above, ruby-jwt no longer validates\n495:         # that iat is a NumericDate, so reject a non-numeric iat here rather than letting Time.at\n496:         # raise an error the JWT::DecodeError handler would not catch.\n497:         if verify_claims && (iat = claims[\"iat\"])\n498:           return unless iat.is_a?(Numeric)\n499:           return if Time.at(iat) > Time.now + oauth_jwt_iat_leeway\n500:         end\n501: \n502:         return if verify_claims && verify_aud && !verify_aud(claims[\"aud\"], claims[\"client_id\"])\n503: \n504:         return if verify_headers && !verify_headers.call(headers)\n505: \n506:         claims\n507:       rescue JWT::DecodeError, JWT::JWKError\n508:         nil\n509:       end\n\n512:         def jwt_decode_with_jwe(\n513:           token,\n514:           jwks: nil,\n515:           jws_encryption_algorithm: oauth_jwt_jwe_keys.keys.dig(0, 0),\n516:           jws_encryption_method: oauth_jwt_jwe_keys.keys.dig(0, 1),\n517:           jwe_key: oauth_jwt_jwe_keys[[jws_encryption_algorithm, jws_encryption_method]] || oauth_jwt_jwe_keys.values.first,\n518:           **args\n519:         )\n520:           token = if jwks && jwks.any? { |k| k[:use] == \"enc\" }\n521:                     JWE.__rodauth_oauth_decrypt_from_jwks(token, jwks, alg: jws_encryption_algorithm, enc: jws_encryption_method)\n522:                   elsif jwe_key\n523:                     jwe_key = jwe_key.first if jwe_key.is_a?(Array)\n524:                     JWE.decrypt(token, jwe_key)\n525:                   else\n526:                     token\n527:                   end\n528: \n529:           jwt_decode_without_jwe(token, jwks: jwks, **args)\n530:         rescue JWE::DecodeError => e\n531:           jwt_decode_without_jwe(token, jwks: jwks, **args) if e.message.include?(\"Not enough or too many segments\")\n532:         end\n\n"
+    },
+    "evidence_limit": "Relevant whole test methods retrieved by lexical matching (10 per batch); other test source not supplied in this batch. Complete local code/API and selected upstream methods supplied. Absence of test in this packet is not proof no test exists. Do not invent missing evidence.",
+    "requirements": [
+      {
+        "id": "CIBA-001",
+        "section": "4",
+        "label": "CIBA grant識別子",
+        "requirement": "Use urn:openid:params:grant-type:ciba as the CIBA extension grant identifier.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "Grant Type: This specification introduces the CIBA grant type (an extension grant type as defined by Section 4.5 of OAuth 2.0) with the value: urn:openid:params:grant-type:ciba",
+          "To support Pairwise Pseudonymous Identifiers in Ping and Poll modes, the RP must provide either a sector_identifier_uri or a jwks_uri at the registration phase when the urn:openid:params:grant-type:ciba grant type is registered. In that way, the OpenID Provider can use the host component of the sector_identifier_uri or jwks_uri as the Sector Identifier to generate the PPIDs for the Client."
+        ]
+      },
+      {
+        "id": "CIBA-002",
+        "section": "4",
+        "label": "Discoveryの対応モード",
+        "requirement": "Publish required backchannel_token_delivery_modes_supported as an array of actually supported poll/ping/push modes.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_token_delivery_modes_supported: REQUIRED. JSON array containing one or more of the following values: poll, ping, and push.",
+          "backchannel_token_delivery_mode: REQUIRED. One of the following values: poll, ping, or push."
+        ]
+      },
+      {
+        "id": "CIBA-003",
+        "section": "4",
+        "label": "Discoveryの開始URL",
+        "requirement": "Publish required backchannel_authentication_endpoint as the actual Backchannel Endpoint URL.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_authentication_endpoint: REQUIRED. URL of the OP's Backchannel Authentication Endpoint as defined in Section 7.",
+          "backchannel_client_notification_endpoint: REQUIRED if the token delivery mode is set to ping or push. This is the endpoint to which the OP will post a notification after a successful or failed end-user authentication. It MUST be an HTTPS URL."
+        ]
+      },
+      {
+        "id": "CIBA-004",
+        "section": "4",
+        "label": "署名要求の対応表明",
+        "requirement": "Only advertise backchannel_authentication_request_signing_alg_values_supported when signed requests are supported; omission means unsupported.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_authentication_request_signing_alg_values_supported: OPTIONAL. JSON array containing a list of the JWS signing algorithms (alg values) supported by the OP for signed authentication requests, which are described in Section 7.1.1. If omitted, signed authentication requests are not supported by the OP.",
+          "The supported client authentication methods and, when applicable, the associated JWS signing algorithms of the OP's Backchannel Authentication Endpoint are the same as those indicated by the token_endpoint_auth_methods_supported and token_endpoint_auth_signing_alg_values_supported metadata parameters respectively."
+        ]
+      },
+      {
+        "id": "CIBA-005",
+        "section": "4",
+        "label": "user_codeの対応表明",
+        "requirement": "Publish user_code support truthfully; absent backchannel_user_code_parameter_supported defaults to false.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_user_code_parameter_supported: OPTIONAL. Boolean value specifying whether the OP supports the use of the user_code parameter, with true indicating support. If omitted, the default value is false.",
+          "backchannel_user_code_parameter: OPTIONAL. Boolean value specifying whether the Client supports the user_code parameter. If omitted, the default value is false. This parameter only applies when OP parameter backchannel_user_code_parameter_supported is true."
+        ]
+      },
+      {
+        "id": "CIBA-006",
+        "section": "4",
+        "label": "Discoveryのgrant_types",
+        "requirement": "Include the CIBA grant in grant_types_supported when supporting poll or ping.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "The CIBA grant type is used in the grant_types_supported field of discovery metadata for OPs that support the ping or poll delivery modes.",
+          "Client Metadata: Clients registering to use CIBA MUST indicate a token delivery mode. When using the ping or poll mode, the Client MUST include the CIBA grant type in the \"grant_types\" field. When using the ping or push mode, the Client MUST register a client notification endpoint. Clients intending to send signed authentication requests MUST register the signature algorithm that will be used. The following parameters are introduced by this specification:"
+        ]
+      },
+      {
+        "id": "CIBA-007",
+        "section": "4",
+        "label": "認証方式メタデータの共有",
+        "requirement": "Backchannel authentication methods match token_endpoint_auth_methods_supported.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_token_delivery_modes_supported: REQUIRED. JSON array containing one or more of the following values: poll, ping, and push.",
+          "The supported client authentication methods and, when applicable, the associated JWS signing algorithms of the OP's Backchannel Authentication Endpoint are the same as those indicated by the token_endpoint_auth_methods_supported and token_endpoint_auth_signing_alg_values_supported metadata parameters respectively."
+        ]
+      },
+      {
+        "id": "CIBA-008",
+        "section": "4",
+        "label": "認証署名アルゴリズムの共有",
+        "requirement": "When applicable Backchannel authentication signing algorithms match token_endpoint_auth_signing_alg_values_supported.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_authentication_request_signing_alg_values_supported: OPTIONAL. JSON array containing a list of the JWS signing algorithms (alg values) supported by the OP for signed authentication requests, which are described in Section 7.1.1. If omitted, signed authentication requests are not supported by the OP.",
+          "The supported client authentication methods and, when applicable, the associated JWS signing algorithms of the OP's Backchannel Authentication Endpoint are the same as those indicated by the token_endpoint_auth_methods_supported and token_endpoint_auth_signing_alg_values_supported metadata parameters respectively."
+        ]
+      },
+      {
+        "id": "CIBA-009",
+        "section": "4",
+        "label": "登録済み配送モード",
+        "requirement": "Require a registered single backchannel_token_delivery_mode from poll/ping/push for a CIBA client.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "Client Metadata: Clients registering to use CIBA MUST indicate a token delivery mode. When using the ping or poll mode, the Client MUST include the CIBA grant type in the \"grant_types\" field. When using the ping or push mode, the Client MUST register a client notification endpoint. Clients intending to send signed authentication requests MUST register the signature algorithm that will be used. The following parameters are introduced by this specification:",
+          "In CIBA Poll and Ping modes the jwks_uri is used in place of the redirect_uri. In CIBA Push mode the backchannel_client_notification_endpoint is used in place of the redirect_uri. In situations where the PPID must be shared among multiple RPs, then a sector_identifier_uri can be registered. This specification extends the purpose of the sector_identifier_uri such that it can contain jwks_uris and backchannel_client_notification_endpoints as well as redirect_uri."
+        ]
+      },
+      {
+        "id": "CIBA-010",
+        "section": "4",
+        "label": "CIBA grantのクライアント登録",
+        "requirement": "Poll/ping clients register the CIBA grant in grant_types; enforce eligibility before accepting their requests.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "The CIBA grant type is used in the grant_types_supported field of discovery metadata for OPs that support the ping or poll delivery modes.",
+          "Client Metadata: Clients registering to use CIBA MUST indicate a token delivery mode. When using the ping or poll mode, the Client MUST include the CIBA grant type in the \"grant_types\" field. When using the ping or push mode, the Client MUST register a client notification endpoint. Clients intending to send signed authentication requests MUST register the signature algorithm that will be used. The following parameters are introduced by this specification:"
+        ]
+      },
+      {
+        "id": "CIBA-011",
+        "section": "4",
+        "label": "通知URL登録",
+        "requirement": "Ping/push clients register an HTTPS backchannel_client_notification_endpoint.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "Client Metadata: Clients registering to use CIBA MUST indicate a token delivery mode. When using the ping or poll mode, the Client MUST include the CIBA grant type in the \"grant_types\" field. When using the ping or push mode, the Client MUST register a client notification endpoint. Clients intending to send signed authentication requests MUST register the signature algorithm that will be used. The following parameters are introduced by this specification:",
+          "backchannel_client_notification_endpoint: REQUIRED if the token delivery mode is set to ping or push. This is the endpoint to which the OP will post a notification after a successful or failed end-user authentication. It MUST be an HTTPS URL."
+        ]
+      },
+      {
+        "id": "CIBA-012",
+        "section": "4",
+        "label": "署名要求アルゴリズム登録",
+        "requirement": "Clients intending signed authentication requests register the signature algorithm; omission means unsigned requests.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "Client Metadata: Clients registering to use CIBA MUST indicate a token delivery mode. When using the ping or poll mode, the Client MUST include the CIBA grant type in the \"grant_types\" field. When using the ping or push mode, the Client MUST register a client notification endpoint. Clients intending to send signed authentication requests MUST register the signature algorithm that will be used. The following parameters are introduced by this specification:",
+          "backchannel_authentication_request_signing_alg: OPTIONAL. The JWS algorithm alg value that the Client will use for signing authentication requests, as described in Section 7.1.1. When omitted, the Client will not send signed authentication requests."
+        ]
+      },
+      {
+        "id": "CIBA-013",
+        "section": "4",
+        "label": "user_codeクライアント設定",
+        "requirement": "Respect backchannel_user_code_parameter only when OP user_code support is enabled; omitted value defaults false.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "backchannel_user_code_parameter_supported: OPTIONAL. Boolean value specifying whether the OP supports the use of the user_code parameter, with true indicating support. If omitted, the default value is false.",
+          "backchannel_user_code_parameter: OPTIONAL. Boolean value specifying whether the Client supports the user_code parameter. If omitted, the default value is false. This parameter only applies when OP parameter backchannel_user_code_parameter_supported is true."
+        ]
+      },
+      {
+        "id": "CIBA-014",
+        "section": "4",
+        "label": "登録された認証方式",
+        "requirement": "Use each client's registered token_endpoint_auth_method for both Backchannel and Token endpoints.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "The supported client authentication methods and, when applicable, the associated JWS signing algorithms of the OP's Backchannel Authentication Endpoint are the same as those indicated by the token_endpoint_auth_methods_supported and token_endpoint_auth_signing_alg_values_supported metadata parameters respectively.",
+          "The token_endpoint_auth_method indicates the registered authentication method for the client to use when making direct requests to the OP, including requests to both the token endpoint and the backchannel authentication endpoint."
+        ]
+      },
+      {
+        "id": "CIBA-015",
+        "section": "4",
+        "label": "pairwise sector算出",
+        "requirement": "For poll/ping pairwise subjects use jwks_uri or sector_identifier_uri instead of redirect_uri to determine sector.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "In CIBA Poll and Ping modes the jwks_uri is used in place of the redirect_uri. In CIBA Push mode the backchannel_client_notification_endpoint is used in place of the redirect_uri. In situations where the PPID must be shared among multiple RPs, then a sector_identifier_uri can be registered. This specification extends the purpose of the sector_identifier_uri such that it can contain jwks_uris and backchannel_client_notification_endpoints as well as redirect_uri.",
+          "To support Pairwise Pseudonymous Identifiers in Ping and Poll modes, the RP must provide either a sector_identifier_uri or a jwks_uri at the registration phase when the urn:openid:params:grant-type:ciba grant type is registered. In that way, the OpenID Provider can use the host component of the sector_identifier_uri or jwks_uri as the Sector Identifier to generate the PPIDs for the Client."
+        ]
+      },
+      {
+        "id": "CIBA-016",
+        "section": "4",
+        "label": "pairwise DCR検証",
+        "requirement": "For pairwise poll/ping dynamic registration validate jwks_uri and its inclusion in an explicit sector_identifier_uri document.",
+        "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+        "specification_context": [
+          "To support Pairwise Pseudonymous Identifiers in Ping and Poll modes, the RP must provide either a sector_identifier_uri or a jwks_uri at the registration phase when the urn:openid:params:grant-type:ciba grant type is registered. In that way, the OpenID Provider can use the host component of the sector_identifier_uri or jwks_uri as the Sector Identifier to generate the PPIDs for the Client.",
+          "When an OpenID Provider that supports PPIDs receives a dynamic registration request for a Client that indicates that it wishes to use the Poll or Ping CIBA modes, it MUST check if a valid jwks_uri is set when the subject_type is pairwise. If a sector_identifier_uri is explicitly provided, then the jwks_uri must be included in the list of URIs pointed to by the sector_identifier_uri."
+        ]
+      }
+    ]
+  },
+  "questions": {
+    "CIBA-001_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[0]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-001_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[0]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-002_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[1]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-002_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[1]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-003_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[2]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-003_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[2]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-004_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[3]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-004_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[3]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-005_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[4]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-005_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[4]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-006_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[5]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-006_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[5]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-007_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[6]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-007_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[6]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-008_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[7]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-008_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[7]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-009_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[8]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-009_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[8]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-010_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[9]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-010_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[9]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-011_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[10]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-011_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[10]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-012_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[11]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-012_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[11]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-013_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[12]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-013_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[12]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-014_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[13]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-014_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[13]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-015_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[14]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-015_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[14]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    },
+    "CIBA-016_score": {
+      "type": "score",
+      "instructions": {
+        "requirement_path": "state.requirements[15]",
+        "task": "Rate degree of implementation evidence for this behavior within the OP gem. For absent optional/client/app-only behavior select the no-implementation level; applicability is classified separately so its raw score will not count as a compliance failure.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": [
+        "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      ]
+    },
+    "CIBA-016_status": {
+      "type": "choice",
+      "instructions": {
+        "requirement_path": "state.requirements[15]",
+        "task": "Classify applicability and current implementation status of this requirement.",
+        "question": "Assess ONLY the requirement at requirement_path, using supplied code, tests and original specification context. Scope exclusions cannot excuse an unconditional requirement."
+      },
+      "criteria": {
+        "implemented": "Applicable library behavior appears fully implemented; test adequacy is scored separately.",
+        "partial": "Applicable library behavior has material incomplete parts.",
+        "missing": "Applicable library behavior is absent or contradicts the requirement.",
+        "out_of_scope": "Condition applies only to a deliberately unsupported optional mode/feature, or an optional capability is not implemented; not an unconditional compliance failure.",
+        "client_responsibility": "This unit is an RP/client obligation rather than this OP gem responsibility; do not assess sample client as the gem.",
+        "application_responsibility": "This unit needs the hosting OP application/deployment to implement it; gem provides only an explicit integration contract or hook.",
+        "insufficient_evidence": "Cannot reliably determine implementation status from provided evidence; do not infer implementation from absence of source.",
+        "other": "The text is informative/non-actionable or does not fit another status."
+      }
+    }
+  }
+}

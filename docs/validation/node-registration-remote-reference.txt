@@ -1,0 +1,11 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS remote registered JWKS: default loopback refusal; cache reuse; unknown kid does not refresh fresh cache; management URL replacement rejects old key and accepts new key
+Initial blocked lookup: 401 invalid_client
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS sector management update: existing opaque UserInfo and refreshed ID Token use new sector subject while original signed ID Token is unchanged
+PASS pending request sector update: canonical account and lack of approval retained; subsequent approval and issuance use current sector subject
+PASS pairwise CIBA: private_key_jwt plus jwks_uri; inline-only/basic/hybrid-without-sector rejected; verified ID Tokens share pairwise sub for the same sector; refresh and UserInfo retain subject and canonical account, offline_access is not an attribute

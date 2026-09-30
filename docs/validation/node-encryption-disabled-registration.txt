@@ -1,0 +1,26 @@
+PASS provider configuration rejects push delivery mode
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS DCR default_max_age accepts only nonnegative safe integers
+PASS DCR metadata: unknown internal fields ignored and supplied secret replaced by OP-generated secret
+PASS DCR poll: authenticated registration, no redirect URI/client name required, generated confidential credentials
+PASS encryption disabled: DCR accepts registration but ignores encryption metadata in response and stored client
+PASS DCR rejects assertion type used as authentication method
+PASS DCR rejects missing delivery mode
+PASS DCR rejects unsupported push
+PASS DCR rejects missing ping endpoint
+PASS DCR rejects HTTP ping endpoint
+PASS DCR rejects string user-code boolean
+PASS DCR rejects pairwise with basic authentication
+PASS signed-request Basic client: public accepted, pairwise rejected by authentication-method policy
+PASS DCR ping: HTTPS endpoint and boolean user-code metadata accepted (delivery not exercised)
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS DCR composition: registered ping/signature/user-code client authenticates signed request; application rejects incorrect code (no completion/delivery)
+PASS DCR RAR: validated type array, registered request accepted, replacement omission clears types and rejects later RAR request
+PASS DCR JWKS: malformed structure, symmetric keys, private RSA fields and malformed metadata rejected; empty set accepted
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS DCR private_key_jwt: registered RS512 enforced, invalid algorithm metadata and wrong key/audience/RS256/replay rejected; issuer audience accepted at start AND token endpoint
+PASS DCR-issued credentials: start, application completion and poll token issuance through actual HTTP endpoints
+PASS DCR management: issued bearer, read echo, cross-client rejection invalidates presented bearer, partial update rejection, replacement clears omitted name and preserves secret, default update rotation rejects old bearer, deletion
+PASS DCR delete with existing grant: poll/UserInfo denied; memory adapter retains grant, access token and pending request records

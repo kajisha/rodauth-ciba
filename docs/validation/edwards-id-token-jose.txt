@@ -1,0 +1,4 @@
+PASS: jose verified gem Ed25519, opaque access token, JWKS thumbprint, at_hash; tampering rejected
+PASS: jose verified gem EdDSA, opaque access token, JWKS thumbprint, at_hash; tampering rejected
+PASS: jose verified gem Ed25519, JWT access token, JWKS thumbprint, at_hash; tampering rejected
+PASS: jose verified gem EdDSA, JWT access token, JWKS thumbprint, at_hash; tampering rejected

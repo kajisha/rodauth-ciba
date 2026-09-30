@@ -1,0 +1,34 @@
+WARNING:  no homepage specified
+WARNING:  See https://guides.rubygems.org/specification-reference/ for help
+  Successfully built RubyGem
+  Name: rodauth-ciba
+  Version: 0.1.0
+  File: rodauth-ciba-0.1.0.gem
+/private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:295:in 'Hash#fetch': key not found: "cnf" (KeyError)
+	from /private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:295:in 'block in CibaMtlsSmoke.run'
+	from /private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:58:in 'Array#each'
+	from /private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:58:in 'CibaMtlsSmoke.run'
+	from /private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:321:in '<main>'
+/private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:46:in 'block in CibaMtlsSmoke.run': mTLS installed smoke failed (RuntimeError)
+	from /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/tmpdir.rb:105:in 'Dir.mktmpdir'
+	from /private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:36:in 'CibaMtlsSmoke.run'
+	from /private/var/folders/7n/znhbkz313jg1_dn8xtwmvhfh0000gn/T/ciba-installed-20260930-54907-1s24hm/gems/rodauth-ciba-0.1.0/examples/mtls_smoke.rb:321:in '<top (required)>'
+	from -e:19:in 'Kernel#load'
+	from -e:19:in '<main>'
+bin/verify-package:49:in 'block (2 levels) in <main>': installed package smoke failed (RuntimeError)
+	from /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/tmpdir.rb:105:in 'Dir.mktmpdir'
+	from bin/verify-package:16:in 'block in <main>'
+	from bin/verify-package:11:in 'Dir.chdir'
+	from bin/verify-package:11:in '<main>'
+PASS: installed-gem discovery, acceptance, saved consent/result API, poll, verified ID Token, replay rejection and revocation
+PASS: installed-gem opaque refresh migration, rotation, claims/RAR, original identity, grant revocation, advertised revocation endpoint and cleanup
+PASS: installed-gem opaque signed CIBA requests, validated request context, resource/claims/RAR migrations, consent, signed ID Token hint requiring new approval, nonce, at_hash, audience, UserInfo isolation and replay
+PASS: installed-gem JWT refresh migration, rotation, claims/RAR, original identity, grant revocation, advertised revocation endpoint and cleanup
+PASS: installed-gem JWT signed CIBA requests, validated request context, resource/claims/RAR migrations, consent, signed ID Token hint requiring new approval, nonce, at_hash, audience, UserInfo isolation and replay
+PASS: installed-gem dynamic registration, verified CIBA issuance, management rotation and dependent deletion
+PASS: installed-gem opaque DPoP DCR, nonce/old-iat issuance, binding, UserInfo, replay and confidential refresh with new key
+PASS: installed-gem JWT DPoP DCR, nonce/old-iat issuance, binding, UserInfo, replay and confidential refresh with new key
+PASS: installed-gem real TLS DCR tls_client_auth/opaque CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied
+PASS: installed-gem real TLS DCR tls_client_auth/JWT CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied
+PASS: installed-gem opaque remote x5c over verified HTTPS, cache expiry, same-key certificate rotation, refresh/new binding, old binding retained, failed fetch/recovery
+PASS: installed-gem real TLS DCR self_signed_tls_client_auth/opaque CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied

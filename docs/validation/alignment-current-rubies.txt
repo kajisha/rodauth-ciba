@@ -1,0 +1,258 @@
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.test
+#1 transferring dockerfile: 504B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ruby:3.3-bookworm@sha256:dba270af6994f64e45ee3dd2b85225a2a0d01f29c04508c7a3c7c8dbf59d2a85
+#2 DONE 1.1s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 142B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 56.96kB 0.0s done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/ruby:3.3-bookworm@sha256:dba270af6994f64e45ee3dd2b85225a2a0d01f29c04508c7a3c7c8dbf59d2a85
+#5 resolve docker.io/library/ruby:3.3-bookworm@sha256:dba270af6994f64e45ee3dd2b85225a2a0d01f29c04508c7a3c7c8dbf59d2a85 done
+#5 DONE 0.0s
+
+#6 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [3/8] WORKDIR /app
+#7 CACHED
+
+#8 [4/8] COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+#8 CACHED
+
+#9 [5/8] COPY lib ./lib
+#9 DONE 0.0s
+
+#10 [6/8] RUN bundle install
+#10 0.126 Bundler 2.5.22 is running, but your lockfile was generated with 4.0.16. Installing Bundler 4.0.16 and restarting using that version.
+#10 1.278 Fetching gem metadata from https://rubygems.org/.
+#10 1.302 Fetching bundler 4.0.16
+#10 1.401 Installing bundler 4.0.16
+#10 1.795 Fetching gem metadata from https://rubygems.org/.........
+#10 3.222 Resolving dependencies...
+#10 3.228 Fetching rake 13.4.2
+#10 3.291 Installing rake 13.4.2
+#10 3.303 Fetching base64 0.3.0
+#10 3.303 Fetching bcrypt 3.1.22
+#10 3.303 Fetching bigdecimal 4.1.3
+#10 3.303 Fetching json 2.18.0
+#10 3.303 Fetching jwe 1.1.1
+#10 3.303 Fetching jwt 3.3.0
+#10 3.303 Fetching minitest 5.27.0
+#10 3.303 Fetching mysql2 0.5.7
+#10 3.303 Fetching uri 1.1.1
+#10 3.303 Fetching net-http 0.9.1
+#10 3.303 Fetching pg 1.6.3 (aarch64-linux)
+#10 3.303 Fetching rack 3.2.7
+#10 3.303 Fetching rack-test 2.2.0
+#10 3.303 Fetching rackup 2.3.1
+#10 3.303 Fetching roda 3.108.0
+#10 3.303 Fetching sequel 5.108.0
+#10 3.303 Fetching rodauth 2.28.0
+#10 3.303 Fetching rodauth-oauth 1.7.0
+#10 3.315 Fetching sqlite3 2.9.6 (aarch64-linux-gnu)
+#10 3.328 Fetching webrick 1.9.2
+#10 3.343 Installing bcrypt 3.1.22 with native extensions
+#10 3.357 Installing bigdecimal 4.1.3 with native extensions
+#10 3.367 Installing json 2.18.0 with native extensions
+#10 3.384 Installing base64 0.3.0
+#10 3.387 Installing jwe 1.1.1
+#10 3.395 Installing jwt 3.3.0
+#10 3.397 Installing minitest 5.27.0
+#10 3.422 Installing uri 1.1.1
+#10 3.435 Installing net-http 0.9.1
+#10 3.562 Installing rack 3.2.7
+#10 3.567 Installing rack-test 2.2.0
+#10 3.575 Installing rackup 2.3.1
+#10 3.609 Installing roda 3.108.0
+#10 3.655 Installing rodauth-oauth 1.7.0
+#10 3.661 Installing rodauth 2.28.0
+#10 3.742 Installing sequel 5.108.0
+#10 3.761 Installing webrick 1.9.2
+#10 4.047 Installing sqlite3 2.9.6 (aarch64-linux-gnu)
+#10 4.076 Installing pg 1.6.3 (aarch64-linux)
+#10 5.446 Installing mysql2 0.5.7 with native extensions
+#10 7.329 Bundle complete! 16 Gemfile dependencies, 22 gems now installed.
+#10 7.329 Use `bundle info [gemname]` to see where a bundled gem is installed.
+#10 7.329 Post-install message from minitest:
+#10 7.329 NOTE: minitest 5 will be the last in the minitest family to support
+#10 7.329       ruby 1.8 to 2.7. If you need to keep using these versions,
+#10 7.329       you need to pin your dependency to minitest with something
+#10 7.329       like "~> 5.0". See History.rdoc to locate compatible
+#10 7.329       versions.
+#10 7.329 
+#10 7.329       Further, minitest 6 will be dropping the following:
+#10 7.329 
+#10 7.329       + MiniTest (it's been Minitest for >10 years)
+#10 7.329       + MiniTest::Unit
+#10 7.329       + MiniTest::Unit::TestCase
+#10 7.329       + assert_send (unless you argue for it well)
+#10 7.329       + assert_equal nil, obj
+#10 7.329       + mocks and stubs: moving minitest/mock.rb to its own gem
+#10 DONE 7.4s
+
+#11 [7/8] COPY test ./test
+#11 DONE 0.0s
+
+#12 [8/8] COPY examples ./examples
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 1.2s done
+#13 exporting manifest sha256:322c831d2f2addbd2b240a798505f3fe7c0b7d21597458f509fbd3a8ea1cd576 done
+#13 exporting config sha256:dfb81e7c4cb956dabe4ab248ae691165fab6c31a87c2b0585db5c3d19b0da814 done
+#13 exporting attestation manifest sha256:ebee069fc662f5c52c5d71c719f09566e9b5adafbc2cfd87dc18a4a717e0af06 done
+#13 exporting manifest list sha256:e4e2a6d1c9a41aea415d442c4f97fa8809dd030d769bbc78fc3b1c64e587327d done
+#13 naming to docker.io/library/rodauth-ciba-ruby33-test:latest done
+#13 unpacking to docker.io/library/rodauth-ciba-ruby33-test:latest
+#13 unpacking to docker.io/library/rodauth-ciba-ruby33-test:latest 0.3s done
+#13 DONE 1.4s
+Run options: --seed 3363
+
+# Running:
+
+........................................................................................S................................................................................................................................................................................................................................................S.....................
+
+Finished in 54.350092s, 6.4581 runs/s, 103.7165 assertions/s.
+
+351 runs, 5637 assertions, 0 failures, 0 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.
+#0 building with "colima" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.test
+#1 transferring dockerfile: 504B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ruby:3.4-bookworm@sha256:246b2dc3f6e40bba3af18503c22997a34dbb27c9f97e198dde6dd727895115c5
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 142B done
+#3 DONE 0.0s
+
+#4 [1/8] FROM docker.io/library/ruby:3.4-bookworm@sha256:246b2dc3f6e40bba3af18503c22997a34dbb27c9f97e198dde6dd727895115c5
+#4 resolve docker.io/library/ruby:3.4-bookworm@sha256:246b2dc3f6e40bba3af18503c22997a34dbb27c9f97e198dde6dd727895115c5 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 56.96kB 0.0s done
+#5 DONE 0.0s
+
+#6 [3/8] WORKDIR /app
+#6 CACHED
+
+#7 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/8] COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+#8 CACHED
+
+#9 [5/8] COPY lib ./lib
+#9 DONE 0.0s
+
+#10 [6/8] RUN bundle install
+#10 0.125 Bundler 2.6.9 is running, but your lockfile was generated with 4.0.16. Installing Bundler 4.0.16 and restarting using that version.
+#10 1.210 Fetching gem metadata from https://rubygems.org/.
+#10 1.231 Fetching bundler 4.0.16
+#10 1.359 Installing bundler 4.0.16
+#10 1.757 Fetching gem metadata from https://rubygems.org/.........
+#10 2.401 Resolving dependencies...
+#10 2.416 Fetching rake 13.4.2
+#10 2.484 Installing rake 13.4.2
+#10 2.490 Fetching base64 0.3.0
+#10 2.490 Fetching bcrypt 3.1.22
+#10 2.490 Fetching bigdecimal 4.1.3
+#10 2.490 Fetching json 2.18.0
+#10 2.490 Fetching jwe 1.1.1
+#10 2.490 Fetching jwt 3.3.0
+#10 2.490 Fetching minitest 5.27.0
+#10 2.490 Fetching mysql2 0.5.7
+#10 2.490 Fetching uri 1.1.1
+#10 2.490 Fetching net-http 0.9.1
+#10 2.490 Fetching pg 1.6.3 (aarch64-linux)
+#10 2.490 Fetching rack 3.2.7
+#10 2.490 Fetching rack-test 2.2.0
+#10 2.490 Fetching rackup 2.3.1
+#10 2.490 Fetching roda 3.108.0
+#10 2.490 Fetching sequel 5.108.0
+#10 2.490 Fetching rodauth 2.28.0
+#10 2.490 Fetching rodauth-oauth 1.7.0
+#10 2.501 Fetching sqlite3 2.9.6 (aarch64-linux-gnu)
+#10 2.514 Fetching webrick 1.9.2
+#10 2.528 Installing bcrypt 3.1.22 with native extensions
+#10 2.546 Installing bigdecimal 4.1.3 with native extensions
+#10 2.584 Installing json 2.18.0 with native extensions
+#10 2.601 Installing base64 0.3.0
+#10 2.609 Installing jwe 1.1.1
+#10 2.628 Installing jwt 3.3.0
+#10 2.638 Installing minitest 5.27.0
+#10 2.660 Installing uri 1.1.1
+#10 2.674 Installing net-http 0.9.1
+#10 2.932 Installing rack 3.2.7
+#10 2.936 Installing rack-test 2.2.0
+#10 2.946 Installing rackup 2.3.1
+#10 2.985 Installing roda 3.108.0
+#10 3.063 Installing rodauth-oauth 1.7.0
+#10 3.065 Installing rodauth 2.28.0
+#10 3.125 Installing sequel 5.108.0
+#10 3.205 Installing webrick 1.9.2
+#10 3.440 Installing pg 1.6.3 (aarch64-linux)
+#10 3.477 Installing sqlite3 2.9.6 (aarch64-linux-gnu)
+#10 4.731 Installing mysql2 0.5.7 with native extensions
+#10 6.693 Bundle complete! 16 Gemfile dependencies, 22 gems now installed.
+#10 6.693 Use `bundle info [gemname]` to see where a bundled gem is installed.
+#10 6.693 Post-install message from minitest:
+#10 6.693 NOTE: minitest 5 will be the last in the minitest family to support
+#10 6.693       ruby 1.8 to 2.7. If you need to keep using these versions,
+#10 6.693       you need to pin your dependency to minitest with something
+#10 6.693       like "~> 5.0". See History.rdoc to locate compatible
+#10 6.693       versions.
+#10 6.693 
+#10 6.693       Further, minitest 6 will be dropping the following:
+#10 6.693 
+#10 6.693       + MiniTest (it's been Minitest for >10 years)
+#10 6.693       + MiniTest::Unit
+#10 6.693       + MiniTest::Unit::TestCase
+#10 6.693       + assert_send (unless you argue for it well)
+#10 6.693       + assert_equal nil, obj
+#10 6.693       + mocks and stubs: moving minitest/mock.rb to its own gem
+#10 DONE 6.8s
+
+#11 [7/8] COPY test ./test
+#11 DONE 0.0s
+
+#12 [8/8] COPY examples ./examples
+#12 DONE 0.0s
+
+#13 exporting to image
+#13 exporting layers
+#13 exporting layers 1.2s done
+#13 exporting manifest sha256:b3bed0ad015bd2f4ff1b98e089d7885406f12f1faf3e219ae0bc86af3f64c96c done
+#13 exporting config sha256:e2e946b2156c9d7d15e08d84b1c0cc99d6c2be5f231d83aa7c81cb004931cf34 done
+#13 exporting attestation manifest sha256:7963c1aa2a84ae4245e81946ad43582e1baae9aed2dfcae2452386ec79ef799e done
+#13 exporting manifest list sha256:7691a57e7c682e80a4b9e47db0863f63f60c596fa61d4c2a4dd376bd53ae8211 done
+#13 naming to docker.io/library/rodauth-ciba-ruby34-test:latest done
+#13 unpacking to docker.io/library/rodauth-ciba-ruby34-test:latest
+#13 unpacking to docker.io/library/rodauth-ciba-ruby34-test:latest 0.3s done
+#13 DONE 1.5s
+Run options: --seed 3363
+
+# Running:
+
+........................................................................................S................................................................................................................................................................................................................................................S.....................
+
+Finished in 53.846454s, 6.5185 runs/s, 104.6866 assertions/s.
+
+351 runs, 5637 assertions, 0 failures, 0 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.

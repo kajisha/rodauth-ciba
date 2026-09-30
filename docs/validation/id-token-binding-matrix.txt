@@ -1,0 +1,56 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --name "/test_dpop_alias_|test_ciba_dpop_|test_ciba_.*mtls_/" --seed 15381
+
+# Running:
+
+...................................
+
+Finished in 3.813768s, 9.1773 runs/s, 191.1496 assertions/s.
+
+35 runs, 729 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --name "/test_dpop_alias_|test_ciba_dpop_|test_ciba_.*mtls_/" --seed 45718
+
+# Running:
+
+...................................
+
+Finished in 5.065051s, 6.9101 runs/s, 143.9275 assertions/s.
+
+35 runs, 729 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --name "/test_dpop_alias_|test_ciba_dpop_|test_ciba_.*mtls_/" --seed 25563
+
+# Running:
+
+...................................
+
+Finished in 5.366215s, 6.5223 runs/s, 135.8499 assertions/s.
+
+35 runs, 729 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

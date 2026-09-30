@@ -1,0 +1,40 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "subject_scope": {
+      "type": "choice",
+      "choice": "public_only",
+      "confidence": 0.56,
+      "probabilities": {
+        "insufficient_information": 0.28,
+        "include_pairwise": 0.01,
+        "public_only": 0.71
+      }
+    },
+    "registration_scope": {
+      "type": "choice",
+      "choice": "static_only",
+      "confidence": 0.78,
+      "probabilities": {
+        "insufficient_information": 0.15,
+        "include_dcr": 0.0,
+        "static_only": 0.85
+      }
+    },
+    "next_step": {
+      "type": "choice",
+      "choice": "api_state_contract",
+      "confidence": 0.98,
+      "probabilities": {
+        "api_state_contract": 0.99,
+        "other_or_insufficient": 0.0,
+        "expand_protocol": 0.0,
+        "clarify_roles": 0.01
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 954,
+    "output_tokens": 147
+  }
+}

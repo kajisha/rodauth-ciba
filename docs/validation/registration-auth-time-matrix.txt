@@ -1,0 +1,56 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --name "/test_registration_require_auth_time|test_registration_default_max_age/" --seed 30603
+
+# Running:
+
+..
+
+Finished in 4.874336s, 0.4103 runs/s, 19.4898 assertions/s.
+
+2 runs, 95 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --name "/test_registration_require_auth_time|test_registration_default_max_age/" --seed 34379
+
+# Running:
+
+..
+
+Finished in 4.956493s, 0.4035 runs/s, 19.1668 assertions/s.
+
+2 runs, 95 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --name "/test_registration_require_auth_time|test_registration_default_max_age/" --seed 10054
+
+# Running:
+
+..
+
+Finished in 5.036916s, 0.3971 runs/s, 18.8607 assertions/s.
+
+2 runs, 95 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

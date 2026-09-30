@@ -1,0 +1,50 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "policy": {
+      "type": "choice",
+      "choice": "C_publisher",
+      "confidence": 0.9,
+      "probabilities": {
+        "C_unilateral": 0.05,
+        "defer": 0.0,
+        "B_reject": 0.02,
+        "C_publisher": 0.93
+      }
+    },
+    "unilateral_60": {
+      "type": "choice",
+      "choice": "reject",
+      "confidence": 1.0,
+      "probabilities": {
+        "insufficient": 0.0,
+        "reject": 1.0,
+        "adopt": 0.0
+      }
+    },
+    "publisher_60_cap": {
+      "type": "choice",
+      "choice": "adopt",
+      "confidence": 0.91,
+      "probabilities": {
+        "insufficient": 0.05,
+        "reject": 0.0,
+        "adopt": 0.95
+      }
+    },
+    "successful_cache": {
+      "type": "choice",
+      "choice": "reconcile_http",
+      "confidence": 0.99,
+      "probabilities": {
+        "retain_application": 0.01,
+        "defer": 0.0,
+        "reconcile_http": 0.99
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 2112,
+    "output_tokens": 191
+  }
+}

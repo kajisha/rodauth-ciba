@@ -1,0 +1,81 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "task": "User delegates a remaining OSS CIBA OP stale JWKS design decision: determine from standards if possible; otherwise ask Jev. Choose a practical default, not legal proof or deployment approval. Public standards summaries and generic policy only, no private code/logs.",
+    "fixed_context": "Goal is alignment with node-oidc-provider; one default shared by authentication and encryption, no dedicated public policy switch. A node-like minimum60-second successful cache lifetime was previously accepted. New standards findings expose a tension between that floor and HTTP cache directives; do not mistake prior acceptance for proof of standards conformance.",
+    "standards": [
+      {
+        "source": "https://www.rfc-editor.org/rfc/rfc9111.html#section-4.2.4",
+        "summary": "HTTP caches must not serve stale where explicit protocol directives prohibit it, including no-cache and must-revalidate. Otherwise stale requires disconnection or explicit client/origin permission, which can include an out-of-band contract."
+      },
+      {
+        "source": "https://www.rfc-editor.org/rfc/rfc9111.html#section-6",
+        "summary": "Rules do not necessarily apply to how applications use data after HTTP retrieval. Application-level caching may differ, but its relation to HTTP directives should be defined clearly. This is not proof that any application stale-key policy is safe."
+      },
+      {
+        "source": "https://www.rfc-editor.org/rfc/rfc9111.html#section-4.2.1",
+        "summary": "HTTP freshness uses max-age ahead of Expires, not the larger of them; Age and Date matter. Response no-store disallows HTTP storage, no-cache requires validation, must-revalidate prohibits stale reuse without validation."
+      },
+      {
+        "source": "https://www.rfc-editor.org/rfc/rfc5861.html#section-4",
+        "summary": "Informational RFC defines stale-if-error in request or response directives with a numeric upper staleness bound; stale use is optional. Error cases are situations resulting in500,502,503,504. Serving stale does not renew freshness. It specifies no universal60-second grace and does not independently establish acceptable security risk for JWKS."
+      },
+      {
+        "source": "https://openid.net/specs/openid-connect-core-1_0.html#RotateEncKeys",
+        "summary": "OIDC encryption key rotation recommends publishing max-age and coordinating retained private keys with cache duration. Signing rotation recommends retaining decommissioned published keys for transition. Neither cited section defines a universal failed-JWKS-fetch grace duration."
+      }
+    ],
+    "unknowns": [
+      "No application emergency-revocation or outage SLA.",
+      "No explicit JWKS publisher agreement to extra reuse unless expressed in its response headers.",
+      "No evidence of upstream maintainer intent for failure-based freshness extension."
+    ],
+    "reference_behavior": "node-oidc-provider9.12.2 parses JSON, sets new freshness (minimum60) before checking HTTP status/JWKS. Some failed refreshes allow retained-key reuse on later calls; repeated failures may extend it again. This is observed public implementation behavior, not a normative requirement.",
+    "candidates": {
+      "C_unilateral": "Add nonrenewable60-second grace after application-defined successful-cache expiry for timeout or any HTTP5xx, regardless of publisher cache directives, explicitly as application-level key caching. Reject malformed successful JWKS,4xx,TLS/security failures; never resurrect removed keys after successful replacement.",
+      "C_publisher": "Only reuse after failure when last successful JWKS response explicitly supplies stale-if-error with a positive bound. Cap grace at min(publisher bound,60 seconds), measured from HTTP freshness expiry with Age/Date, not from a minimum60 floor or first failure. Honor no-store/no-cache/must-revalidate restrictions; conservative conflicting/invalid directives disable fallback. Use500/502/503/504 and gateway-timeout-equivalent timeouts, not arbitrary5xx; never extend grace on failures. No directive means no grace. This is a proposed single default, not an app configuration switch. Normal successful cache semantics need reconciliation too.",
+      "B_reject": "Do not implement stale reuse. Reject expired-key operations until successful fetch. Simplest, preserves key-expiry boundary, reduces outage continuity and differs from reference. Successful-cache HTTP-directive tension still needs separate resolution.",
+      "defer": "Evidence does not support any default choice; specify a missing evidence category via separate question."
+    },
+    "security": "Authentication with removed keys may impersonate clients; encryption to removed keys can be undecryptable or expose content if old private key compromised. Normal caching already has latency; grace adds exposure. Both purposes share policy; every fallback still verifies/key-selects normally. Explicit eviction/successful replacement invalidates stale snapshots."
+  },
+  "questions": {
+    "policy": {
+      "type": "choice",
+      "instructions": "Select the recommended default policy NOW under the supplied standards evidence and user goal. Evaluate unilateral versus publisher-authorized grace versus rejection fairly. Do not treat standards silence as mandatory rejection or blanket permission.",
+      "criteria": {
+        "C_unilateral": "Add nonrenewable60-second grace after application-defined successful-cache expiry for timeout or any HTTP5xx, regardless of publisher cache directives, explicitly as application-level key caching. Reject malformed successful JWKS,4xx,TLS/security failures; never resurrect removed keys after successful replacement.",
+        "C_publisher": "Only reuse after failure when last successful JWKS response explicitly supplies stale-if-error with a positive bound. Cap grace at min(publisher bound,60 seconds), measured from HTTP freshness expiry with Age/Date, not from a minimum60 floor or first failure. Honor no-store/no-cache/must-revalidate restrictions; conservative conflicting/invalid directives disable fallback. Use500/502/503/504 and gateway-timeout-equivalent timeouts, not arbitrary5xx; never extend grace on failures. No directive means no grace. This is a proposed single default, not an app configuration switch. Normal successful cache semantics need reconciliation too.",
+        "B_reject": "Do not implement stale reuse. Reject expired-key operations until successful fetch. Simplest, preserves key-expiry boundary, reduces outage continuity and differs from reference. Successful-cache HTTP-directive tension still needs separate resolution.",
+        "defer": "Evidence does not support any default choice; specify a missing evidence category via separate question."
+      }
+    },
+    "unilateral_60": {
+      "type": "choice",
+      "instructions": "Should the originally proposed unconditional additional60-second grace be adopted as the shared default now?",
+      "criteria": {
+        "adopt": "Adopt unconditional60-second application-level grace under current evidence.",
+        "reject": "Do not adopt unconditional60-second grace; standards/operational evidence does not justify this default.",
+        "insufficient": "Cannot judge either way."
+      }
+    },
+    "publisher_60_cap": {
+      "type": "choice",
+      "instructions": "If choosing publisher-authorized stale-if-error with all stated restrictions, is a local upper cap of60 seconds a defensible conservative default now (not an optimal or standards-mandated value)?",
+      "criteria": {
+        "adopt": "Adopt min(publisher allowance,60seconds) as a documented conservative cap.",
+        "reject": "Prefer no grace even when publisher explicitly allows it.",
+        "insufficient": "Need additional evidence to choose the cap."
+      }
+    },
+    "successful_cache": {
+      "type": "choice",
+      "instructions": "New standards evidence shows tension with the previously accepted minimum60 floor overriding cache directives and taking max(max-age,Expires). What should happen to that previous choice?",
+      "criteria": {
+        "reconcile_http": "Reconcile successful-cache semantics with applicable HTTP directives/age first; reference matching is subordinate to clearly documented standards-based behavior.",
+        "retain_application": "Retain node-like application-key cache semantics and explicitly document HTTP differences; do not claim RFC9111 compliance.",
+        "defer": "Cannot choose without more evidence."
+      }
+    }
+  }
+}

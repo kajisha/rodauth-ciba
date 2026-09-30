@@ -1,0 +1,30 @@
+{
+  "generator": "jose via pinned full-op/package-lock.json",
+  "now": 1800000000,
+  "vectors": [
+    {
+      "alg": "Ed25519",
+      "jwk": {
+        "crv": "Ed25519",
+        "x": "muo9PzZ14dRvG72gfJlpmPVBDa3-90gKRgVYhgRl2HU",
+        "kty": "OKP",
+        "kid": "fixture-Ed25519",
+        "alg": "Ed25519",
+        "use": "sig"
+      },
+      "token": "eyJhbGciOiJFZDI1NTE5Iiwia2lkIjoiZml4dHVyZS1FZDI1NTE5In0.eyJpc3MiOiJzdXBwb3J0IiwiYXVkIjoiaHR0cHM6Ly9vcC5leGFtcGxlLnRlc3QiLCJpYXQiOjE4MDAwMDAwMDAsIm5iZiI6MTc5OTk5OTk5OSwiZXhwIjoxODAwMDAwMzAwLCJqdGkiOiJmaXh0dXJlLUVkMjU1MTkiLCJzY29wZSI6Im9wZW5pZCIsImxvZ2luX2hpbnQiOiJjdXN0b21lckBleGFtcGxlLnRlc3QifQ.YO1q5E2Oa965SeFq3ei9IEk43V1GD8uMClCcU3-JuTWWmcoGjuN3uLj_80Db4diVgZrnWrKkjRV1xUnZrJZQBg"
+    },
+    {
+      "alg": "EdDSA",
+      "jwk": {
+        "crv": "Ed25519",
+        "x": "ItVK15AUJk_WeBOJeO8tFq0rorWHKtkaaDneSS1MCss",
+        "kty": "OKP",
+        "kid": "fixture-EdDSA",
+        "alg": "EdDSA",
+        "use": "sig"
+      },
+      "token": "eyJhbGciOiJFZERTQSIsImtpZCI6ImZpeHR1cmUtRWREU0EifQ.eyJpc3MiOiJzdXBwb3J0IiwiYXVkIjoiaHR0cHM6Ly9vcC5leGFtcGxlLnRlc3QiLCJpYXQiOjE4MDAwMDAwMDAsIm5iZiI6MTc5OTk5OTk5OSwiZXhwIjoxODAwMDAwMzAwLCJqdGkiOiJmaXh0dXJlLUVkRFNBIiwic2NvcGUiOiJvcGVuaWQiLCJsb2dpbl9oaW50IjoiY3VzdG9tZXJAZXhhbXBsZS50ZXN0In0.NCHT91KivoQhr4x1czeOH_FmtY2t-4cPwX8RDqXfdGmKkzGGKFU76mMEaxZPT6_Uyn8LpTPU59bC3QfRk6RWBg"
+    }
+  ]
+}

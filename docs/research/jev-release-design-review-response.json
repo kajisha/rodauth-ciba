@@ -1,0 +1,89 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "identity": {
+      "type": "choice",
+      "choice": "maintain",
+      "confidence": 0.96,
+      "probabilities": {
+        "maintain": 0.96,
+        "other": 0.0,
+        "change_before_release": 0.03,
+        "more_evidence": 0.01
+      }
+    },
+    "delivery": {
+      "type": "choice",
+      "choice": "maintain",
+      "confidence": 0.87,
+      "probabilities": {
+        "maintain": 0.9,
+        "other": 0.0,
+        "change_before_release": 0.09,
+        "more_evidence": 0.01
+      }
+    },
+    "transactions": {
+      "type": "choice",
+      "choice": "maintain",
+      "confidence": 0.5,
+      "probabilities": {
+        "maintain": 0.63,
+        "other": 0.0,
+        "change_before_release": 0.14,
+        "more_evidence": 0.23
+      }
+    },
+    "compatibility": {
+      "type": "choice",
+      "choice": "change_before_release",
+      "confidence": 0.64,
+      "probabilities": {
+        "maintain": 0.26,
+        "other": 0.0,
+        "change_before_release": 0.73,
+        "more_evidence": 0.01
+      }
+    },
+    "release_evidence": {
+      "type": "choice",
+      "choice": "maintain",
+      "confidence": 0.48,
+      "probabilities": {
+        "maintain": 0.62,
+        "other": 0.0,
+        "change_before_release": 0.23,
+        "more_evidence": 0.15
+      }
+    },
+    "auth_alternative": {
+      "type": "choice",
+      "choice": "ciba_local",
+      "confidence": 0.72,
+      "probabilities": {
+        "keep_global": 0.2,
+        "ciba_local": 0.78,
+        "other": 0.0,
+        "implement_all": 0.0,
+        "more_evidence": 0.02
+      }
+    },
+    "transaction_alternative": {
+      "type": "choice",
+      "choice": "test_without_cas",
+      "confidence": 0.67,
+      "probabilities": {
+        "remove_locks": 0.0,
+        "remove_savepoints": 0.0,
+        "other": 0.0,
+        "test_without_cas": 0.74,
+        "keep_all": 0.07,
+        "more_evidence": 0.19
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 18934,
+    "output_tokens": 391
+  }
+}

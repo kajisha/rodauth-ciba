@@ -1,0 +1,130 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "scope": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.94,
+      "probabilities": {
+        "ready_to_implement": 0.96,
+        "revise_contract": 0.03,
+        "missing_evidence": 0.01,
+        "other": 0.0
+      }
+    },
+    "identity": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.67,
+      "probabilities": {
+        "ready_to_implement": 0.75,
+        "revise_contract": 0.19,
+        "missing_evidence": 0.06,
+        "other": 0.0
+      }
+    },
+    "api_retry": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.82,
+      "probabilities": {
+        "ready_to_implement": 0.86,
+        "revise_contract": 0.13,
+        "missing_evidence": 0.01,
+        "other": 0.0
+      }
+    },
+    "storage": {
+      "type": "choice",
+      "choice": "revise_contract",
+      "confidence": 0.26,
+      "probabilities": {
+        "ready_to_implement": 0.4,
+        "revise_contract": 0.44,
+        "missing_evidence": 0.13,
+        "other": 0.03
+      }
+    },
+    "dispatch": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.79,
+      "probabilities": {
+        "ready_to_implement": 0.84,
+        "revise_contract": 0.14,
+        "missing_evidence": 0.02,
+        "other": 0.0
+      }
+    },
+    "observation": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.8,
+      "probabilities": {
+        "ready_to_implement": 0.85,
+        "revise_contract": 0.12,
+        "missing_evidence": 0.02,
+        "other": 0.01
+      }
+    },
+    "concurrency": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.57,
+      "probabilities": {
+        "ready_to_implement": 0.68,
+        "revise_contract": 0.26,
+        "missing_evidence": 0.06,
+        "other": 0.0
+      }
+    },
+    "operations": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.61,
+      "probabilities": {
+        "ready_to_implement": 0.71,
+        "revise_contract": 0.12,
+        "missing_evidence": 0.17,
+        "other": 0.0
+      }
+    },
+    "protocol_policy": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.83,
+      "probabilities": {
+        "ready_to_implement": 0.87,
+        "revise_contract": 0.08,
+        "missing_evidence": 0.01,
+        "other": 0.04
+      }
+    },
+    "validation": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.91,
+      "probabilities": {
+        "ready_to_implement": 0.93,
+        "revise_contract": 0.05,
+        "missing_evidence": 0.02,
+        "other": 0.0
+      }
+    },
+    "missing_blocker": {
+      "type": "choice",
+      "choice": "ready_to_implement",
+      "confidence": 0.5,
+      "probabilities": {
+        "ready_to_implement": 0.63,
+        "revise_contract": 0.32,
+        "missing_evidence": 0.05,
+        "other": 0.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 8757,
+    "output_tokens": 615
+  }
+}

@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name test_id_hint_reference_validation_profile_never_inherits_approval --seed 29973
+
+# Running:
+
+F
+
+Finished in 0.021595s, 46.3070 runs/s, 46.3070 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_id_hint_reference_validation_profile_never_inherits_approval [test/ciba_id_token_hint_test.rb:111]:
+{"error":"invalid_request"}.
+Expected: 200
+  Actual: 400
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

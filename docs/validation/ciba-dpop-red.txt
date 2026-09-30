@@ -1,0 +1,63 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 7217
+
+# Running:
+
+EFF
+
+Finished in 0.038378s, 78.1698 runs/s, 573.2451 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_ciba_dpop_invalid_proofs_do_not_consume_approval:
+JWT::MalformedTokenError: Not enough or too many segments
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt/decode.rb:112:in 'JWT::Decode#validate_segment_count!'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt/decode.rb:36:in 'JWT::Decode#decode_segments'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt.rb:46:in 'JWT.decode'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_jwt_base.rb:539:in 'Rodauth::OauthJwtBase#jwt_decode_no_key'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dpop.rb:171:in 'Rodauth::OauthDpop#dpop_decode'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dpop.rb:136:in 'Rodauth::OauthDpop#validate_dpop_token'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dpop.rb:115:in 'Rodauth::OauthDpop#validate_token_params'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_base.rb:150:in 'block (4 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:598:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:598:in 'Rodauth::Base#catch_error'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_base.rb:149:in 'block (3 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:551:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:542:in 'Roda::RodaPlugins::Base::RequestMethods#_verb'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:274:in 'Roda::RodaPlugins::Base::RequestMethods#post'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_base.rb:148:in 'block (2 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:142:in 'block (3 levels) in Rodauth::OauthBase#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:507:in 'Rodauth::Base#_around_rodauth'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:140:in 'block (2 levels) in Rodauth::OauthBase#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:200:in 'Roda::RodaPlugins::Base::RequestMethods#is'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:138:in 'block in Rodauth::OauthBase#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/oauth.rb:17:in 'block in Rodauth::OauthBase#auth_server_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:165:in 'Rodauth::Base#route!'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:425:in 'Rodauth::RequestMethods#rodauth'
+    test/test_helper.rb:132:in 'block (2 levels) in setup'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:534:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:512:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:396:in 'block in Roda::RodaPlugins::Base::ClassMethods#base_rack_app_callable'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:57:in 'Roda::RodaPlugins::Base::ClassMethods#call'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:76:in 'Rack::MockRequest#request'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:51:in 'Rack::MockRequest#post'
+    test/test_helper.rb:176:in 'CibaIntegrationTest#post'
+    test/test_helper.rb:194:in 'CibaIntegrationTest#poll'
+    test/ciba_dpop_test.rb:51:in 'block in CibaIntegrationTest#test_ciba_dpop_invalid_proofs_do_not_consume_approval'
+    test/ciba_dpop_test.rb:50:in 'Array#each'
+    test/ciba_dpop_test.rb:50:in 'CibaIntegrationTest#test_ciba_dpop_invalid_proofs_do_not_consume_approval'
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_dpop_signing_failure_rolls_back_proof_claim [test/ciba_dpop_test.rb:65]:
+{"error":"invalid_dpop_proof","error_description":"Invalid DPoP jti"}.
+Expected: 500
+  Actual: 400
+
+  3) Failure:
+CibaIntegrationTest#test_ciba_dpop_random_identifier_and_replay_rollback [test/ciba_dpop_test.rb:25]:
+Expected: "authorization_pending"
+  Actual: "invalid_dpop_proof"
+
+3 runs, 22 assertions, 2 failures, 1 errors, 0 skips

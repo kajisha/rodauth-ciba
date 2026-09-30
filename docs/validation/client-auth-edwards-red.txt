@@ -1,0 +1,20 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /alignment_probe/ --seed 34872
+
+# Running:
+
+{"Ed25519":[[401,"invalid_client"],[401,"invalid_client"]],"EdDSA":[[401,"invalid_client"],[401,"invalid_client"]]}
+F
+
+Finished in 0.033844s, 29.5473 runs/s, 88.6420 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_edwards_client_authentication_alignment_probe [test/probes/edwards-client-auth.rb:35]:
+--- expected
++++ actual
+@@ -1 +1 @@
+-{"Ed25519" => [200, 200], "EdDSA" => [200, 200]}
++{"Ed25519" => [401, 401], "EdDSA" => [401, 401]}
+
+
+1 runs, 3 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,145 @@
+ Image rodauth-ciba-test-test Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 551B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.test
+#2 transferring dockerfile: 504B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 142B done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#5 resolve docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 91.60kB 0.0s done
+#6 DONE 0.0s
+
+#7 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [3/8] WORKDIR /app
+#8 CACHED
+
+#9 [4/8] COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+#9 CACHED
+
+#10 [5/8] COPY lib ./lib
+#10 CACHED
+
+#11 [6/8] RUN bundle install
+#11 CACHED
+
+#12 [7/8] COPY test ./test
+#12 DONE 0.0s
+
+#13 [8/8] COPY examples ./examples
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers 0.1s done
+#14 exporting manifest sha256:f71624ec0f5188a5fd6f88a57344fefb353f8698f410958b4fad452eb767365f done
+#14 exporting config sha256:cd49f1e6c5ad761227a562be5dfb4739b3e42cf7b594c306fc1e232b152c0a71 done
+#14 exporting attestation manifest sha256:b0a658ef0048fbc2ddb79fe8a9f37fb7e09c581f8219fee9f3951364c1b864ea done
+#14 exporting manifest list sha256:d56043d2d21d95775cac74a2b4b00bfcf1cfa73b1a30c5dcf9c554f37c4564be done
+#14 naming to docker.io/library/rodauth-ciba-test-test:latest done
+#14 unpacking to docker.io/library/rodauth-ciba-test-test:latest 0.0s done
+#14 DONE 0.1s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image rodauth-ciba-test-test Built 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing CIBA on sqlite
+ Container rodauth-ciba-test-test-run-bf27718849bb Creating 
+ Container rodauth-ciba-test-test-run-bf27718849bb Created 
+Run options: --seed 3363 --name /delete_waiting_for_grant/
+
+# Running:
+
+S
+
+Finished in 0.016027s, 62.3960 runs/s, 0.0000 assertions/s.
+
+1 runs, 0 assertions, 0 failures, 0 errors, 1 skips
+
+You have skipped tests. Run with --verbose for details.
+Testing CIBA on postgres
+ Container rodauth-ciba-test-test-run-d27172265f7c Creating 
+ Container rodauth-ciba-test-test-run-d27172265f7c Created 
+Run options: --seed 3363 --name /delete_waiting_for_grant/
+
+# Running:
+
+E
+
+Finished in 1.426418s, 0.7011 runs/s, 0.0000 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_delete_waiting_for_grant_does_not_hold_client_lock:
+Sequel::DatabaseLockTimeout: PG::LockNotAvailable: ERROR:  canceling statement due to lock timeout
+CONTEXT:  while locking tuple (0,2) in relation "oauth_applications"
+
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:171:in 'PG::Connection#exec'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:171:in 'block in Sequel::Postgres::Adapter#execute_query'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/database/logging.rb:38:in 'Sequel::Database#log_connection_yield'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:171:in 'Sequel::Postgres::Adapter#execute_query'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:159:in 'block in Sequel::Postgres::Adapter#execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:136:in 'Sequel::Postgres::Adapter#check_disconnect_errors'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:159:in 'Sequel::Postgres::Adapter#execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:533:in 'Sequel::Postgres::Database#_execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:348:in 'block (2 levels) in Sequel::Postgres::Database#execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:556:in 'Sequel::Postgres::Database#check_database_errors'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:348:in 'block in Sequel::Postgres::Database#execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/connection_pool/timed_queue.rb:87:in 'Sequel::TimedQueueConnectionPool#hold'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/database/connecting.rb:283:in 'Sequel::Database#synchronize'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:348:in 'Sequel::Postgres::Database#execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:1263:in 'Sequel::Dataset#execute'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/adapters/postgres.rb:652:in 'Sequel::Postgres::Dataset#fetch_rows'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:1095:in 'Sequel::Dataset#with_sql_each'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:1103:in 'Sequel::Dataset#with_sql_first'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:845:in 'Sequel::Dataset#single_record!'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:833:in 'Sequel::Dataset#single_record'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:241:in 'Sequel::Dataset#first'
+    test/ciba_registration_test.rb:613:in 'block in CibaIntegrationTest#test_delete_waiting_for_grant_does_not_hold_client_lock'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/database/transactions.rb:264:in 'Sequel::Database#_transaction'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/database/transactions.rb:239:in 'block in Sequel::Database#transaction'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/connection_pool/timed_queue.rb:92:in 'Sequel::TimedQueueConnectionPool#hold'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/database/connecting.rb:283:in 'Sequel::Database#synchronize'
+    /usr/local/bundle/gems/sequel-5.108.0/lib/sequel/database/transactions.rb:197:in 'Sequel::Database#transaction'
+    test/ciba_registration_test.rb:602:in 'CibaIntegrationTest#test_delete_waiting_for_grant_does_not_hold_client_lock'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

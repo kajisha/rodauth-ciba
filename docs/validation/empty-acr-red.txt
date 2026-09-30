@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name test_empty_acr_values_uses_defaults_in_plain_and_signed_requests --seed 317
+
+# Running:
+
+F
+
+Finished in 0.026923s, 37.1430 runs/s, 148.5719 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_empty_acr_values_uses_defaults_in_plain_and_signed_requests [test/ciba_authentication_claims_test.rb:18]:
+{"error":"invalid_request"}.
+Expected: 200
+  Actual: 400
+
+1 runs, 4 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_signed_request_numeric_dates/ --seed 32005
+
+# Running:
+
+F
+
+Finished in 0.018043s, 55.4232 runs/s, 55.4232 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_signed_request_numeric_dates_match_reference_without_inheriting_approval [test/ciba_signed_request_test.rb:88]:
+{"error":"invalid_request"}.
+Expected: 200
+  Actual: 400
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

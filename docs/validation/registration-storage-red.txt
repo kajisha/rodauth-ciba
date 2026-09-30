@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /required_storage/ --seed 36183
+
+# Running:
+
+F
+
+Finished in 0.194107s, 5.1518 runs/s, 5.1518 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_registration_rejects_metadata_without_required_storage [test/ciba_registration_test.rb:496]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"client_secret_basic","backchannel_token_delivery_mode":"poll","backchannel_authentication_request_signing_alg":"RS256","jwks":{"keys":[{"kty":"RSA","n":"mMb_mq0VjDdWtOl5z_qD-L27mOOmNGzjZEdf9dPmgfkyJtyU6rA9AjbG1ccDtHs_W19w2G4p0-yDC84qZisKTXUBYa-kJUYzHFRmfBQHnxCLI0Khk4TRUH98CSEVQVaxINjVxX4LDAuyEsx0zSUnYnc-egUQIG-99FZpy1KOgQx3aC3v6UgUWzrD6u7j7NBmTnD6I1hbpHkGcwDkFLFaBA1IZE5JDubhtkezyZov-yOSlcVvrn_AxxeHaPH7vHi6iJjxAt59V-IMIFodM8lqiuf19I-J5D4xF5vseiiShkYUQ8tNQjr2bsDfCyTLYr82A6Ep5nR46B1N8OKIphY_Rw","e":"AQAB","kid":"7f97bc0840722380c6b65c3623f519a1d828b005dec2fc3963463bd71d6b1890"}]},"redirect_uris":[],"client_id":"CKcXmHS8DHwLrQEaEVQKja4DSHhQPOSBeElLicF17-8","client_id_issued_at":1790724406,"client_secret":"JCHkQOpMqIgB-FAt67XwZ5va3GtgOAPNtwuHDWwH9d4","client_secret_expires_at":0,"registration_access_token":"ciba_reg_bjCcwwocmT616N2XL5jVzIDzMU_HvoLWL8R-S36okHA","registration_client_uri":"https://op.example.test/register/CKcXmHS8DHwLrQEaEVQKja4DSHhQPOSBeElLicF17-8"}.
+Expected: 400
+  Actual: 201
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

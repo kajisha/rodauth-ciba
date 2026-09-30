@@ -1,0 +1,25 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+{"value":"omitted","max_age":"60","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+{"value":"0","prompt":"login","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"60","max_age":"60","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1.0","max_age":"1.0","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1e2","max_age":"1e2","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"0x10","max_age":"0x10","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"0b10","max_age":"0b10","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"0o10","max_age":"0o10","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1.","max_age":"1.","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1.e2","max_age":"1.e2","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"﻿1 ","max_age":"﻿1 ","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"-0","prompt":"login","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"","max_age":"60","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":" ","prompt":"login","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+PASS rejected max_age="-1"
+PASS rejected max_age="1.5"
+PASS rejected max_age="NaN"
+PASS rejected max_age="9007199254740992"
+PASS rejected max_age="1_0"
+PASS rejected max_age="1"

@@ -1,0 +1,17 @@
+rodauth-ciba 0.1.0: 16 explicitly selected files; package checks passed
+CHANGELOG.md
+LICENSE
+README.md
+docs/api.md
+docs/operations.md
+docs/protocol-coverage.md
+docs/release-validation.md
+examples/client.rb
+examples/demo_app.rb
+examples/migration.rb
+examples/server.rb
+examples/smoke.rb
+lib/rodauth/ciba.rb
+lib/rodauth/ciba/schema.rb
+lib/rodauth/ciba/version.rb
+lib/rodauth/features/ciba.rb

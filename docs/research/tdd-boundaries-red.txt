@@ -1,0 +1,36 @@
+Run options: --seed 28450
+
+# Running:
+
+E.FFF....F..
+
+Finished in 0.113537s, 105.6924 runs/s, 986.4626 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_other_identity_client_and_expiry_cannot_issue:
+NameError: uninitialized constant Rodauth::Ciba::CompletionError
+    test/ciba_integration_test.rb:102:in 'CibaIntegrationTest#test_other_identity_client_and_expiry_cannot_issue'
+
+  2) Failure:
+CibaIntegrationTest#test_hooks_see_before_and_after_states_and_failure_rolls_back [test/ciba_integration_test.rb:141]:
+RuntimeError expected but nothing was raised.
+
+  3) Failure:
+CibaIntegrationTest#test_pending_poll_updates_survive_json_halt [test/ciba_integration_test.rb:82]:
+Expected nil to not be nil.
+
+  4) Failure:
+CibaIntegrationTest#test_failure_caught_by_outer_transaction_still_rolls_back_inner_work [test/ciba_integration_test.rb:190]:
+--- expected
++++ actual
+@@ -1 +1 @@
+-{id: 1, auth_req_id_digest: "e7984f46e5ef06fe547dd1c915eeedeccb572627ec0c93e109f975a4d563e24f", account_id: 1, oauth_application_id: 1, scopes: "openid", status: "approved", lock_version: 1, expires_at: 1790647255, interval: 5, last_polled_at: nil, auth_time: nil, acr: nil, amr: nil}
++{id: 1, auth_req_id_digest: "e7984f46e5ef06fe547dd1c915eeedeccb572627ec0c93e109f975a4d563e24f", account_id: 1, oauth_application_id: 1, scopes: "openid", status: "consumed", lock_version: 2, expires_at: 1790647255, interval: 5, last_polled_at: nil, auth_time: nil, acr: nil, amr: nil}
+
+
+  5) Failure:
+CibaIntegrationTest#test_observation_waits_for_outer_commit_and_does_not_change_result [test/ciba_integration_test.rb:161]:
+Expected: 1
+  Actual: 0
+
+12 runs, 112 assertions, 4 failures, 1 errors, 0 skips

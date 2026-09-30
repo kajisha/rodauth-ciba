@@ -1,0 +1,88 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "objective": "User explicitly asks to align the design and implementation of this Ruby CIBA OP gem with the released node-oidc-provider. Do not silently replace alignment with keeping the current design. User now asks Jev for recommendations on two unresolved choices, with numeric answers interpretable by the assistant.",
+    "earlier_explicit_scope": [
+      "Public OSS gem, first consumer is own company",
+      "CIBA protocol only; customer approval UI, upstream identity and delegation are application owned",
+      "Initial release poll and login_hint only; signed authentication requests and user_code excluded",
+      "Same Sequel DB as rodauth-oauth; transactional before/after hooks with rollback; best-effort post-commit observation",
+      "No certification or specific external CIBA client required"
+    ],
+    "new_scope_ambiguity": "The later alignment instruction does not explicitly state whether all optional node features must now ship in the first release. No named initial consumer requires ping, other hints, claims/resource/RAR or signed requests. Do not equate absence of demand with a ban on implementing them.",
+    "implementation": "Saved consent Grant separated from requests; account/client/scope/expiry checks; result API; trigger after persistence before response; 600s default; request replay revokes related Grant/token rows; denied result consumed once; expiry checked first. Tests: 104 runs/757 assertions Ruby4.0.6 SQLite. Isolated original node handler/helper tests pass with persistence/issuance/revocation stubs. No complete node OP execution; no latest PostgreSQL/MySQL tests due Docker socket permission denial.",
+    "failure_facts": "Gem issuance/signing/hook exception rolls back request consumption plus token DB rows in the same transaction, allowing another poll. A committed success/lost response is not replayable; replay revokes. Node handler consumes before grant validation and issuance. With the harness nontransactional memory persistence, a failure leaves consumption intact; next poll rejects and revokes. The harness does not establish behavior for every node adapter. Both designs must prevent duplicate usable tokens and retain client isolation.",
+    "options_tradeoffs": {
+      "commit_consumption": "Closer to observed node handler retry behavior; requires separate consumption/issuance transaction boundary and revised hook contract; failure forces a new customer approval request; DB token changes could still roll back within issuance.",
+      "atomic_rollback": "Preserves existing same-DB all-or-nothing issuance and hook contract; permits retry after rolled-back failure, but differs from observed node retry behavior and must be documented honestly.",
+      "configurable": "Could support both, but adds configuration/testing/state semantics before first release."
+    },
+    "sources": {
+      "docs/adr/0003-follow-rodauth-hook-conventions.md": {
+        "text": "# 状態変更の拡張点を Rodauth の before / after 慣例に合わせる\n\nCIBA の主要な状態変更に、Rodauth の慣例に沿う before / after フックを設ける。専用フックを設けない案や独自の拡張機構を追加する案に対し、基盤と同じカスタマイズ方法を維持することを優先する。これらは監査専用ではなく、監査機能の導入を CIBA の利用条件にしない。\n\nbefore / after フックは状態変更と同じ DB トランザクション内で呼ぶ。after は commit 後ではない。フックから伝播する例外では DB の変更をロールバックするが、外部システムへの副作用までは取り消せない。具体的なフック名・対象となる状態変更・エラー応答は今後設計する。\n\n任意の観測用イベントは別の契約とし、通知先の失敗で CIBA の成否を変えず、障害を報告する。Rodauth の既存 audit_logging と CIBA の連携可能範囲は、実装時に検証する。\n\n根拠: [Rodauth の create_account 実装](https://github.com/jeremyevans/rodauth/blob/master/lib/rodauth/features/create_account.rb)、[audit_logging](https://rodauth.jeremyevans.net/rdoc/files/doc/audit_logging_rdoc.html)、[製品比較](../research/idm-ciba-integration.md)。\n",
+        "sha256": "eabc54b501f39eb48da04c16e5fd070c83d67deff69bdbfca8bd3ab579c0e2bb"
+      },
+      "test/reference/node-oidc-provider/ciba.js": {
+        "text": "import { AuthorizationPending, ExpiredToken } from '../../helpers/errors.js';\nimport presence from '../../helpers/validate_presence.js';\nimport { checkAttestBinding } from '../../helpers/check_attest_binding.js';\nimport {\n  throwIfAsyncGrantError,\n  issueTokens,\n} from '../../helpers/grant_common.js';\n\nexport const gty = 'ciba';\n\nexport const handler = async function cibaHandler(provider, helpers, ctx) {\n  const {\n    checkDpopRequired,\n    checkMtlsCert,\n    validateDpop,\n    findGrantSource,\n    consumeGrantSource,\n    validateGrant,\n  } = helpers;\n\n  presence(ctx, 'auth_req_id');\n\n  const dPoP = await validateDpop(ctx);\n\n  const request = await findGrantSource(\n    ctx,\n    provider.BackchannelAuthenticationRequest,\n    ctx.oidc.params.auth_req_id,\n    'backchannel authentication request',\n  );\n\n  const cert = checkMtlsCert(ctx);\n  checkDpopRequired(ctx, dPoP);\n\n  if (request.isExpired) {\n    throw new ExpiredToken('backchannel authentication request is expired');\n  }\n\n  if (!request.grantId && !request.error) {\n    throw new AuthorizationPending();\n  }\n\n  if (ctx.oidc.client.clientAuthMethod === 'attest_jwt_client_auth') {\n    await checkAttestBinding(ctx, request);\n  }\n\n  await consumeGrantSource(ctx, request, 'backchannel authentication request');\n\n  throwIfAsyncGrantError(request);\n\n  const grant = await validateGrant(ctx, request.grantId);\n\n  ctx.oidc.entity('BackchannelAuthenticationRequest', request);\n  ctx.oidc.entity('Grant', grant);\n\n  await issueTokens(provider, helpers, ctx, request, grant, {\n    gty, entityLabel: 'backchannel authentication request', cert, dPoP,\n  });\n};\n\nexport const parameters = new Set(['auth_req_id']);\n\nexport const grantType = 'urn:openid:params:grant-type:ciba';\n",
+        "sha256": "e76edfb7ffa785b504cd791d39553b0ddd3f883c447dd21226919c081e8090c0"
+      },
+      "test/reference/node-oidc-provider/grant_source.js": {
+        "text": "import assertProviderContext from './assert_provider_context.js';\nimport { account } from './configuration_result.js';\nimport { InvalidGrant } from './errors.js';\nimport revoke from './revoke.js';\nimport instance from './weak_cache.js';\n\nexport async function findGrantSource(provider, ctx, Model, value, label) {\n  assertProviderContext(provider, ctx);\n\n  const source = await Model.find(value, { ignoreExpiration: true });\n\n  if (!source) {\n    throw new InvalidGrant(`${label} not found`);\n  }\n\n  if (source.clientId !== ctx.oidc.client.clientId) {\n    throw new InvalidGrant('client mismatch');\n  }\n\n  return source;\n}\n\nexport async function consumeGrantSource(provider, ctx, source, label) {\n  assertProviderContext(provider, ctx);\n\n  if (source.consumed) {\n    await revoke(ctx, source.grantId);\n    throw new InvalidGrant(`${label} already consumed`);\n  }\n\n  await source.consume();\n}\n\nexport async function validateGrant(provider, ctx, grantId) {\n  assertProviderContext(provider, ctx);\n\n  const grant = await provider.Grant.find(grantId, {\n    ignoreExpiration: true,\n  });\n\n  if (!grant) {\n    throw new InvalidGrant('grant not found');\n  }\n\n  if (grant.isExpired) {\n    throw new InvalidGrant('grant is expired');\n  }\n\n  if (grant.clientId !== ctx.oidc.client.clientId) {\n    throw new InvalidGrant('client mismatch');\n  }\n\n  return grant;\n}\n\nexport async function findAccount(provider, ctx, accountId, source) {\n  assertProviderContext(provider, ctx);\n\n  return account(await instance(provider).configuration.findAccount(ctx, accountId, source));\n}\n",
+        "sha256": "4309a85ac090d6c7eb64d20fd2a7367c5253fff70984241d1d368c4fcfe12a9b"
+      },
+      "test/reference/README.md": {
+        "text": "# node-oidc-provider lifecycle reference\n\nRun `node --experimental-vm-modules test/reference/lifecycle.mjs` (verified with Node v26.5.0).\n\nThe two JavaScript fixtures are unchanged sources from the v9.12.2 release, fetched using the GitHub connector on 2026-09-30:\n\n- [CIBA handler](https://github.com/panva/node-oidc-provider/blob/v9.12.2/lib/actions/grants/ciba.js)\n- [Source helper](https://github.com/panva/node-oidc-provider/blob/v9.12.2/lib/helpers/grant_source.js)\n\nTheir MIT license is retained alongside them. These files are reference tests, not dependencies of the Ruby gem.\n\nThe harness executes both real modules using native VM modules. It substitutes deterministic in-memory persistence, token issuance and revocation, context validation, presence checks and attestation binding. It verifies the actual handler/helper ordering for pending, denial, failed issuance/replay and expired consumption. It cannot establish full OP interoperability, cryptographic behavior, adapter atomicity, or behavior of node's global HTTP error middleware.\n\nIn particular, consumed state survives a simulated issuance exception because the test persistence has no outer transaction. A deployment-specific transactional adapter may behave differently. The gem's existing transaction rollback is an observed difference, not evidence that either implementation is insecure.\n",
+        "sha256": "f4540107c586e409f5a11309e9106f29f0df4e23d1b3a6e25cc398c1366085cc"
+      },
+      "gem_token_issuance": {
+        "text": "    def create_token(grant_type)\n      return super unless grant_type == CibaSupport::GRANT_TYPE\n      row = ciba_locked_row(ciba_ds.where(ciba_values(\n        auth_req_id_digest: Digest::SHA256.hexdigest(param(\"auth_req_id\")),\n        oauth_application_id: oauth_application[oauth_applications_id_column])))\n      ciba_error(\"invalid_grant\") unless row\n      ciba_error(\"expired_token\") if row[:expires_at] <= ciba_now\n      if row[:status] == \"consumed\"\n        revoke_ciba_grant(row[:grant_id]) if row[:grant_id]\n        ciba_error(\"invalid_grant\")\n      end\n      if row[:status] == \"denied\"\n        ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(status: \"consumed\", consumed_at: ciba_now))\n        ciba_error(\"access_denied\")\n      end\n      ciba_guard(row[:id]) do\n        ciba_claim!(row)\n        if row[:status] == \"pending\"\n          too_fast = row[:last_polled_at] && ciba_now < row[:last_polled_at] + row[:interval]\n          interval = row[:interval] + (too_fast ? 5 : 0)\n          ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(last_polled_at: ciba_now, interval: interval))\n          ciba_error(too_fast ? \"slow_down\" : \"authorization_pending\")\n        end\n        application = oauth_application_ds(row[:oauth_application_id]).first\n        begin\n          authorized_scopes = ciba_authorized_scopes!(row, row[:grant_id])\n        rescue CibaSupport::Ineligible, CibaSupport::IdentityMismatch, ArgumentError\n          raise CibaSupport::ProtocolError, \"invalid_grant\"\n        end\n        unless row[:status] == \"approved\" && ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, authorized_scopes)\n          raise CibaSupport::ProtocolError, \"invalid_grant\"\n        end\n        @oauth_application = application\n        @ciba_current_request = ciba_snapshot(row)\n        before_ciba_issue\n        raise CibaSupport::Expired, \"request expired\" if row[:expires_at] <= ciba_now\n        begin\n          authorized_scopes = ciba_authorized_scopes!(row, row[:grant_id])\n        rescue CibaSupport::Ineligible, CibaSupport::IdentityMismatch, ArgumentError\n          raise CibaSupport::ProtocolError, \"invalid_grant\"\n        end\n        updates = {status: \"consumed\", consumed_at: ciba_now}\n        ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(updates))\n        @ciba_authentication = row\n        grant = generate_token({oauth_grants_account_id_column => row[:account_id],\n          oauth_grants_oauth_application_id_column => row[:oauth_application_id],\n          oauth_grants_scopes_column => authorized_scopes.join(oauth_scope_separator),\n          oauth_grants_ciba_grant_id_column => row[:grant_id], oauth_grants_type_column => CibaSupport::GRANT_TYPE}, false)\n        generate_id_token(grant)\n        raise \"ID Token generation did not complete\" unless grant[:id_token]\n        row.merge!(updates)\n        @ciba_current_request = ciba_snapshot(row)\n        after_ciba_issue\n        ciba_emit(row, \"token_issued\", \"approved\", \"consumed\")\n        grant\n      end\n    ensure\n      if grant_type == CibaSupport::GRANT_TYPE\n        @ciba_authentication = @ciba_current_request = nil\n      end\n    end\n\n",
+        "file_sha256": "86576de91df6487511e1bc3b3d0bbe9f4b48a17813cdecef9fb43d3e44a5db37"
+      }
+    },
+    "instructions_to_reviewer": "Use source evidence, user objective and constraints, not test count as proof. Do not invent RFC mandates or treat one stubbed adapter as all node deployments. No prior Jev scores or assistant recommendation supplied. Recommend an action, not a claim of permission or certification."
+  },
+  "questions": {
+    "failure_policy": {
+      "type": "choice",
+      "instructions": "Which failure policy should the gem adopt for its first release while satisfying the alignment objective and stated constraints? Compare the actual operational and compatibility tradeoffs in state.",
+      "criteria": {
+        "commit_consumption": "Adopt durable consumption before issuance; after an issuance failure require a new request, matching observed node behavior. Revise the transactional hook boundary explicitly.",
+        "atomic_rollback": "Keep request consumption and token issuance atomic; document the different failure retry semantics as an intentional Sequel adaptation.",
+        "configurable": "Implement both as a supported configuration before first release rather than selecting one policy.",
+        "insufficient_evidence": "No responsible policy choice is possible without additional deployment/semantic evidence or a user clarification."
+      }
+    },
+    "scope_policy": {
+      "type": "choice",
+      "instructions": "What release-scope decision best reconciles the later alignment objective with earlier explicit initial exclusions? Consider delivery, interoperability, maintainability and the evidence provided.",
+      "criteria": {
+        "initial_scope": "Align architecture and supported behavior within poll/login_hint for first release. Do not yet commit to all optional node features; document exclusions and reopen on explicit requirements.",
+        "staged_parity": "Commit to a broader node-feature parity roadmap, but first release only the aligned initial subset, with additional features scheduled afterward.",
+        "parity_before_release": "Expand optional feature coverage to node parity before first release, superseding the earlier initial exclusions.",
+        "clarify_scope": "The requirements conflict or remain too ambiguous to recommend a release-scope policy; obtain an explicit user choice first."
+      }
+    },
+    "atomic_objective_fit": {
+      "type": "noul",
+      "instructions": "If the gem intentionally retains atomic rollback, documents this exact failure-mode difference and otherwise aligns supported API/responsibilities, is that a defensible fulfillment of the stated design-alignment objective rather than silently abandoning it?"
+    },
+    "failure_evidence_sufficient": {
+      "type": "noul",
+      "instructions": "Is the supplied source plus isolated nontransactional harness enough to justify changing the existing transaction contract to durable pre-issuance consumption for this gem, without first running the complete node OP against its intended production adapter?"
+    },
+    "initial_scope_objective_fit": {
+      "type": "noul",
+      "instructions": "Does an aligned first release limited to previously agreed poll/login_hint remain defensible under the later alignment request, provided omitted node features are explicitly listed and no feature-parity claim is made?"
+    },
+    "blocker_priority": {
+      "type": "choice",
+      "instructions": "Which next action should precede a final implementation/release GO decision for these unresolved choices? This question does not ask whether all other checks can be skipped.",
+      "criteria": {
+        "resolve_contract": "First fix the interpretation of the requested alignment and transactional/release contract.",
+        "integration_evidence": "First obtain complete node and PostgreSQL/MySQL behavior evidence; that evidence is needed to choose the policy.",
+        "implement_parity": "First implement the known remaining behavior/features; the supplied evidence is sufficient to choose parity now.",
+        "none_fit": "The candidates do not capture the necessary next action."
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /pairwise_self_signed/ --seed 25422
+
+# Running:
+
+FF
+
+Finished in 0.027639s, 72.3615 runs/s, 144.7230 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_pairwise_self_signed_mtls_jwt [test/ciba_pairwise_mtls_test.rb:11]:
+{"error":"unauthorized_client"}.
+Expected: 200
+  Actual: 400
+
+  2) Failure:
+CibaIntegrationTest#test_pairwise_self_signed_mtls_opaque [test/ciba_pairwise_mtls_test.rb:7]:
+{"error":"unauthorized_client"}.
+Expected: 200
+  Actual: 400
+
+2 runs, 4 assertions, 2 failures, 0 errors, 0 skips

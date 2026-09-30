@@ -1,0 +1,159 @@
+4	CIBA grant識別子	Use urn:openid:params:grant-type:ciba as the CIBA extension grant identifier.
+4	Discoveryの対応モード	Publish required backchannel_token_delivery_modes_supported as an array of actually supported poll/ping/push modes.
+4	Discoveryの開始URL	Publish required backchannel_authentication_endpoint as the actual Backchannel Endpoint URL.
+4	署名要求の対応表明	Only advertise backchannel_authentication_request_signing_alg_values_supported when signed requests are supported; omission means unsupported.
+4	user_codeの対応表明	Publish user_code support truthfully; absent backchannel_user_code_parameter_supported defaults to false.
+4	Discoveryのgrant_types	Include the CIBA grant in grant_types_supported when supporting poll or ping.
+4	認証方式メタデータの共有	Backchannel authentication methods match token_endpoint_auth_methods_supported.
+4	認証署名アルゴリズムの共有	When applicable Backchannel authentication signing algorithms match token_endpoint_auth_signing_alg_values_supported.
+4	登録済み配送モード	Require a registered single backchannel_token_delivery_mode from poll/ping/push for a CIBA client.
+4	CIBA grantのクライアント登録	Poll/ping clients register the CIBA grant in grant_types; enforce eligibility before accepting their requests.
+4	通知URL登録	Ping/push clients register an HTTPS backchannel_client_notification_endpoint.
+4	署名要求アルゴリズム登録	Clients intending signed authentication requests register the signature algorithm; omission means unsigned requests.
+4	user_codeクライアント設定	Respect backchannel_user_code_parameter only when OP user_code support is enabled; omitted value defaults false.
+4	登録された認証方式	Use each client's registered token_endpoint_auth_method for both Backchannel and Token endpoints.
+4	pairwise sector算出	For poll/ping pairwise subjects use jwks_uri or sector_identifier_uri instead of redirect_uri to determine sector.
+4	pairwise DCR検証	For pairwise poll/ping dynamic registration validate jwks_uri and its inclusion in an explicit sector_identifier_uri document.
+4	pairwise鍵所有証明	For pairwise poll/ping require proof of possession of key material associated with jwks_uri through signed requests or the specified asymmetric client authentication.
+4	push pairwise sector	Use notification endpoint host for push pairwise sector and check membership when explicit sector_identifier_uri is supplied.
+5	poll配送	Make authentication results available through the token endpoint in poll mode.
+5	ping配送	Notify the client then make the result available at the token endpoint in ping mode.
+5	push配送	Deliver the complete authentication result directly to the notification endpoint in push mode.
+5	push sender-constrained token	If supporting sender-constrained tokens in push, record Backchannel key material and bind issued tokens to it.
+7	開始APIのTLS	Require TLS for Backchannel Authentication Endpoint communication.
+7.1	開始APIのPOSTとform	Accept authentication requests as HTTP POST application/x-www-form-urlencoded UTF-8 bodies.
+7.1	開始APIのクライアント認証	Authenticate the client at Backchannel using its registered authentication method.
+7.1	JWT audienceのissuer受理	At Backchannel accept OP issuer identifier as the audience of JWT client assertions.
+7.1	JWT audienceのToken URL受理	At Backchannel accept Token Endpoint URL as the audience of JWT client assertions.
+7.1	JWT audienceのBackchannel URL受理	At Backchannel accept Backchannel Endpoint URL as the audience of JWT client assertions.
+7.1	JWT audienceのissuer推奨	Client should use the OP issuer identifier for JWT assertion audience at Backchannel.
+7.1	scope必須	Require scope in a CIBA authentication request.
+7.1	openid scope	Require the openid scope for the OpenID CIBA flow.
+7.1	追加scope	Allow authorized additional scopes such as profile/email/address/phone without treating openid as the only possible scope.
+7.1	通知トークン必須条件	Require client_notification_token for ping/push.
+7.1	通知トークンの長さと構文	Validate client_notification_token max 1024 characters and bearer credential syntax.
+7.1	通知トークンentropy	Client ensures at least 128 bits entropy for client_notification_token, with 160 recommended.
+7.1	acr_values受理	Accept requested space-separated acr_values and preserve preference order for authentication selection.
+7.1	達成したacrの返却	Report the authentication context actually achieved as acr in the ID Token; acr is highly recommended when acr_values was requested.
+7.1	login_hint_token	Support user identification via login_hint_token according to deployment-specific token format and validation policy.
+7.1	id_token_hint	Support user identification using an ID Token previously issued by the OP.
+7.1	暗号化id_token_hintの復号	Client decrypts an asymmetrically encrypted ID Token before supplying it as id_token_hint.
+7.1	login_hint	Support a login_hint string as a user identifier without requiring it to be an email address.
+7.1	binding_messageの受理と引継ぎ	Accept binding_message and make it available for display on both consumption and authentication devices.
+7.1	binding_messageの関連付け	Client chooses binding_message that lets the end-user correlate the initiating action and authentication device interaction.
+7.1	binding_messageの表示適性	Keep binding_message relatively short with a limited set of plain-text characters suitable for display.
+7.1	user_code	Support optional user_code validation when the OP/client has enabled it.
+7.1	requested_expiry構文	Accept optional requested_expiry as a positive integer.
+7.1	requested_expiryの採用	OP may use requested_expiry to influence the request lifetime; evaluate the implementation of this optional capability, not a mandatory obligation to honor it exactly.
+7.1	hintはちょうど一つ	Require exactly one of login_hint, login_hint_token, id_token_hint in an authentication request.
+7.1.1	署名要求のJWT形式	Support signed authentication requests carried in the request parameter as a signed JWT containing all authentication parameters.
+7.1.1	署名要求の非対称署名	Validate asymmetric signature for signed authentication requests.
+7.1.1	署名要求のaud	Validate signed request aud as the OP issuer.
+7.1.1	署名要求のiss	Validate signed request iss as the client_id.
+7.1.1	署名要求のexp	Require and validate exp on signed authentication requests.
+7.1.1	署名要求のiat	Require and validate iat on signed authentication requests.
+7.1.1	署名要求のnbf	Require and validate nbf on signed authentication requests.
+7.1.1	署名要求のjti	Require a unique jti on signed authentication requests.
+7.1.1	署名要求のrequested_expiry型	Accept requested_expiry as either JSON string or number inside signed authentication requests.
+7.1.1	署名要求の内外混在禁止	Do not allow authentication request parameters outside a signed request JWT; separate client authentication parameters remain outside.
+7.1.1	暗号化要求非対応	Do not treat encrypted JWT authentication requests as a supported signed-request format.
+7.1.2	user_codeはOPパスワードと別	If user_code is supported, use a code distinct from the user's OP password.
+7.1.2	user_codeの例外ポリシー	If user_code is supported, allow policy for clients/users without it as permitted by the specification.
+7.1.2	user_codeの都度入力	Client must not store user_code and requests it for each CIBA flow.
+7.1.2	user_code変更手段	If user_code is supported, OP should provide a way for users to change it.
+7.2	登録方式による認証検証	Validate client authentication using the registered/configured method before accepting an authentication request.
+7.2	公開鍵認証の推奨	Support the recommended public-key client authentication alternative to sending shared secrets in requests.
+7.2	署名要求検証	If signed requests are supported, validate JWT signature and all other applicable JWT validity constraints.
+7.2	認証要求パラメータ検証	Validate all authentication request parameters within the supported feature scope.
+7.2	複数hintのエラー	Return invalid_request when multiple hints are provided.
+7.2	hintとユーザーの検証	Process a supported hint to establish its validity and identify an eligible user before request acceptance.
+7.2	hintポリシーの伝達	Communicate accepted hint types and where applicable issuer/max-age policy to clients.
+7.2	不正または不明hintのエラー	Return an appropriate Authentication Error Response for an invalid hint or unidentified user.
+7.2	必須パラメータ検証	Verify required parameters are present and used according to their requirements.
+7.2	未知パラメータの無視	Ignore unrecognized authentication request parameters.
+7.2	開始エラーの形式	Return Authentication Error Responses per section 13 when authentication request validation fails.
+7.3	受付成功HTTP 200	Return HTTP 200 acknowledgement after validating and accepting an authentication request.
+7.3	auth_req_id必須と一意性	Return a unique auth_req_id in the acknowledgement.
+7.3	auth_req_id entropy	Generate auth_req_id with at least 128 bits entropy, preferably at least 160 bits.
+7.3	auth_req_id文字集合	Restrict auth_req_id to A-Z a-z 0-9 dot hyphen underscore.
+7.3	auth_req_idのopaque扱い	Client treats auth_req_id as opaque.
+7.3	expires_in	Return expires_in as a positive integer JSON number measuring request lifetime in seconds from receipt.
+7.3	interval	If provided for poll/ping, return interval as a positive integer JSON number in seconds.
+7.3	interval既定値	Client uses five seconds when interval is omitted.
+7.3	未知応答パラメータ	Client ignores unrecognized acknowledgement response parameters.
+7.4	受付応答の必須項目確認	Client validates required acknowledgement parameters on HTTP 200.
+7.4	auth_req_id保持	Client retains auth_req_id for subsequent polling or callback validation.
+7.4	クライアント期限管理	Client should retain expiry for cleanup of requests awaiting callback.
+8	認証チャネルとacrの選択	OP identifies user and chooses an authentication channel considering acr_values; evaluate gem/application responsibility separately.
+8	認証後の承認取得	Before successful token issuance, obtain the authenticated end-user's authorization decision per OIDC Core 3.1.2.4.
+10	登録モード以外へ配送しない	Deliver authentication result only through the client's single registered delivery mode.
+10.1	Token Endpoint認証	Require registered client authentication for CIBA token requests.
+10.1	クライアントpoll間隔	Client must not poll more frequently than the OP's minimum interval.
+10.1	long polling	Optionally support long polling with a recommended timeout of 30 seconds.
+10.1	OP応答時間	OP should not take more than 30 seconds to respond to polling requests.
+10.1	重複poll禁止	Client must not send overlapping requests using the same auth_req_id.
+10.1	503とRetry-After	OP may return HTTP 503 with Retry-After under load; evaluate this optional behavior.
+10.1	Retry-After遵守	Client should respect Retry-After before retrying a token request.
+10.1	pingクライアントのpoll許容	Treat a ping client that polls the token endpoint as a poll client.
+10.1	Token POST form	Accept CIBA token requests as HTTP POST form-urlencoded UTF-8 bodies.
+10.1	Token grant_type必須	Require exact CIBA grant_type in token requests.
+10.1	Token auth_req_id必須	Require auth_req_id in token requests.
+10.1	auth_req_idのクライアント束縛	Verify auth_req_id was issued to the authenticated requesting client; reject mismatch.
+10.1.1	成功Token応答	After customer authentication and authorization, return the successful token response specified by OIDC Core 3.1.3.3 (access_token, token_type, id_token and applicable lifetime fields).
+10.1.1	成功後の一回限り消費	Invalidate auth_req_id after a successful redemption, including concurrent requests.
+10.1.1	認証承認前のToken禁止	Return a token error instead of tokens when customer authentication/authorization has not succeeded.
+10.2	ping HTTP POST	After successful or failed authentication send ping callback as HTTP POST to the registered notification endpoint.
+10.2	ping bearer認証	Send client_notification_token as Authorization Bearer in ping callbacks.
+10.2	ping payload	Send only auth_req_id as the ping JSON body.
+10.2	pingクライアント検証	Client verifies notification token and its association with auth_req_id; invalid bearer should yield HTTP 401.
+10.2	ping応答処理	Accept callback HTTP 204 and also HTTP 200, ignoring response bodies.
+10.2	pingリダイレクト禁止	OP must not follow ping callback redirects.
+10.2	ping後の取得	After verifying notification, client retrieves tokens at token endpoint.
+9	通知Endpoint TLS	Require HTTPS notification URLs and TLS communication for ping/push.
+9	通知Endpoint bearer認証	Authenticate notification requests using the client's client_notification_token.
+10.3.1	push成功payload	Send ID Token/access token/optional refresh token/auth_req_id as JSON to registered notification endpoint after authorization.
+10.3.1	push at_hash	Include access-token hash at_hash in push ID Token.
+10.3.1	push auth_req_id claim	Include urn:openid:params:jwt:claim:auth_req_id in push ID Token.
+10.3.1	push rt_hash	When pushing refresh token, include urn:openid:params:jwt:claim:rt_hash calculated like at_hash.
+10.3.1	push受信検証	Client validates bearer token, ID Token and correspondence of auth_req_id/access-token hash/refresh-token hash.
+10.3.1	push応答処理	OP accepts HTTP 204 and HTTP 200 callback responses and ignores their bodies.
+10.3.1	pushリダイレクト禁止	OP must not follow push callback redirects.
+10.3.1	push未知パラメータ	Client ignores unrecognized push request parameters.
+11	Tokenエラー形式	Return invalid/unauthorized token request errors according to OIDC Core 3.1.3.4 and RFC6749 5.2.
+11	authorization_pending	Return authorization_pending while authentication/authorization is pending.
+11	slow_down	For too-fast pending polling return slow_down and increase interval by at least five seconds for subsequent requests.
+11	expired_token	Return expired_token when auth_req_id has expired.
+11	access_denied	Return access_denied when end-user denied authorization.
+11	invalid_grant	Return invalid_grant for invalid auth_req_id or one issued to a different client.
+11	繰返し過剰pollの拒否	OP may return invalid_request for continued too-fast polling; evaluate optional capability.
+11	invalid_request後の停止	Client must stop requesting the same auth_req_id after invalid_request.
+11	pushクライアントのToken拒否	Reject CIBA token requests by a client configured for push with unauthorized_client.
+12	pushエラーJSON	Deliver push errors as application/json with required error and auth_req_id.
+12	push error_description文字集合	If push error_description is supplied, limit it to the specified ASCII character ranges.
+12	push access_denied	Deliver access_denied push error when end-user refuses authorization.
+12	push expired_token	Optionally deliver expired_token push error when authentication request expires.
+12	push transaction_failed	Deliver transaction_failed for unexpected unsuccessful push transactions.
+13	開始エラーJSON	Return authentication errors with application/json and a required ASCII error code.
+13	error_description文字集合	If authentication error_description is emitted, enforce the specified ASCII ranges.
+13	error_uri文字集合	If error_uri is emitted, enforce URI-reference syntax and specified ASCII ranges.
+13	400 invalid_request	Use HTTP 400 invalid_request for missing/invalid/repeated parameters and multiple hints.
+13	400 invalid_scope	Use HTTP 400 invalid_scope for malformed, unknown or invalid scope.
+13	400 expired_login_hint_token	Use HTTP 400 expired_login_hint_token for an expired login_hint_token when supported.
+13	400 unknown_user_id	Use HTTP 400 unknown_user_id when supported hints cannot identify the intended user.
+13	400 unauthorized_client	Use HTTP 400 unauthorized_client when a client is not allowed to use CIBA.
+13	400 missing_user_code	Use HTTP 400 missing_user_code when required user_code is absent.
+13	400 invalid_user_code	Use HTTP 400 invalid_user_code for invalid supplied user_code when supported.
+13	400 invalid_binding_message	Use HTTP 400 invalid_binding_message for an unacceptable binding message.
+13	401 invalid_client	Use HTTP 401 invalid_client for failed, absent or unsupported client authentication.
+13	403 access_denied	When OP/resource-owner policy denies an authentication request before user interaction, return HTTP 403 access_denied.
+14	login_hint_token署名	When supporting login_hint_token, it should be digitally signed by its issuer.
+14	通知URLの管理権限	OP should ensure registered notification endpoint is under the client's administrative authority.
+14	期限切れid_token_hint許容	When supporting id_token_hint, accept expired ID Tokens for a reasonable period under the specified contextual validation policy.
+14	id_token_hintのissuerとaudience	When supporting id_token_hint, verify OP issuer and that presenting client is listed in audience.
+14	id_token_hint署名	When supporting id_token_hint, verify signature subject to the key rotation/pairwise alternatives discussed in section 14.
+14	push Endpoint保護	For push, secure notification endpoint and its registration and consider sender-constrained tokens.
+14	業務コンテキストの追加	Additional RP session context metadata may be conveyed by deployment-specific means; CIBA specifies no mandatory transport for it.
+15	プライバシー配慮識別子	Permit alternatives to global static identifiers; evaluate gem ability to use an app-defined privacy-preserving login_hint and boundaries of unsupported hint tokens.
+15	pairwise ID Token hint	Support the described privacy option of using a previously issued pairwise ID Token without personal data as id_token_hint.
+15	一回限り識別子hint token	Support the described optional AD-to-CD single-use identifier carried in login_hint_token.
+15	Discovery Service hint token	Support the described optional discovery-service encrypted login_hint_token flow.

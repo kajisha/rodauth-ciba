@@ -1,0 +1,10 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /pairwise.*refresh/ --seed 55321
+
+# Running:
+
+..
+
+Finished in 0.126527s, 15.8069 runs/s, 490.0140 assertions/s.
+
+2 runs, 62 assertions, 0 failures, 0 errors, 0 skips

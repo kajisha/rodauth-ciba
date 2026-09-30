@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_ciba_rsa_id_token_encryption/ --seed 27795
+
+# Running:
+
+F
+
+Finished in 0.026368s, 37.9248 runs/s, 75.8495 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_rsa_id_token_encryption_cannot_silently_return_plaintext [test/ciba_id_token_encryption_test.rb:21]:
+{"access_token":"ciba_at_cWEMmmGRroLirJcyj6WbC37YKYW7VENUufcskEdQVlA","token_type":"bearer","expires_in":3600,"id_token":"eyJ0eXAiOiJpZF90b2tlbitqd3QiLCJraWQiOiI1NTJlYWY5N2Y3ZjY5MDdiYjU5ZTZmMzllZTMxMmUzMDZhNjg2ZDYxZGJiZTNjMjliMDFmMzQ1ODBkYmUxODJiIiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL29wLmV4YW1wbGUudGVzdCIsImlhdCI6MTc5MDc0NjU5Miwic3ViIjoiMSIsImNsaWVudF9pZCI6InN1cHBvcnQiLCJleHAiOjE3OTA3NTAxOTIsImF1ZCI6InN1cHBvcnQiLCJhdF9oYXNoIjoiR0NSNEd3c01jTVhYQi1FV05aWUtMZyIsImp0aSI6ImVmZmZkMGIxMjNkZDQ2MGEwODE5MzljNjNiMDNlZDkzOWY5NjMyZThlMzgxMWUyZGZhODZmYmU2YmUzYmYxNDYifQ.SE60ElhVXQxc_RK4WdX-RRKbTm3YOTij9zSdFwm_PHmMpsB8pNHSUpRlH0RFiI91IsGdHEpUUpN-RFE0XchEg3b58MQ8JwSN6QRclmdfVvq686OdeCSrh6ZPjodpXlgfNAf0eeJYB5iiLcp8y-QtKPTwK_ZrolDfqBgk-bWA7bXnds_q60s_kycU0hEBVaq8mAzMxmQiimAkWTiCcHAAzW6R0gG0ULK1FNypEdsz8ltfjhuTDxpZXVjLHf-EwcAEemYzWd-T2myOC1ZeEQu6jpnXimMfQqJI5pHUdAF873-m1pYaaUQiqufSPUjAanLKIWzTRNB6_7Q8mFWCcFaXHg","scope":"openid"}.
+Expected: 500
+  Actual: 200
+
+1 runs, 2 assertions, 1 failures, 0 errors, 0 skips

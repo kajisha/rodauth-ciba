@@ -1,0 +1,104 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "tx_reconsider": {
+      "type": "choice",
+      "choice": "atomic_rollback",
+      "confidence": 0.68,
+      "probabilities": {
+        "durable_consumption": 0.12,
+        "atomic_rollback": 0.75,
+        "configurable": 0.0,
+        "atomic_terminal_failure": 0.1,
+        "need_evidence": 0.03
+      }
+    },
+    "tx_objection": {
+      "type": "choice",
+      "choice": "retry_semantics",
+      "confidence": 0.53,
+      "probabilities": {
+        "external_effects": 0.36,
+        "no_material_objection": 0.0,
+        "retry_semantics": 0.62,
+        "unknown": 0.0,
+        "future_api": 0.02
+      }
+    },
+    "tx_exact_retry_required": {
+      "type": "choice",
+      "choice": "durable_consumption",
+      "confidence": 0.96,
+      "probabilities": {
+        "durable_consumption": 0.97,
+        "atomic_rollback": 0.0,
+        "configurable": 0.0,
+        "atomic_terminal_failure": 0.01,
+        "need_evidence": 0.02
+      }
+    },
+    "tx_two_deployments": {
+      "type": "choice",
+      "choice": "configurable",
+      "confidence": 0.86,
+      "probabilities": {
+        "durable_consumption": 0.0,
+        "atomic_rollback": 0.0,
+        "configurable": 0.89,
+        "atomic_terminal_failure": 0.1,
+        "need_evidence": 0.01
+      }
+    },
+    "scope_reconsider": {
+      "type": "choice",
+      "choice": "staged_parity",
+      "confidence": 0.77,
+      "probabilities": {
+        "broader_before_release": 0.01,
+        "initial_only": 0.16,
+        "need_evidence": 0.0,
+        "staged_parity": 0.83
+      }
+    },
+    "scope_objection": {
+      "type": "choice",
+      "choice": "alignment_meaning",
+      "confidence": 0.34,
+      "probabilities": {
+        "unknown": 0.0,
+        "none_material": 0.04,
+        "interop_reach": 0.04,
+        "public_api_evolution": 0.44,
+        "alignment_meaning": 0.48
+      }
+    },
+    "scope_named_ping_client": {
+      "type": "choice",
+      "choice": "targeted_ping",
+      "confidence": 1.0,
+      "probabilities": {
+        "defer_client": 0.0,
+        "full_parity": 0.0,
+        "poll_unchanged": 0.0,
+        "need_evidence": 0.0,
+        "targeted_ping": 1.0
+      }
+    },
+    "best_next_evidence": {
+      "type": "choice",
+      "choice": "concrete_contract",
+      "confidence": 0.72,
+      "probabilities": {
+        "optional_features": 0.0,
+        "real_failures": 0.22,
+        "none": 0.0,
+        "concrete_contract": 0.78,
+        "more_identical_scores": 0.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 6889,
+    "output_tokens": 540
+  }
+}

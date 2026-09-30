@@ -1,0 +1,22 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /userinfo/ --seed 9463
+
+# Running:
+
+FF
+
+Finished in 0.040681s, 49.1630 runs/s, 491.6300 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_dpop_jwt_userinfo_enforces_key_hash_and_replay [test/ciba_dpop_test.rb:160]:
+{"error":"invalid_token"}.
+Expected: 200
+  Actual: 401
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_dpop_opaque_userinfo_enforces_key_hash_and_replay [test/ciba_dpop_test.rb:155]:
+{"error":"invalid_token"}.
+Expected: 200
+  Actual: 401
+
+2 runs, 20 assertions, 2 failures, 0 errors, 0 skips

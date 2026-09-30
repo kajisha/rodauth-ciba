@@ -1,0 +1,120 @@
+ Image rodauth-ciba-test-test Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 551B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.test
+#2 transferring dockerfile: 504B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 142B done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#5 resolve docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 87.40kB 0.0s done
+#6 DONE 0.0s
+
+#7 [4/8] COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+#7 CACHED
+
+#8 [5/8] COPY lib ./lib
+#8 CACHED
+
+#9 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [3/8] WORKDIR /app
+#10 CACHED
+
+#11 [6/8] RUN bundle install
+#11 CACHED
+
+#12 [7/8] COPY test ./test
+#12 DONE 0.0s
+
+#13 [8/8] COPY examples ./examples
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers 0.1s done
+#14 exporting manifest sha256:354aa75cb1b4ae8bdd55e250dae163c8378092afad7dd7e7f4987a349f60c285 done
+#14 exporting config sha256:1e9f237afe9daf5e81f63e039bfe0a6155b5338ab09103a78487a24d4b4b8335 done
+#14 exporting attestation manifest sha256:d9cc9781308bc5b39f77cdc7221cc93ea0c1009c6e6897e57cb1f32570bae4ab done
+#14 exporting manifest list sha256:b3e02e09a0485ff38b7dfbb62328345fd30cbdfffd2b27d994512c924f771352 done
+#14 naming to docker.io/library/rodauth-ciba-test-test:latest done
+#14 unpacking to docker.io/library/rodauth-ciba-test-test:latest 0.0s done
+#14 DONE 0.1s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image rodauth-ciba-test-test Built 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing CIBA on sqlite
+ Container rodauth-ciba-test-test-run-6727a06cd3a3 Creating 
+ Container rodauth-ciba-test-test-run-6727a06cd3a3 Created 
+Run options: --seed 3427 --name /pairwise.*refresh/
+
+# Running:
+
+..
+
+Finished in 1.493466s, 1.3392 runs/s, 58.9234 assertions/s.
+
+2 runs, 88 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on postgres
+ Container rodauth-ciba-test-test-run-cda922ad4a67 Creating 
+ Container rodauth-ciba-test-test-run-cda922ad4a67 Created 
+Run options: --seed 3427 --name /pairwise.*refresh/
+
+# Running:
+
+..
+
+Finished in 1.579134s, 1.2665 runs/s, 55.7268 assertions/s.
+
+2 runs, 88 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on mysql
+ Container rodauth-ciba-test-test-run-413ea69275b3 Creating 
+ Container rodauth-ciba-test-test-run-413ea69275b3 Created 
+Run options: --seed 3427 --name /pairwise.*refresh/
+
+# Running:
+
+..
+
+Finished in 1.690741s, 1.1829 runs/s, 52.0482 assertions/s.
+
+2 runs, 88 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

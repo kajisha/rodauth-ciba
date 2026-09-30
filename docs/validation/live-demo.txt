@@ -1,0 +1,6 @@
+Local HTTP test, 2026-09-29
+Server: examples/server.rb (WEBrick 1.9.2, 127.0.0.1:9292)
+Client: examples/client.rb
+Customer: form GET + session cookie + CSRF-validated approval POST
+Result: Verified ID Token for customer sub=1; received access token.
+Server stopped and temporary database removed after test.

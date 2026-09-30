@@ -1,0 +1,553 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "CIBA-049_score": {
+      "type": "score",
+      "score": 0.05,
+      "confidence": 0.96,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.98,
+        "1": 0.01,
+        "2": 0.0,
+        "3": 0.0,
+        "4": 0.01
+      }
+    },
+    "CIBA-049_status": {
+      "type": "choice",
+      "choice": "missing",
+      "confidence": 0.77,
+      "probabilities": {
+        "application_responsibility": 0.0,
+        "client_responsibility": 0.01,
+        "partial": 0.0,
+        "implemented": 0.0,
+        "insufficient_evidence": 0.0,
+        "missing": 0.81,
+        "out_of_scope": 0.18,
+        "other": 0.0
+      }
+    },
+    "CIBA-050_score": {
+      "type": "score",
+      "score": 0.21,
+      "confidence": 0.82,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.92,
+        "1": 0.03,
+        "2": 0.01,
+        "3": 0.02,
+        "4": 0.02
+      }
+    },
+    "CIBA-050_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.6,
+      "probabilities": {
+        "out_of_scope": 0.66,
+        "client_responsibility": 0.0,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.01,
+        "partial": 0.0,
+        "missing": 0.33,
+        "application_responsibility": 0.0,
+        "other": 0.0
+      }
+    },
+    "CIBA-051_score": {
+      "type": "score",
+      "score": 0.4,
+      "confidence": 0.67,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.84,
+        "1": 0.05,
+        "2": 0.03,
+        "3": 0.05,
+        "4": 0.03
+      }
+    },
+    "CIBA-051_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.71,
+      "probabilities": {
+        "out_of_scope": 0.75,
+        "client_responsibility": 0.01,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.03,
+        "partial": 0.01,
+        "missing": 0.2,
+        "application_responsibility": 0.0,
+        "other": 0.0
+      }
+    },
+    "CIBA-052_score": {
+      "type": "score",
+      "score": 0.29,
+      "confidence": 0.75,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.88,
+        "1": 0.04,
+        "2": 0.01,
+        "3": 0.04,
+        "4": 0.03
+      }
+    },
+    "CIBA-052_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.6,
+      "probabilities": {
+        "application_responsibility": 0.0,
+        "client_responsibility": 0.01,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.02,
+        "partial": 0.01,
+        "missing": 0.31,
+        "out_of_scope": 0.65,
+        "other": 0.0
+      }
+    },
+    "CIBA-053_score": {
+      "type": "score",
+      "score": 0.33,
+      "confidence": 0.72,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.86,
+        "1": 0.04,
+        "2": 0.03,
+        "3": 0.04,
+        "4": 0.03
+      }
+    },
+    "CIBA-053_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.66,
+      "probabilities": {
+        "application_responsibility": 0.0,
+        "client_responsibility": 0.02,
+        "partial": 0.01,
+        "implemented": 0.01,
+        "insufficient_evidence": 0.0,
+        "missing": 0.25,
+        "out_of_scope": 0.71,
+        "other": 0.0
+      }
+    },
+    "CIBA-054_score": {
+      "type": "score",
+      "score": 0.34,
+      "confidence": 0.72,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.86,
+        "1": 0.04,
+        "2": 0.02,
+        "3": 0.05,
+        "4": 0.03
+      }
+    },
+    "CIBA-054_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.64,
+      "probabilities": {
+        "application_responsibility": 0.0,
+        "client_responsibility": 0.01,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.01,
+        "partial": 0.0,
+        "missing": 0.28,
+        "out_of_scope": 0.6900000000000001,
+        "other": 0.0
+      }
+    },
+    "CIBA-055_score": {
+      "type": "score",
+      "score": 0.22,
+      "confidence": 0.81,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.89,
+        "1": 0.06,
+        "2": 0.01,
+        "3": 0.03,
+        "4": 0.01
+      }
+    },
+    "CIBA-055_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.69,
+      "probabilities": {
+        "other": 0.0,
+        "client_responsibility": 0.01,
+        "partial": 0.01,
+        "implemented": 0.01,
+        "insufficient_evidence": 0.0,
+        "missing": 0.23,
+        "application_responsibility": 0.01,
+        "out_of_scope": 0.73
+      }
+    },
+    "CIBA-056_score": {
+      "type": "score",
+      "score": 0.41,
+      "confidence": 0.65,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.8,
+        "1": 0.09,
+        "2": 0.02,
+        "3": 0.05,
+        "4": 0.04
+      }
+    },
+    "CIBA-056_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.57,
+      "probabilities": {
+        "out_of_scope": 0.63,
+        "client_responsibility": 0.02,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.01,
+        "partial": 0.01,
+        "missing": 0.33,
+        "application_responsibility": 0.0,
+        "other": 0.0
+      }
+    },
+    "CIBA-057_score": {
+      "type": "score",
+      "score": 1.87,
+      "confidence": 0.0,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.41,
+        "1": 0.08,
+        "2": 0.02,
+        "3": 0.21,
+        "4": 0.28
+      }
+    },
+    "CIBA-057_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.65,
+      "probabilities": {
+        "application_responsibility": 0.01,
+        "client_responsibility": 0.05,
+        "partial": 0.01,
+        "implemented": 0.17,
+        "insufficient_evidence": 0.0,
+        "missing": 0.06,
+        "out_of_scope": 0.69,
+        "other": 0.01
+      }
+    },
+    "CIBA-058_score": {
+      "type": "score",
+      "score": 2.02,
+      "confidence": 0.0,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.42,
+        "1": 0.03,
+        "2": 0.03,
+        "3": 0.15,
+        "4": 0.37
+      }
+    },
+    "CIBA-058_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.41,
+      "probabilities": {
+        "out_of_scope": 0.48,
+        "client_responsibility": 0.15,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.27,
+        "partial": 0.01,
+        "missing": 0.07,
+        "application_responsibility": 0.02,
+        "other": 0.0
+      }
+    },
+    "CIBA-059_score": {
+      "type": "score",
+      "score": 1.44,
+      "confidence": 0.0,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.48,
+        "1": 0.16,
+        "2": 0.02,
+        "3": 0.13,
+        "4": 0.21
+      }
+    },
+    "CIBA-059_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.69,
+      "probabilities": {
+        "other": 0.01,
+        "client_responsibility": 0.03,
+        "partial": 0.01,
+        "implemented": 0.16,
+        "insufficient_evidence": 0.0,
+        "missing": 0.03,
+        "application_responsibility": 0.02,
+        "out_of_scope": 0.74
+      }
+    },
+    "CIBA-060_score": {
+      "type": "score",
+      "score": 0.58,
+      "confidence": 0.52,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.76,
+        "1": 0.1,
+        "2": 0.01,
+        "3": 0.05,
+        "4": 0.08
+      }
+    },
+    "CIBA-060_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.83,
+      "probabilities": {
+        "application_responsibility": 0.02,
+        "client_responsibility": 0.1,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.01,
+        "partial": 0.0,
+        "missing": 0.01,
+        "other": 0.0,
+        "out_of_scope": 0.86
+      }
+    },
+    "CIBA-061_score": {
+      "type": "score",
+      "score": 0.21,
+      "confidence": 0.82,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.9,
+        "1": 0.05,
+        "2": 0.01,
+        "3": 0.03,
+        "4": 0.01
+      }
+    },
+    "CIBA-061_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.87,
+      "probabilities": {
+        "application_responsibility": 0.07,
+        "client_responsibility": 0.03,
+        "partial": 0.0,
+        "implemented": 0.0,
+        "insufficient_evidence": 0.0,
+        "missing": 0.01,
+        "out_of_scope": 0.89,
+        "other": 0.0
+      }
+    },
+    "CIBA-062_score": {
+      "type": "score",
+      "score": 3.46,
+      "confidence": 0.55,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.04,
+        "1": 0.01,
+        "2": 0.05,
+        "3": 0.25,
+        "4": 0.65
+      }
+    },
+    "CIBA-062_status": {
+      "type": "choice",
+      "choice": "implemented",
+      "confidence": 0.89,
+      "probabilities": {
+        "out_of_scope": 0.04,
+        "client_responsibility": 0.0,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.91,
+        "partial": 0.03,
+        "missing": 0.01,
+        "other": 0.0,
+        "application_responsibility": 0.01
+      }
+    },
+    "CIBA-063_score": {
+      "type": "score",
+      "score": 1.37,
+      "confidence": 0.0,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.55,
+        "1": 0.07,
+        "2": 0.04,
+        "3": 0.16,
+        "4": 0.18
+      }
+    },
+    "CIBA-063_status": {
+      "type": "choice",
+      "choice": "out_of_scope",
+      "confidence": 0.78,
+      "probabilities": {
+        "out_of_scope": 0.81,
+        "client_responsibility": 0.07,
+        "insufficient_evidence": 0.0,
+        "implemented": 0.04,
+        "partial": 0.01,
+        "missing": 0.02,
+        "application_responsibility": 0.05,
+        "other": 0.0
+      }
+    },
+    "CIBA-064_score": {
+      "type": "score",
+      "score": 3.29,
+      "confidence": 0.41,
+      "legend": {
+        "0": "No implementation of the specified behavior is evidenced, or supplied implementation clearly contradicts the behavior.",
+        "1": "Only configuration, metadata, scaffolding or an integration hook exists for the behavior; the core behavior is not implemented in the supplied code.",
+        "2": "Core behavior exists but material parts or required cases are missing or contradicted by the supplied implementation.",
+        "3": "The supplied implementation appears to cover the behavior, but direct targeted verification of this specific requirement is absent or materially incomplete.",
+        "4": "The supplied implementation covers the behavior and direct targeted tests or equivalent inspectable evidence verify its relevant conditions."
+      },
+      "probabilities": {
+        "0": 0.08,
+        "1": 0.02,
+        "2": 0.06,
+        "3": 0.24,
+        "4": 0.6
+      }
+    },
+    "CIBA-064_status": {
+      "type": "choice",
+      "choice": "implemented",
+      "confidence": 0.81,
+      "probabilities": {
+        "other": 0.0,
+        "client_responsibility": 0.01,
+        "partial": 0.05,
+        "implemented": 0.84,
+        "insufficient_evidence": 0.0,
+        "missing": 0.02,
+        "application_responsibility": 0.01,
+        "out_of_scope": 0.07
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 35811,
+    "output_tokens": 1805
+  }
+}

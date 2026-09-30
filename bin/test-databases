@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+# Only this Compose project's disposable containers/network are removed.
+trap 'docker compose down' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+docker compose build test
+docker compose up -d --wait postgres mysql
+for backend in sqlite postgres mysql; do
+  echo "Testing CIBA on $backend"
+  docker compose run --rm --no-deps -e CIBA_TEST_DB="$backend" test ruby test/run.rb "$@"
+done

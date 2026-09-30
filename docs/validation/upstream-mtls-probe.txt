@@ -1,0 +1,14 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 11718
+
+# Running:
+
+OBSERVED certificate thumbprint equals SHA256(DER): false
+OBSERVED certificate-bound UserInfo without certificate HTTP 200
+OBSERVED header-only certificate assertion HTTP 200 (requires trusted proxy sanitization)
+.OBSERVED registered x5c self-signed authentication HTTP 500
+.
+
+Finished in 0.208223s, 9.6051 runs/s, 9.6051 assertions/s.
+
+2 runs, 2 assertions, 0 failures, 0 errors, 0 skips

@@ -1,0 +1,12 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: quick start development-only signing keys are used, you are expected to provide your own in the configuration "jwks" property
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS signed CIBA RS256: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA RS384: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA RS512: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA PS256: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA PS384: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA PS512: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA ES256: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA ES384: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA ES512: configured algorithm/key accepted, different signing key rejected

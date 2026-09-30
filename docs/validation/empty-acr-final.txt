@@ -1,0 +1,9 @@
+Run options: --name "/test_empty_acr_values|test_authentication_claim|test_registered_authentication_defaults|test_signed_request_/" --seed 42396
+
+# Running:
+
+................
+
+Finished in 0.579110s, 27.6286 runs/s, 1462.5891 assertions/s.
+
+16 runs, 847 assertions, 0 failures, 0 errors, 0 skips

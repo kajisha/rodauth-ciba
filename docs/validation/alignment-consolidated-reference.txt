@@ -1,0 +1,653 @@
+
+> test
+> node lifecycle.mjs && node registration.mjs && node registration-remote.mjs && node ping.mjs && node dpop.mjs && node dpop-alias.mjs && node assertion-refresh.mjs && node signed-algorithms.mjs && node acknowledgement-time.mjs && node client-auth-algorithms.mjs && node id-hint-algorithms.mjs && node encrypted-id-tokens.mjs && node encryption-remote.mjs && node encryption-symmetric.mjs && node encryption-ecdh.mjs && node encryption-ecdh-metadata.mjs && node encryption-recipient-selection.mjs && node encryption-management-overlap.mjs ECDH-ES+A256KW X25519 && node encryption-remote.mjs ECDH-ES P-256 && node encryption-remote.mjs ECDH-ES+A256KW X25519 && node auth-time.mjs && node auth-time.mjs scope && node auth-time.mjs defaults && node auth-time.mjs defaults signed && node max-age.mjs
+
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default features.ciba.validateBindingMessage function called, you SHOULD change it in order to verify the binding_message parameter is present when required and verify its value.
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS request_context: application callback receives supplied/omitted value, stored with request, rejection precedes device dispatch, no automatic ID claim
+PASS pending: repeated HTTP polls return authorization_pending
+PASS login_hint_token: application resolver, client policy, exclusive hints and resolved subject
+PASS denial: access_denied then invalid_grant
+PASS generic completion errors: transaction_failed/pending both consumed once
+PASS completion error description boundary: {"error":"transaction_failed"}
+PASS completion error description boundary: {"error":"application_failure"}
+PASS completion error description boundary: {"error":"server_error"}
+PASS completion error description boundary: {"error":"invalid_token","error_description":"invalid token provided"}
+PASS completion error description boundary: {"error":"insufficient_scope"}
+PASS dispatch failure: persisted pending request survives without identifier in response
+PASS success/signature/client isolation/replay revocation
+PASS id_token_hint: current/expired/multiple-audience hints remain pending; issuer/audience/subject/nbf/signature checked, azp not checked
+PASS encrypted id_token_hint rejected before device dispatch despite valid nested JWE and OP decryption key
+PASS signed CIBA requests: registered algorithm/key, required claims, JWT-only parameters, numeric/string expiry; default jti reuse accepted
+PASS user_code: application policy rejects missing/wrong code before dispatch; valid code still requires new approval
+PASS explicit claims: requested-only, target separation and poll tampering
+PASS explicit claims: allowed-id-token, target separation and poll tampering
+PASS explicit claims: explicitly-rejected, target separation and poll tampering
+PASS explicit claims: userinfo-only, target separation and poll tampering
+PASS explicit claims: allowed-but-unrequested, target separation and poll tampering
+PASS claims malformed JSON/shape rejection
+PASS resources: repeated start parameters, one selected audience, per-resource consent scope
+PASS resource JWT introspection: structured token rejected before and after replay
+PASS resources: no approved resource permission yields empty scope, never OIDC fallback
+PASS resources: poll cannot select unrequested target, failed resolution leaves consumption
+PASS resources: omitted token target follows default UserInfo policy
+PASS resources: opt-in omission selection, ambiguity rejection, explicit default selection
+PASS resources: malformed/unknown target rejection
+PASS RAR: requested details and Grant.rar do not automatically become completed source permission
+PASS RAR: explicit completion permission and application policy control token/introspection details
+PASS RAR: replay revocation removes active introspection and authorization details
+PASS RAR: request shape, type registration and action-array checks
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+PASS refresh: default issuance gates, transient scope narrowing, reusable fresh token, original authentication context, saved consent revocation
+PASS refresh: default age-based rotation, foreign-client isolation, replay revokes consent and successor/access tokens, expiry rejection
+PASS refresh resource: original multi-resource permission survives first AT selection; each refresh filters current consent
+PASS refresh claims/RAR: rotation retains source, current rejected claims apply, refresh parameters cannot enlarge application-approved details
+oidc-provider NOTICE: default features.revocation.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to revoke the token.
+PASS refresh revocation: empty success, foreign-client isolation, missing/wrong/unknown hint fallback, grant-wide revocation and idempotence
+PASS access revocation: opaque AT revokes sibling ATs and refresh while retaining saved Grant; structured JWT rejected without revoking consent
+PASS expiry through HTTP
+PASS issuance failure: consumed survives, retry revokes grant
+PASS full oidc-provider v9.12.2 HTTP lifecycle; built-in memory adapter, no browser/notification delivery
+PASS provider configuration rejects push delivery mode
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS DCR default_acr_values validates supported strings and preserves unique preference order
+PASS DCR require_auth_time accepts and retains only boolean values
+PASS DCR default_max_age accepts only nonnegative safe integers
+PASS DCR metadata: unknown internal fields ignored and supplied secret replaced by OP-generated secret
+PASS DCR poll: authenticated registration, no redirect URI/client name required, generated confidential credentials
+PASS HMAC ID Token DCR generates a sufficiently long client secret for HS256/HS384/HS512
+PASS encryption disabled: DCR accepts registration but ignores encryption metadata in response and stored client
+PASS DCR rejects assertion type used as authentication method
+PASS DCR rejects missing delivery mode
+PASS DCR rejects unsupported push
+PASS DCR rejects missing ping endpoint
+PASS DCR rejects HTTP ping endpoint
+PASS DCR rejects string user-code boolean
+PASS DCR rejects pairwise with basic authentication
+PASS signed-request Basic client: public accepted, pairwise rejected by authentication-method policy
+PASS DCR ping: HTTPS endpoint and boolean user-code metadata accepted (delivery not exercised)
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS DCR composition: registered ping/signature/user-code client authenticates signed request; application rejects incorrect code (no completion/delivery)
+PASS DCR RAR: validated type array, registered request accepted, replacement omission clears types and rejects later RAR request
+PASS DCR JWKS: malformed structure, symmetric keys, private RSA fields and malformed metadata rejected; empty set accepted
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS DCR private_key_jwt: registered RS512 enforced, invalid algorithm metadata and wrong key/audience/RS256/replay rejected; issuer audience accepted at start AND token endpoint
+PASS DCR-issued credentials: start, application completion and poll token issuance through actual HTTP endpoints
+PASS DCR management: issued bearer, read echo, cross-client rejection invalidates presented bearer, partial update rejection, replacement clears omitted name and preserves secret, default update rotation rejects old bearer, deletion
+PASS DCR delete with existing grant: poll/UserInfo denied; memory adapter retains grant, access token and pending request records
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS remote registered JWKS: default loopback refusal; cache reuse; unknown kid does not refresh fresh cache; management URL replacement rejects old key and accepts new key
+Initial blocked lookup: 401 invalid_client
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS sector management update: existing opaque UserInfo and refreshed ID Token use new sector subject while original signed ID Token is unchanged
+PASS pending request sector update: canonical account and lack of approval retained; subsequent approval and issuance use current sector subject
+PASS pairwise CIBA: private_key_jwt plus jwks_uri; inline-only/basic/hybrid-without-sector rejected; verified ID Tokens share pairwise sub for the same sector; refresh and UserInfo retain subject and canonical account, offline_access is not an attribute
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default features.ciba.validateBindingMessage function called, you SHOULD change it in order to verify the binding_message parameter is present when required and verify its value.
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS ping: default SSRF blocks loopback; exact test-receiver exception retains verified TLS; Bearer/JSON, approval/denial, 200/204, saved result after failure, explicit retry, no redirects
+PASS ping management overlap: in-flight original destination; fresh-client retry forwards saved credential to replacement endpoint, poll-mode retry rejects; token issuance once
+PASS sector cache: unchanged loaded client survives document outage; changed metadata revalidates, failed management update preserves client and credential, retry succeeds
+PASS sector TLS: hybrid pairwise registration requires jwks_uri and redirects in HTTPS document; invalid JSON, membership and HTTP errors rejected; same-origin 302 followed to valid document; no registration bearer forwarded
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS DCR DPoP: strict booleans, omitted/false default, true stored for issued client
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+oidc-provider NOTICE: default features.introspection.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to receive the introspection response.
+PASS CIBA DPoP: start without proof; poll requires proof; random jti accepted; invalid method/URI/time/jti do not consume approval; AT bound to proof key
+PASS UserInfo: bearer presentation, wrong proof key and wrong ath rejected; matching proof accepted
+PASS UserInfo rejects reuse of the same proof jti
+PASS POST UserInfo: method binding, matching proof and replay rejection
+PASS confidential refresh: RT has no jkt, current proof is required, new key accepted for new AT, repeated proof rejected
+oidc-provider NOTICE: default features.revocation.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to revoke the token.
+PASS introspection: active DPoP cnf reflects issuance/refresh key; unknown and revoked tokens inactive
+PASS DCR management: invalid boolean preserves credential/policy; omission resets DPoP requirement to false
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS nonce: token400/UserInfo401 challenges; valid nonce waives old iat, spans endpoints, but never permits proof replay
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS optional nonce: old proof gets challenge; fresh proof without nonce succeeds and returns nonce
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS disabled DPoP: registration ignores unsupported dpop_bound_access_tokens metadata
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS Discovery: enabled introspection/DPoP metadata present, disabled extensions omitted
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS DPoP alias origin/path binding: issuance, UserInfo, refresh; canonical issuer retained; cross-origin proofs rejected
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: quick start development-only signing keys are used, you are expected to provide your own in the configuration "jwks" property
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS private_key_jwt: issuer-audience CIBA issuance and refresh; wrong audience and assertion replay rejected
+PASS client_secret_jwt: issuer-audience CIBA issuance and refresh; wrong audience and assertion replay rejected
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: quick start development-only signing keys are used, you are expected to provide your own in the configuration "jwks" property
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS signed request jti: empty string accepted, null/non-string rejected
+PASS signed request NumericDate: fractional dates and future iat accepted; malformed iat, future nbf and expired exp rejected
+PASS signed CIBA RS256: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA RS384: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA RS512: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA PS256: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA PS384: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA PS512: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA ES256: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA ES384: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA ES512: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA Ed25519: configured algorithm/key accepted, different signing key rejected
+PASS signed CIBA EdDSA: configured algorithm/key accepted, different signing key rejected
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS missing identity: both endpoints return 400 invalid_request without authentication challenge
+PASS wrong client credentials: both endpoints return 401 invalid_client with no-store (no Pragma header)
+PASS policy denial: explicit application error returns 403; default AccessDenied returns 400; neither dispatches
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS acknowledgement: hint +7s, dispatch +3s, issued +7s, expiry +27s, expires_in=20, poll=authorization_pending
+PASS acknowledgement: hint +7s, dispatch +25s, issued +7s, expiry +27s, expires_in=20, poll=expired_token
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: quick start development-only signing keys are used, you are expected to provide your own in the configuration "jwks" property
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS RS256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS RS384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS RS512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS PS256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS PS384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS PS512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS ES256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS ES384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS ES512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS HS256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS HS384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS HS512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS Ed25519: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS Ed25519-remote: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS EdDSA: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS EdDSA-remote: advertised client assertion authenticates both endpoints; wrong key rejected at both
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS RS256: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS RS384: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS RS512: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS PS256: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS PS384: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS PS512: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS ES256: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS ES384: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS ES512: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS HS256: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS HS384: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS HS512: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS Ed25519: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+PASS EdDSA: actual issuance, verified ID Token, current/expired hint remain pending, wrong key rejected
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS RS256: CIBA issuance and refresh encrypt signed ID Tokens with recipient RSA-OAEP-256/A256GCM; decrypted inner signatures verified; explicit alg/use preferred over earlier generic key
+PASS Ed25519: CIBA issuance and refresh encrypt signed ID Tokens with recipient RSA-OAEP-256/A256GCM; decrypted inner signatures verified; explicit alg/use preferred over earlier generic key
+PASS EdDSA: CIBA issuance and refresh encrypt signed ID Tokens with recipient RSA-OAEP-256/A256GCM; decrypted inner signatures verified; explicit alg/use preferred over earlier generic key
+CONFIG recipient encryption: RSA-OAEP-256, P-256
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS encryption remote keys: live cache retains old recipient; forced expiry retrieves and encrypts to new recipient
+OBSERVED encryption remote failure: first 503 returns invalid_client_metadata; next refresh uses retained key without refetch while endpoint still fails
+PASS encryption remote malformed JSON: repeated failure refetches; repaired endpoint recovers; recipient GET carries no client credentials
+PASS encryption management: invalid update preserves old recipient; successful replacement changes refresh recipient while original token remains decryptable
+PASS encryption management defaults/removal: omitted enc defaults to CBC; removing both fields returns signed output on existing refresh credentials
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS dir/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS P-256/ECDH-ES/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A128KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A128KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A128KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A128KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A128KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A128KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A192KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A192KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A192KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A192KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A192KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A192KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A256KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A256KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A256KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A256KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A256KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-256/ECDH-ES+A256KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A128KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A128KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A128KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A128KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A128KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A128KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A192KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A192KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A192KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A192KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A192KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A192KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A256KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A256KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A256KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A256KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A256KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-384/ECDH-ES+A256KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A128KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A128KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A128KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A128KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A128KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A128KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A192KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A192KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A192KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A192KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A192KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A192KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A256KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A256KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A256KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A256KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A256KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS P-521/ECDH-ES+A256KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A128KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A128KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A128KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A128KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A128KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A128KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A192KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A192KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A192KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A192KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A192KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A192KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A256KW/A128GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A256KW/A192GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A256KW/A256GCM: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A256KW/A128CBC-HS256: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A256KW/A192CBC-HS384: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+PASS X25519/ECDH-ES+A256KW/A256CBC-HS512: initial/refresh recipient decryption and inner signature; fresh public epk; encrypted-key shape
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS P-256/omitted: initial/refresh decrypted and verified
+PASS P-256/empty: initial/refresh decrypted and verified
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/deriveBits: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/sign: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/encrypt: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/encrypt-wrapKey: 500 server_error
+PASS P-256/wrong-use: 400 invalid_client_metadata
+PASS P-256/wrong-alg: 400 invalid_client_metadata
+PASS X25519/omitted: initial/refresh decrypted and verified
+PASS X25519/empty: initial/refresh decrypted and verified
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/deriveBits: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/sign: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/encrypt: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/encrypt-wrapKey: 500 server_error
+PASS X25519/wrong-use: 400 invalid_client_metadata
+PASS X25519/wrong-alg: 400 invalid_client_metadata
+PASS RSA/omitted: initial/refresh decrypted and verified
+PASS RSA/empty: 400 invalid_client_metadata
+PASS RSA/deriveBits: 400 invalid_client_metadata
+PASS RSA/sign: 400 invalid_client_metadata
+ERROR DETAIL TypeError: Invalid key for this operation, its "key_ops" must include "wrapKey" when present
+PASS RSA/encrypt: 500 server_error
+PASS RSA/encrypt-wrapKey: initial/refresh decrypted and verified
+PASS RSA/wrong-use: 400 invalid_client_metadata
+PASS RSA/wrong-alg: 400 invalid_client_metadata
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS P-256/priority: initial/refresh decrypted and verified
+PASS P-256/equal-order: initial/refresh decrypted and verified
+ERROR DETAIL DataError: Invalid keyData
+PASS P-256/invalid-priority: selected invalid key fails without fallback
+PASS X25519/priority: initial/refresh decrypted and verified
+PASS X25519/equal-order: initial/refresh decrypted and verified
+ERROR DETAIL OperationError: The operation failed for an operation-specific reason
+PASS X25519/invalid-priority: selected invalid key fails without fallback
+PASS RSA/priority: initial/refresh decrypted and verified
+PASS RSA/equal-order: initial/refresh decrypted and verified
+ERROR DETAIL TypeError: RSA-OAEP-256 requires key modulusLength to be 2048 bits or larger
+PASS RSA/invalid-priority: selected invalid key fails without fallback
+CONFIG recipient encryption: ECDH-ES+A256KW, X25519
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS concurrent initial: management committed before token generation, in-flight client snapshot uses old recipient; next request uses new recipient
+PASS concurrent refresh: management committed before token generation, in-flight client snapshot uses old recipient; next request uses new recipient
+CONFIG recipient encryption: ECDH-ES, P-256
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS encryption remote keys: live cache retains old recipient; forced expiry retrieves and encrypts to new recipient
+OBSERVED encryption remote failure: first 503 returns invalid_client_metadata; next refresh uses retained key without refetch while endpoint still fails
+PASS encryption remote malformed JSON: repeated failure refetches; repaired endpoint recovers; recipient GET carries no client credentials
+PASS encryption management: invalid update preserves old recipient; successful replacement changes refresh recipient while original token remains decryptable
+PASS encryption management defaults/removal: omitted enc defaults to CBC; removing both fields returns signed output on existing refresh credentials
+CONFIG recipient encryption: ECDH-ES+A256KW, X25519
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS encryption remote keys: live cache retains old recipient; forced expiry retrieves and encrypts to new recipient
+OBSERVED encryption remote failure: first 503 returns invalid_client_metadata; next refresh uses retained key without refetch while endpoint still fails
+PASS encryption remote malformed JSON: repeated failure refetches; repaired endpoint recovers; recipient GET carries no client credentials
+PASS encryption management: invalid update preserves old recipient; successful replacement changes refresh recipient while original token remains decryptable
+PASS encryption management defaults/removal: omitted enc defaults to CBC; removing both fields returns signed output on existing refresh credentials
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS client0 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS client0 selection=default scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=default scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=true signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=true signed=false authTime=123: initial and refresh apply auth_time claim selection
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS client0 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=false authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=false authTime=123: initial and refresh apply auth_time claim selection
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS client0 selection=default scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client0 selection=default scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=explicit scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=acr scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client0 selection=empty scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client1 selection=default scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=explicit scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=acr scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client1 selection=empty scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=true authTime=omitted: initial and refresh apply auth_time claim selection
+PASS client2 selection=default scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=explicit scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=acr scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+PASS client2 selection=empty scope=false signed=true authTime=123: initial and refresh apply auth_time claim selection
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+{"value":"omitted","max_age":"60","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+{"value":"0","prompt":"login","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"60","max_age":"60","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1.0","max_age":"1.0","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1e2","max_age":"1e2","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"0x10","max_age":"0x10","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"0b10","max_age":"0b10","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"0o10","max_age":"0o10","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1.","max_age":"1.","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"1.e2","max_age":"1.e2","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"﻿1 ","max_age":"﻿1 ","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"-0","prompt":"login","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":"","max_age":"60","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+{"value":" ","prompt":"login","claims":{"id_token":{"auth_time":{"essential":true},"acr":{"values":["requested","achieved"]}}}}
+PASS rejected max_age="-1"
+PASS rejected max_age="1.5"
+PASS rejected max_age="NaN"
+PASS rejected max_age="9007199254740992"
+PASS rejected max_age="1_0"
+PASS rejected max_age="1"

@@ -1,0 +1,11 @@
+*
+!Gemfile
+!Gemfile.lock
+!lib/
+!lib/**
+!test/
+!test/**
+
+!rodauth-ciba.gemspec
+!examples/
+!examples/**

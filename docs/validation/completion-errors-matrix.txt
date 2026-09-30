@@ -1,0 +1,56 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --name "/test_generic_completion_error|test_invalid_completion_error|test_completion_error_migration|test_denial_and_expired_completion|test_approval_is_idempotent|test_ping_|test_concurrent_ping|test_signed_ping/" --seed 62779
+
+# Running:
+
+..................
+
+Finished in 1.479430s, 12.1669 runs/s, 229.1424 assertions/s.
+
+18 runs, 339 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --name "/test_generic_completion_error|test_invalid_completion_error|test_completion_error_migration|test_denial_and_expired_completion|test_approval_is_idempotent|test_ping_|test_concurrent_ping|test_signed_ping/" --seed 15513
+
+# Running:
+
+..................
+
+Finished in 2.048051s, 8.7888 runs/s, 165.5232 assertions/s.
+
+18 runs, 339 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --name "/test_generic_completion_error|test_invalid_completion_error|test_completion_error_migration|test_denial_and_expired_completion|test_approval_is_idempotent|test_ping_|test_concurrent_ping|test_signed_ping/" --seed 26893
+
+# Running:
+
+..................
+
+Finished in 2.195322s, 8.1993 runs/s, 154.4193 assertions/s.
+
+18 runs, 339 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

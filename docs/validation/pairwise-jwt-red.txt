@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /pairwise_jwt/ --seed 43901
+
+# Running:
+
+F
+
+Finished in 0.037675s, 26.5428 runs/s, 106.1712 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_pairwise_jwt_access_token_userinfo_and_hint [test/ciba_pairwise_test.rb:46]:
+{"error":"invalid_token"}.
+Expected: 200
+  Actual: 401
+
+1 runs, 4 assertions, 1 failures, 0 errors, 0 skips

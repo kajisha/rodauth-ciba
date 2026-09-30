@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /dynamic_dpop/ --seed 41264
+
+# Running:
+
+F
+
+Finished in 0.190078s, 5.2610 runs/s, 5.2610 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_dynamic_dpop_registration_enforces_policy_and_management_replacement [test/ciba_dpop_registration_test.rb:9]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"client_secret_basic","backchannel_token_delivery_mode":"poll","redirect_uris":[],"client_id":"DWMnphADF92qOb-IvpQ_XPYNpG3kf5fu6N0-XgyAFTk","client_id_issued_at":1790732703,"client_secret":"MkA0ulYoKZP0SbDP5o6UhPIb639BRzn5jcA8n5pFhLQ","client_secret_expires_at":0,"registration_access_token":"ciba_reg_2nnSwWmmbphgtsEqYNBxwYqqmYJgIIz9AMEyFJCPeR4","registration_client_uri":"https://op.example.test/register/DWMnphADF92qOb-IvpQ_XPYNpG3kf5fu6N0-XgyAFTk"}.
+Expected: 400
+  Actual: 201
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,3221 @@
+{
+  "title": "Current CIBA audit overlay",
+  "as_of": "2026-09-30",
+  "catalog": "requirements-audit.json",
+  "scope_note": "Incremental re-audit of the original 159-row catalog, not a reduced replacement scope or a complete normative inventory. Other RFCs and node-specific behavior remain tracked in alignment-roadmap.md. Historical verified/excluded statuses are not automatically carried forward.",
+  "status_legend": {
+    "protocol_boundary_verified": "Specific gem protocol behavior has direct evidence; application/client obligations remain separate.",
+    "partial": "Evidence covers only part of the row or leaves a policy difference unresolved.",
+    "app_contract": "Application obligation documented, not proven for a deployment.",
+    "client_only": "Client obligation outside OP implementation.",
+    "pending": "Not yet re-audited against current optional extensions.",
+    "reference_unsupported": "Conditional on a feature unsupported by both the pinned reference and gem. No implementation/conformance pass is claimed; revisit if the reference target or enabled scope changes."
+  },
+  "reviewed_items": [
+    {
+      "id": "CIBA-001",
+      "label": "CIBA grant識別子",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline discovery and opt-in CIBA client registration; optional combinations remain separately audited",
+      "finding": "The standard CIBA grant identifier appears in both metadata documents and drives successful authenticated token dispatch alongside the existing authorization-code flow.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_discovered_custom_backchannel_route_accepts_requests"
+        },
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_upstream_jwt_authentication_coexists_with_ciba_and_discovery"
+        }
+      ],
+      "execution": "docs/validation/discovery-registration-audit-current.txt"
+    },
+    {
+      "id": "CIBA-002",
+      "label": "Discoveryの対応モード",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline discovery and opt-in CIBA client registration; optional combinations remain separately audited",
+      "finding": "Default discovery advertises poll only; enabling ping advertises poll and ping. Push is not advertised. Both metadata documents agree in the custom-route test.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_discovered_custom_backchannel_route_accepts_requests"
+        },
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_metadata_acceptance_rollback_expiry_and_private_data_cleanup"
+        }
+      ],
+      "execution": "docs/validation/discovery-registration-audit-current.txt"
+    },
+    {
+      "id": "CIBA-003",
+      "label": "Discoveryの開始URL",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline discovery and opt-in CIBA client registration; optional combinations remain separately audited",
+      "finding": "A configured custom Backchannel route is advertised in OAuth and OIDC discovery, and an actual request to that discovered URL creates the pending record. Deployment proxy/alias rewriting is audited separately.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_discovered_custom_backchannel_route_accepts_requests"
+        }
+      ],
+      "execution": "docs/validation/discovery-registration-audit-current.txt"
+    },
+    {
+      "id": "CIBA-004",
+      "label": "署名要求の対応表明",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Configured signing algorithms appear in Discovery; disabled feature omission has baseline coverage.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_registration_discovery_and_client_authentication"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-005",
+      "label": "user_codeの対応表明",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Discovery follows the feature flag; enabled metadata is asserted directly.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_not_persisted_and_does_not_replace_customer_approval"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-006",
+      "label": "Discoveryのgrant_types",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline discovery and opt-in CIBA client registration; optional combinations remain separately audited",
+      "finding": "Both discovery documents include the CIBA grant identifier while preserving upstream grants.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_discovered_custom_backchannel_route_accepts_requests"
+        }
+      ],
+      "execution": "docs/validation/discovery-registration-audit-current.txt"
+    },
+    {
+      "id": "CIBA-007",
+      "label": "認証方式メタデータの共有",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "Configured Basic/post, private_key_jwt/client_secret_jwt (fourteen algorithms), PKI/self-signed TLS; deployment trust and arbitrary extension combinations excluded",
+      "finding": "OAuth and OIDC Discovery advertise the same actual authentication-method list. The legacy assertion-type URN is removed from output only; underlying upstream dispatch and unrelated RSA clients remain unchanged. Configured Basic/post, JWT and TLS have separate direct flow evidence. Four-test three-DB regression includes shared metadata, twelve-algorithm JWT authentication and ordinary-flow coexistence; reference HTTP Discovery also excludes the URN.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/client-assertion-algorithm-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_discovery_preserves_upstream_authentication_algorithms_for_both_endpoints"
+        },
+        {
+          "file": "test/ciba_auth_algorithm_matrix_test.rb",
+          "method": "test_configured_client_assertion_algorithms_at_both_ciba_endpoints"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_ciba_registration_rejects_assertion_type_as_authentication_method"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_client_authentication_at_both_endpoints"
+        },
+        {
+          "file": "test/ciba_edwards_auth_remote_test.rb",
+          "method": "test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_authentication_configuration_preserves_unrelated_rsa_clients"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_ciba_registration_rejects_assertion_type_as_authentication_method"
+        }
+      ],
+      "execution": "docs/validation/client-auth-metadata-urn-matrix.txt"
+    },
+    {
+      "id": "CIBA-008",
+      "label": "認証署名アルゴリズムの共有",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "explicitly configured twelve RS/PS/ES/HS client assertion algorithms; other algorithm families not advertised by this fixture",
+      "finding": "Both discovery documents retain upstream authentication algorithms and add explicitly configured CIBA client assertion algorithms. Twelve RS/PS/ES/HS algorithms and Ed25519/EdDSA have direct endpoint verification evidence, wrong-key rejection and gem token issuance. OP ID Token signing configuration is unchanged. This covers the configured fourteen algorithms, not arbitrary backend extensions.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/client-assertion-algorithm-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_discovery_preserves_upstream_authentication_algorithms_for_both_endpoints"
+        },
+        {
+          "file": "test/ciba_auth_algorithm_matrix_test.rb",
+          "method": "test_configured_client_assertion_algorithms_at_both_ciba_endpoints"
+        }
+      ],
+      "execution": "docs/validation/client-auth-algorithms-matrix.txt"
+    },
+    {
+      "id": "CIBA-009",
+      "label": "登録済み配送モード",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline discovery and opt-in CIBA client registration; optional combinations remain separately audited",
+      "finding": "Static clients with missing, multiple or push delivery-mode values fail eligibility before persistence. DCR also rejects missing or unavailable modes without inserting a client; enabled ping has separate acceptance evidence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_unavailable_or_unsupported_client_metadata_is_rejected"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_invalid_registration_metadata_does_not_persist"
+        }
+      ],
+      "execution": "docs/validation/discovery-registration-audit-current.txt"
+    },
+    {
+      "id": "CIBA-010",
+      "label": "CIBA grantのクライアント登録",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline discovery and opt-in CIBA client registration; optional combinations remain separately audited",
+      "finding": "A static client lacking the CIBA grant is rejected. Opt-in DCR with the CIBA grant creates a client that successfully starts, approves and redeems a request. This supersedes the initial audit evidence that DCR CIBA was wholly unavailable.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_unavailable_or_unsupported_client_metadata_is_rejected"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_dynamic_poll_registration_without_browser_metadata_and_complete_flow"
+        }
+      ],
+      "execution": "docs/validation/discovery-registration-audit-current.txt"
+    },
+    {
+      "id": "CIBA-011",
+      "label": "通知URL登録",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Ping client eligibility requires an HTTPS registered endpoint; changed destinations cannot receive saved credentials. Push is not implemented.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_rejects_bad_tokens_and_uses_current_registered_destination"
+        }
+      ],
+      "execution": "docs/validation/ping-current-endpoint-matrix.txt"
+    },
+    {
+      "id": "CIBA-012",
+      "label": "署名要求アルゴリズム登録",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Registered algorithm gates signed input; independent client authentication remains required. DCR composition is separately covered.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_registration_discovery_and_client_authentication"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-013",
+      "label": "user_codeクライアント設定",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "partial",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Enabled clients accept explicit false and omitted metadata under the application policy. Disabled-feature clients declaring true are rejected, a stricter eligibility policy; this is not proof of identical handling in all deployments.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_input_and_optional_client_policy"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-014",
+      "label": "登録された認証方式",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "Configured Basic/post, private_key_jwt/client_secret_jwt (fourteen algorithms), PKI/self-signed TLS; deployment trust and arbitrary extension combinations excluded",
+      "finding": "Configured methods have direct endpoint authentication/negative evidence. Fourteen RS/PS/ES/HS/Edwards algorithms have reference HTTP and gem verification evidence; Edwards adds DCR, remote HTTP rotation/failure, installed HTTPS retrieval with untrusted-TLS rejection, replay protection and ordinary-flow coexistence. A CIBA Edwards-only configuration preserves unrelated RSA client authentication and upstream metadata. See client-auth-edwards-scope-matrix.txt and client-auth-edwards-https-installed.txt. This is bounded protocol evidence, not deployment certification.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/client-assertion-algorithm-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_upstream_jwt_authentication_coexists_with_ciba_and_discovery"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_post_client_authentication"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_dynamic_poll_registration_without_browser_metadata_and_complete_flow"
+        },
+        {
+          "file": "test/ciba_auth_algorithm_matrix_test.rb",
+          "method": "test_configured_client_assertion_algorithms_at_both_ciba_endpoints"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_ciba_registration_rejects_assertion_type_as_authentication_method"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_client_authentication_at_both_endpoints"
+        },
+        {
+          "file": "test/ciba_edwards_auth_remote_test.rb",
+          "method": "test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_authentication_configuration_preserves_unrelated_rsa_clients"
+        }
+      ],
+      "execution": "docs/validation/client-auth-edwards-scope-matrix.txt"
+    },
+    {
+      "id": "CIBA-015",
+      "label": "pairwise sector算出",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "optional pairwise poll/ping clients; no push",
+      "finding": "CIBA sector derives from registered remote JWKS or explicit sector URI, rather than redirect URI; nondefault port matches measured node URL.host behavior. Application owns identifier mapping.",
+      "code_refs": [
+        "lib/rodauth/ciba/pairwise.rb",
+        "lib/rodauth/ciba/mtls.rb",
+        "docs/pairwise.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_pairwise_test.rb",
+          "method": "test_pairwise_ciba_issuance_preserves_internal_identity_and_sector_stability"
+        }
+      ],
+      "execution": "docs/validation/pairwise-mtls-matrix.txt"
+    },
+    {
+      "id": "CIBA-016",
+      "label": "pairwise DCR検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "optional pairwise poll/ping clients; no push",
+      "finding": "Pairwise registration requires remote JWKS and validates explicit sector-document membership; hybrid browser clients include their redirect URIs. Verified TLS, redirect limits and rejection cases have installed-artifact evidence.",
+      "code_refs": [
+        "lib/rodauth/ciba/pairwise.rb",
+        "lib/rodauth/ciba/mtls.rb",
+        "docs/pairwise.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_pairwise_test.rb",
+          "method": "test_pairwise_sector_document_requires_keys_and_hybrid_redirects"
+        }
+      ],
+      "execution": "docs/validation/pairwise-mtls-matrix.txt"
+    },
+    {
+      "id": "CIBA-017",
+      "label": "pairwise鍵所有証明",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "protocol_boundary_verified",
+      "scope": "optional pairwise poll/ping clients; no push",
+      "finding": "Configured pairwise clients require private_key_jwt or self_signed_tls_client_auth with registered remote key material. Missing keys and Basic authentication reject; a signed request alone does not waive this restriction in either gem or reference. Current private-key/pairwise and certificate-proof tests pass on three DBs, with separate installed TLS and reference HTTP/TLS evidence. This verifies the reference-supported proof methods, not push or arbitrary app identity policy.",
+      "code_refs": [
+        "lib/rodauth/ciba/pairwise.rb",
+        "lib/rodauth/ciba/mtls.rb",
+        "docs/pairwise.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_pairwise_mtls_test.rb",
+          "method": "test_pairwise_self_signed_mtls_jwt"
+        },
+        {
+          "file": "test/ciba_pairwise_test.rb",
+          "method": "test_pairwise_dynamic_registration_reuses_same_eligibility_boundary"
+        },
+        {
+          "file": "test/ciba_pairwise_test.rb",
+          "method": "test_pairwise_signed_request_does_not_waive_client_authentication_policy"
+        }
+      ],
+      "execution": "docs/validation/pairwise-signature-audit-current.txt"
+    },
+    {
+      "id": "CIBA-018",
+      "label": "push pairwise sector",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-019",
+      "label": "poll配送",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Approved poll requests obtain a signed ID Token and access token through the token endpoint, followed by single-use rejection.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_approved_request_issues_customer_id_token_once"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-020",
+      "label": "ping配送",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Approval/denial persists before notification; authenticated retrieval remains possible despite send failure. This matches the measured reference save-before-send boundary.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_delivery_failure_keeps_result_and_retry_is_separate"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-021",
+      "label": "push配送",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-022",
+      "label": "push sender-constrained token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-023",
+      "label": "開始APIのTLS",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Authenticated HTTP requests are rejected before state changes; HTTPS Rack requests are accepted. Actual TLS termination and trusted proxy configuration remain deployment responsibilities with separate TLS fixtures.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_ciba_endpoints_require_tls_post_and_form_before_state_changes"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_rack_inputs_without_rewind_work_on_both_endpoints"
+        },
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_invalid_utf8_and_oversized_body_are_rejected"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-024",
+      "label": "開始APIのPOSTとform",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "HTTPS POST form input is accepted, including non-rewindable request bodies. JSON and GET do not issue requests or tokens; malformed UTF8/form input is rejected. Backchannel GET is 404, token GET with CIBA grant is invalid_request.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_ciba_endpoints_require_tls_post_and_form_before_state_changes"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_rack_inputs_without_rewind_work_on_both_endpoints"
+        },
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_invalid_utf8_and_oversized_body_are_rejected"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-025",
+      "label": "開始APIのクライアント認証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "Configured Basic/post, private_key_jwt/client_secret_jwt (fourteen algorithms), PKI/self-signed TLS; deployment trust and arbitrary extension combinations excluded",
+      "finding": "Configured methods have direct endpoint authentication/negative evidence. Fourteen RS/PS/ES/HS/Edwards algorithms have reference HTTP and gem verification evidence; Edwards adds DCR, remote HTTP rotation/failure, installed HTTPS retrieval with untrusted-TLS rejection, replay protection and ordinary-flow coexistence. A CIBA Edwards-only configuration preserves unrelated RSA client authentication and upstream metadata. See client-auth-edwards-scope-matrix.txt and client-auth-edwards-https-installed.txt. This is bounded protocol evidence, not deployment certification.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md",
+        "docs/research/client-assertion-algorithm-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_jwt_client_assertion_requires_issuer_expiry_and_jti"
+        },
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_jwt_client_assertion_is_single_use"
+        },
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_malformed_assertions_are_authentication_errors_at_both_ciba_endpoints"
+        },
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_backchannel_ignores_other_grant_parameters_without_bypassing_client_authentication"
+        },
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_assertion_subject_cannot_override_explicit_client_id"
+        },
+        {
+          "file": "test/ciba_auth_algorithm_matrix_test.rb",
+          "method": "test_configured_client_assertion_algorithms_at_both_ciba_endpoints"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_ciba_registration_rejects_assertion_type_as_authentication_method"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_client_authentication_at_both_endpoints"
+        },
+        {
+          "file": "test/ciba_edwards_auth_remote_test.rb",
+          "method": "test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_authentication_configuration_preserves_unrelated_rsa_clients"
+        }
+      ],
+      "execution": "docs/validation/client-auth-edwards-scope-matrix.txt"
+    },
+    {
+      "id": "CIBA-026",
+      "label": "JWT audienceのissuer受理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Issuer audience is accepted for private_key_jwt at Backchannel and for private_key_jwt/client_secret_jwt CIBA issuance and refresh; unrelated token flows retain their prior audience rules.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_upstream_jwt_authentication_coexists_with_ciba_and_discovery"
+        },
+        {
+          "file": "test/ciba_assertion_refresh_test.rb",
+          "method": "test_ciba_private_key_assertion_refresh_accepts_issuer_audience"
+        },
+        {
+          "file": "test/ciba_assertion_refresh_test.rb",
+          "method": "test_ciba_secret_assertion_refresh_accepts_issuer_audience"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-027",
+      "label": "JWT audienceのToken URL受理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Token endpoint URL is accepted as private_key_jwt audience at Backchannel, then the same client can complete and collect tokens.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_upstream_jwt_authentication_coexists_with_ciba_and_discovery"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-028",
+      "label": "JWT audienceのBackchannel URL受理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Backchannel endpoint URL is accepted as private_key_jwt audience at Backchannel; resulting approved issuance succeeds.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_upstream_jwt_authentication_coexists_with_ciba_and_discovery"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-029",
+      "label": "JWT audienceのissuer推奨",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "client_only",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "The recommendation to choose issuer audience is a client responsibility. OP acceptance tests establish support but do not prove external clients follow the recommendation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-030",
+      "label": "scope必須",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Missing scope fails before acceptance; malformed scope has a distinct invalid_scope response.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_scope_syntax_errors_are_invalid_scope"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-031",
+      "label": "openid scope",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "A scope set without openid is rejected for CIBA.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-032",
+      "label": "追加scope",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "An additional read scope allowed by both server and client survives acceptance and issuance.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_additional_authorized_scopes_survive_acceptance_and_token_issuance"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-033",
+      "label": "通知トークン必須条件",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Ping requires a nonempty notification token before persistence. Push remains outside the implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_rejects_bad_tokens_and_uses_current_registered_destination"
+        }
+      ],
+      "execution": "docs/validation/ping-current-endpoint-matrix.txt"
+    },
+    {
+      "id": "CIBA-034",
+      "label": "通知トークンの長さと構文",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Bearer syntax and1024-character ASCII boundary checked; CRLF, misplaced padding and non-ASCII rejected without pending records.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_notification_token_bearer_syntax_and_maximum_length"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-035",
+      "label": "通知トークンentropy",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "client_only",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Required entropy is a client generation obligation. No syntax or length check can prove randomness. Minimum128/recommended160 bits are documented.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-036",
+      "label": "acr_values受理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Requested ACR preference order is retained in the frozen application dispatch snapshot; the gem does not choose an authentication method.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-037",
+      "label": "達成したacrの返却",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "ID Token carries the achieved ACR supplied at completion, even when different from requested preferences. Truthfulness and adequacy of the application authentication are not proven.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-038",
+      "label": "login_hint_token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Authenticated client is passed to the required application resolver; identity eligibility and raw-value exclusion are checked. Token-format validation belongs to the application.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_resolver_receives_authenticated_client_and_does_not_persist_raw_token"
+        }
+      ],
+      "execution": "docs/validation/hint-audit-current.txt"
+    },
+    {
+      "id": "CIBA-039",
+      "label": "id_token_hint",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Verified ID Token identity creates a new pending request; approval is not inherited.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_id_token_hint_test.rb",
+          "method": "test_id_hint_expired_token_is_only_an_identity_hint"
+        }
+      ],
+      "execution": "docs/validation/hint-audit-current.txt"
+    },
+    {
+      "id": "CIBA-040",
+      "label": "暗号化id_token_hintの復号",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "client_only",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Decrypting an encrypted ID Token before submitting its signed inner token is a Client duty. A real nested JWE is rejected by the gem; the decrypted signed hint is accepted. This matches measured node behavior, not missing OP decryption support.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_id_token_hint_test.rb",
+          "method": "test_id_hint_rejects_valid_nested_encryption_before_resolving_identity"
+        }
+      ],
+      "execution": "docs/validation/hint-audit-current.txt"
+    },
+    {
+      "id": "CIBA-041",
+      "label": "login_hint",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "A non-email customer reference resolves through an application callback in authenticated-client context. No built-in email interpretation is required.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-042",
+      "label": "binding_messageの受理と引継ぎ",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "app_contract",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Binding message is preserved for the application dispatch snapshot. Display on AD/CD, safe rendering and end-user confirmation remain application/client duties, not proven by the Ruby snapshot test.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-043",
+      "label": "binding_messageの関連付け",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "client_only",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "The client must choose a meaningful correlation message. OP storage and dispatch cannot prove the correlation seen by the end-user.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-044",
+      "label": "binding_messageの表示適性",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "The default node-aligned policy accepts 1–20 characters from its limited ASCII set and rejects whitespace, control and other characters. Applications may replace this display policy and own the resulting UI safety.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_alignment_test.rb",
+          "method": "test_binding_message_default_matches_node_oidc_provider_policy"
+        },
+        {
+          "file": "test/ciba_alignment_test.rb",
+          "method": "test_application_can_replace_binding_message_policy"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-045",
+      "label": "user_code",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Mandatory application verifier receives resolved account/client/code before insertion or dispatch; rejection has no pending request. Production verifier correctness remains application-owned.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_requires_explicit_callback_and_checks_before_device_dispatch"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-046",
+      "label": "requested_expiry構文",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Unsigned requested_expiry accepts positive decimal syntax and rejects zero, negatives, fractions and nonnumeric strings. Signed JSON-number handling is audited separately.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_expiry_binding_context_and_offline_access"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-047",
+      "label": "requested_expiryの採用",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Requested lifetime is used up to the configured maximum; the default and cap are directly asserted. Callback elapsed-time limits remain in CIBA-080.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_alignment_test.rb",
+          "method": "test_default_request_lifetime_matches_node_policy"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-048",
+      "label": "hintはちょうど一つ",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Exactly one recognized hint name is required; absent, empty and mixed hint inputs fail before resolver dispatch. The opt-in token resolver tests validate this with optional hints enabled.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_input_exclusivity_size_and_unknown_user"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-049",
+      "label": "署名要求のJWT形式",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Signed inner parameters determine new pending work; normal request validation still applies.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_isolated_parameters_new_approval_and_repeated_submission"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-050",
+      "label": "署名要求の非対称署名",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "configured RS/PS/ES algorithms and Ed25519/EdDSA with Ed25519 curve; signed CIBA requests only",
+      "finding": "All eleven configured algorithm names have reference/gem acceptance and wrong-key rejection evidence. Edwards Node/jose fixed vectors pass inline and actual HTTP remote JWKS on three DBs, reject payload tampering, and issue verified ID Tokens from the installed artifact with opaque/JWT access tokens. No global JWT/client-auth or Ed448 capability is implied.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md",
+        "docs/research/alignment-partial-triage.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_configured_asymmetric_algorithms_and_encrypted_shape"
+        },
+        {
+          "file": "test/ciba_edwards_request_test.rb",
+          "method": "test_edwards_signed_requests_and_key_rejection"
+        },
+        {
+          "file": "test/ciba_edwards_request_test.rb",
+          "method": "test_node_generated_edwards_vectors_with_inline_keys"
+        },
+        {
+          "file": "test/ciba_edwards_request_test.rb",
+          "method": "test_node_generated_edwards_vectors_with_remote_keys"
+        }
+      ],
+      "execution": "docs/validation/edwards-vectors-matrix.txt"
+    },
+    {
+      "id": "CIBA-051",
+      "label": "署名要求のaud",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "OP issuer audience membership is checked; incorrect/missing audience rejected. Array audience path is code-reviewed but not directly covered by this test.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-052",
+      "label": "署名要求のiss",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Request issuer must match the independently authenticated client.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-053",
+      "label": "署名要求のexp",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Required finite numeric exp, including fractional NumericDate, accepted only while unexpired under configured tolerance. Missing/string/boolean/array/expired values rejected before persistence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_numeric_dates_match_reference_without_inheriting_approval"
+        }
+      ],
+      "execution": "docs/validation/signed-numericdate-matrix.txt"
+    },
+    {
+      "id": "CIBA-054",
+      "label": "署名要求のiat",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Required finite numeric iat, including fractional and future values, matches measured reference acceptance. No independent future-iat restriction; valid exp/nbf and explicit customer approval still required.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_numeric_dates_match_reference_without_inheriting_approval"
+        }
+      ],
+      "execution": "docs/validation/signed-numericdate-matrix.txt"
+    },
+    {
+      "id": "CIBA-055",
+      "label": "署名要求のnbf",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Required finite numeric nbf, including fractional NumericDate, checked against current time and configured tolerance. Future and malformed values rejected before persistence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_numeric_dates_match_reference_without_inheriting_approval"
+        }
+      ],
+      "execution": "docs/validation/signed-numericdate-matrix.txt"
+    },
+    {
+      "id": "CIBA-056",
+      "label": "署名要求のjti",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Like the reference, signed authentication requests require a present string jti, including empty strings; null/non-string values reject. Repeated identical requests produce distinct auth_req_id values with new pending approval, including after prior issuance. Identifier uniqueness remains a client obligation. This is separate from client authentication assertions, whose nonempty-jti and atomic replay checks are unchanged.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_isolated_parameters_new_approval_and_repeated_submission"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_empty_jti_matches_reference_without_reusing_approval"
+        }
+      ],
+      "execution": "docs/validation/signed-jti-matrix.txt"
+    },
+    {
+      "id": "CIBA-057",
+      "label": "署名要求のrequested_expiry型",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Integer and numeric-string requested_expiry are accepted through the ordinary expiry validator.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_claims_resources_and_rar_use_only_inner_values"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-058",
+      "label": "署名要求の内外混在禁止",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "client_only",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Client must place authentication request parameters inside the JWT. OP ignores nonconforming outer protocol values rather than merging them; separate client authentication remains outside. Do not classify tolerated client input as evidence of client compliance.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_isolated_parameters_new_approval_and_repeated_submission"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-059",
+      "label": "暗号化要求非対応",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Five-part encrypted request shape is rejected; only three-part signed JWT requests enter verification.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_configured_asymmetric_algorithms_and_encrypted_shape"
+        }
+      ],
+      "execution": "docs/validation/signed-request-audit-current.txt"
+    },
+    {
+      "id": "CIBA-060",
+      "label": "user_codeはOPパスワードと別",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2",
+      "status": "app_contract",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Documentation now explicitly requires a separate code from the OP login password. No application password/code policy is implemented or audited.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-061",
+      "label": "user_codeの例外ポリシー",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2",
+      "status": "protocol_boundary_verified",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Callback can explicitly allow omission for a client/user. Tests cover false/omitted client metadata; arbitrary per-user policy correctness is not established.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_input_and_optional_client_policy"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-062",
+      "label": "user_codeの都度入力",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2",
+      "status": "client_only",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Client-side collection/non-storage is outside this OP gem. Gem-side removal from snapshots is separately tested and does not prove this client requirement.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_not_persisted_and_does_not_replace_customer_approval"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-063",
+      "label": "user_code変更手段",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2",
+      "status": "app_contract",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Application-owned code enrollment/change lifecycle is documented. No production change UI is supplied or tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-064",
+      "label": "登録方式による認証検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "Configured Basic/post, private_key_jwt/client_secret_jwt (fourteen algorithms), PKI/self-signed TLS; deployment trust and arbitrary extension combinations excluded",
+      "finding": "Configured methods have direct endpoint authentication/negative evidence. Fourteen RS/PS/ES/HS/Edwards algorithms have reference HTTP and gem verification evidence; Edwards adds DCR, remote HTTP rotation/failure, installed HTTPS retrieval with untrusted-TLS rejection, replay protection and ordinary-flow coexistence. A CIBA Edwards-only configuration preserves unrelated RSA client authentication and upstream metadata. See client-auth-edwards-scope-matrix.txt and client-auth-edwards-https-installed.txt. This is bounded protocol evidence, not deployment certification.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md",
+        "docs/research/client-assertion-algorithm-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_post_client_authentication"
+        },
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_jwt_client_assertion_requires_issuer_expiry_and_jti"
+        },
+        {
+          "file": "test/ciba_auth_algorithm_matrix_test.rb",
+          "method": "test_configured_client_assertion_algorithms_at_both_ciba_endpoints"
+        },
+        {
+          "file": "test/ciba_registration_test.rb",
+          "method": "test_ciba_registration_rejects_assertion_type_as_authentication_method"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_client_authentication_at_both_endpoints"
+        },
+        {
+          "file": "test/ciba_edwards_auth_remote_test.rb",
+          "method": "test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant"
+        },
+        {
+          "file": "test/ciba_edwards_auth_test.rb",
+          "method": "test_edwards_authentication_configuration_preserves_unrelated_rsa_clients"
+        }
+      ],
+      "execution": "docs/validation/client-auth-edwards-scope-matrix.txt"
+    },
+    {
+      "id": "CIBA-065",
+      "label": "公開鍵認証の推奨",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "app_contract",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Prefer public-key client authentication when provisioning clients. The gem supports asymmetric methods but intentionally does not prohibit shared-secret authentication across the OP; deployment selection is not proven by feature support.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-066",
+      "label": "署名要求検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "signed authentication requests enabled; configured asymmetric algorithms",
+      "finding": "Configured eleven asymmetric algorithms have valid/wrong-key evidence (RS/PS/ES plus Ed25519/EdDSA). Required claims, NumericDate, jti type, issuer/audience, key selection/use/alg/key_ops, duplicate JSON, nested requests and encrypted shape have direct rejection tests. Edwards includes independent Node/jose vectors and remote keys. Current three-DB regressions pass; custom JOSE profiles and production key custody are not claimed.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/signed-requests.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_configured_asymmetric_algorithms_and_encrypted_shape"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_key_selection_duplicate_json_and_migration_preservation"
+        },
+        {
+          "file": "test/ciba_edwards_request_test.rb",
+          "method": "test_edwards_signed_requests_and_key_rejection"
+        },
+        {
+          "file": "test/ciba_edwards_request_test.rb",
+          "method": "test_node_generated_edwards_vectors_with_remote_keys"
+        }
+      ],
+      "execution": "docs/validation/pairwise-signature-audit-current.txt"
+    },
+    {
+      "id": "CIBA-067",
+      "label": "認証要求パラメータ検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "Supported authentication parameter parser and callback boundaries, enumerated in docs/research/request-parameter-inventory.md; policy equivalence and deployment callback correctness are separate.",
+      "finding": "The supported parameter inventory is reconciled against the request route, common parser, feature validators and current full-suite tests. It covers transport/duplicates, scope, all enabled hints, binding/expiry/ACR, signed requests, user codes, ping notification tokens, nonce, claims/resources/RAR, max_age, request_context and ignored inputs. Application semantics and the explicit user-code/hint/cache policy differences remain separately tracked; this row does not assert those policies are identical or accepted.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md",
+        "docs/research/request-parameter-inventory.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_expiry_binding_context_and_offline_access"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        },
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_signed_ping_required_fields_cannot_be_supplied_outside_signature"
+        },
+        {
+          "file": "test/ciba_max_age_test.rb",
+          "method": "test_max_age_invalid_values_do_not_dispatch_or_persist"
+        }
+      ],
+      "execution": "docs/validation/completion-errors-full-ruby33.txt",
+      "additional_execution": "docs/validation/signed-ping-required-fields.txt"
+    },
+    {
+      "id": "CIBA-068",
+      "label": "複数hintのエラー",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Multiple hint names return invalid_request before resolving or saving the request, including opt-in login_hint_token combinations.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_input_exclusivity_size_and_unknown_user"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-069",
+      "label": "hintとユーザーの検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Resolved accounts must remain eligible; a disabled account is rejected and a different completion account cannot approve the request. Arbitrary resolver correctness is application-owned.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_resolved_user_still_requires_eligible_account_and_matching_approval"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-070",
+      "label": "hintポリシーの伝達",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "app_contract",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Accepted hint formats, issuer trust and age policy must be communicated by each deployment. Documentation describes the integration responsibility; no production client agreement is tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-071",
+      "label": "不正または不明hintのエラー",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Malformed hints return invalid_request; well-shaped unresolved hints return unknown_user_id before persistence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_input_exclusivity_size_and_unknown_user"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-072",
+      "label": "必須パラメータ検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "Mandatory presence and exclusive hint selection for enabled poll/ping, signed requests and application-required user code; optional-value validation remains CIBA-067.",
+      "finding": "The supported mandatory parameter inventory is reconciled in docs/research/required-parameter-inventory.md. Direct tests cover scope, exclusive hints, registered request JWT, its six required claims, ping notification token and application-required user code. Actual signed omissions and missing/empty combined fields cannot be supplied by valid unsigned outer values; rejection occurs without persistence or device dispatch. Client authentication remains independently required. This verifies required presence/selection, not every optional value or application policy.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md",
+        "docs/research/required-parameter-inventory.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        },
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_input_exclusivity_size_and_unknown_user"
+        },
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_signed_ping_required_fields_cannot_be_supplied_outside_signature"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_missing_required_fields_cannot_use_outer_values"
+        },
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_scope_syntax_errors_are_invalid_scope"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_registration_discovery_and_client_authentication"
+        },
+        {
+          "file": "test/ciba_signed_request_test.rb",
+          "method": "test_signed_request_rejects_bad_claims_and_keys_before_persistence"
+        },
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_rejects_bad_tokens_and_uses_current_registered_destination"
+        },
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_requires_explicit_callback_and_checks_before_device_dispatch"
+        }
+      ],
+      "execution": "docs/validation/alignment-consolidated-ruby33.txt",
+      "additional_execution": "docs/validation/signed-ping-required-fields.txt",
+      "omission_execution": "docs/validation/signed-required-omissions.txt"
+    },
+    {
+      "id": "CIBA-073",
+      "label": "未知パラメータの無視",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Unknown parameters are ignored, including names resembling internal account, status and expiry fields. They neither override persisted state nor appear in the application snapshot.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-074",
+      "label": "開始エラーの形式",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline request parameters and enabled hint-token boundary; UI and deployment policy remain external",
+      "finding": "Validation failures produce JSON protocol errors with the expected HTTP status and no token/request identifiers. Internal exceptions return server_error without private text.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_authentication_error_envelopes_do_not_expose_tokens_or_internal_errors"
+        }
+      ],
+      "execution": "docs/validation/request-parameters-audit-current.txt"
+    },
+    {
+      "id": "CIBA-075",
+      "label": "受付成功HTTP 200",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "protocol_boundary_verified",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Validated baseline requests return HTTP 200; invalid hints, scopes and unsupported parameters do not receive successful acknowledgement.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/schema.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        }
+      ],
+      "execution": "docs/validation/acknowledgement-audit-current.txt"
+    },
+    {
+      "id": "CIBA-076",
+      "label": "auth_req_id必須と一意性",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "protocol_boundary_verified",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Each accepted request receives a fresh base64url identifier. Its SHA256 digest has a database unique constraint; two observed identifiers differ. Forced RNG collision recovery is not tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/schema.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_auth_req_id_has_required_entropy_and_restricted_characters"
+        }
+      ],
+      "execution": "docs/validation/acknowledgement-audit-current.txt"
+    },
+    {
+      "id": "CIBA-077",
+      "label": "auth_req_id entropy",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "protocol_boundary_verified",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Source review confirms SecureRandom.urlsafe_base64(32), supplying 256 random input bits. Tests check encoding and distinct samples, not statistical entropy or the platform RNG implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/schema.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_auth_req_id_has_required_entropy_and_restricted_characters"
+        }
+      ],
+      "execution": "docs/validation/acknowledgement-audit-current.txt"
+    },
+    {
+      "id": "CIBA-078",
+      "label": "auth_req_id文字集合",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "protocol_boundary_verified",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "The 43-character unpadded base64url output uses only the permitted character set; direct response assertions cover the encoding.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/schema.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_auth_req_id_has_required_entropy_and_restricted_characters"
+        }
+      ],
+      "execution": "docs/validation/acknowledgement-audit-current.txt"
+    },
+    {
+      "id": "CIBA-079",
+      "label": "auth_req_idのopaque扱い",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "client_only",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Opaque handling is a Client obligation. The OP generation test cannot prove how external clients interpret or store identifiers.",
+      "code_refs": [],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-080",
+      "label": "expires_in",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "partial",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Positive integer lifetime, configured maximum and exact expiry are tested. The gem records its timestamp after client/hint validation; elapsed time before that timestamp is not accounted for as request-receipt time. Therefore the catalog requirement is only partially established. Deterministic callback-delay tests now establish identical timing in node 9.12.2 and the gem, including acknowledgement after expiry when dispatch exceeds lifetime; this is a shared limitation, not an unmeasured parity gap.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/schema.rb",
+        "docs/research/acknowledgement-time-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_requested_expiry_expires_at_the_exact_boundary"
+        },
+        {
+          "file": "test/ciba_alignment_test.rb",
+          "method": "test_default_request_lifetime_matches_node_policy"
+        },
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_acknowledgement_numeric_fields_and_configuration_limits"
+        },
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_acknowledgement_time_origin_matches_reference_application_delays"
+        }
+      ],
+      "execution": "docs/validation/acknowledgement-audit-current.txt"
+    },
+    {
+      "id": "CIBA-081",
+      "label": "interval",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "protocol_boundary_verified",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Returned interval is an integer: 1, 5 and the configured 32-bit maximum are accepted. Zero, negative, fractional, string and overflow configuration values are rejected. The reference OP omits this optional field; the gem explicitly advertises its polling policy.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/schema.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_acknowledgement_numeric_fields_and_configuration_limits"
+        }
+      ],
+      "execution": "docs/validation/acknowledgement-audit-current.txt"
+    },
+    {
+      "id": "CIBA-082",
+      "label": "interval既定値",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "client_only",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "The five-second fallback when interval is omitted is a Client obligation; the gem normally returns an explicit interval.",
+      "code_refs": [],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-083",
+      "label": "未知応答パラメータ",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3",
+      "status": "client_only",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Ignoring unknown acknowledgement fields is a Client obligation, not evidence about OP request-parameter parsing.",
+      "code_refs": [],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-084",
+      "label": "受付応答の必須項目確認",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.4",
+      "status": "client_only",
+      "scope": "acknowledgement generation and baseline poll; client obligations separately classified",
+      "finding": "Client validation of required HTTP200 acknowledgement fields is outside this OP gem; valid gem responses do not prove client validation.",
+      "code_refs": [],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-085",
+      "label": "auth_req_id保持",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.4",
+      "status": "client_only",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "External clients must retain auth_req_id. OP storage is not evidence of client persistence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-086",
+      "label": "クライアント期限管理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.4",
+      "status": "client_only",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Callback cleanup and expiry tracking belong to the client; no production client cleanup is tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-087",
+      "label": "認証チャネルとacrの選択",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.8",
+      "status": "app_contract",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "The dispatch snapshot exposes requested ACR preferences and the resolved account. Channel selection and actual authentication assurance remain application-owned.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/application-boundaries-audit-current.txt"
+    },
+    {
+      "id": "CIBA-088",
+      "label": "認証後の承認取得",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.8",
+      "status": "app_contract",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "The gem prevents issuance before explicit approval and checks the completion account. Authenticating the human and obtaining informed consent are application responsibilities, not established by an internal API call.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_unapproved_poll_responses_never_include_tokens"
+        }
+      ],
+      "execution": "docs/validation/application-boundaries-audit-current.txt"
+    },
+    {
+      "id": "CIBA-089",
+      "label": "登録モード以外へ配送しない",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10",
+      "status": "protocol_boundary_verified",
+      "scope": "Registered poll/ping mode and current endpoint at dispatch; no cancellation or distributed cache coherence guarantee",
+      "finding": "Aligned with measured provider9.12.2 HTTP management overlap: retry uses current registered endpoint with saved notification credential, switching to poll rejects retry, and in-flight sends retain their selected destination. Gem barrier tests use real management PUT and passed on SQLite/PostgreSQL/MySQL; token collection succeeds once. HTTPS metadata and existing outbound transport validation remain active.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        },
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_metadata_acceptance_rollback_expiry_and_private_data_cleanup"
+        },
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_management_change_during_send_preserves_destination_and_saved_result"
+        }
+      ],
+      "execution": "docs/validation/ping-current-endpoint-matrix.txt"
+    },
+    {
+      "id": "CIBA-090",
+      "label": "Token Endpoint認証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA protocol transport and registered authentication; deployment and arbitrary method combinations remain separate",
+      "finding": "Token collection without client authentication is rejected without issuing a grant; registered assertion and post authentication succeed. CIBA authentication rejects replayed assertions and inappropriate explicit client identity.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_client_authentication_is_required_at_both_endpoints"
+        }
+      ],
+      "execution": "docs/validation/auth-transport-audit-current.txt"
+    },
+    {
+      "id": "CIBA-091",
+      "label": "クライアントpoll間隔",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "client_only",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "The client must obey the minimum polling interval. Server slow_down enforcement does not prove client compliance.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-092",
+      "label": "long polling",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "reference_unsupported",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Neither the selected node grant handler nor the gem implements a wait-for-result long-poll loop; pending requests return an error. The optional long-poll capability is not claimed.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-093",
+      "label": "OP応答時間",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "app_contract",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Unverified deployment obligation, not a passed timing guarantee. The gem has no hard30-second poll deadline across queues, DB waits and arbitrary hooks. The original catalog already assigns gem+deployment responsibility. docs/operations.md specifies end-to-end timeout budgeting, contention measurement and ambiguous post-commit timeout handling; an integrating service must supply production evidence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md",
+        "docs/operations.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-094",
+      "label": "重複poll禁止",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "client_only",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Clients must not overlap requests for one auth_req_id. Defensive concurrent redemption tests do not prove external client behavior.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-095",
+      "label": "503とRetry-After",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Injected DB lock timeout at acceptance and issuance yields 503 temporarily_unavailable with Retry-After and rolls back pending/grant mutation. This does not establish all production overload behavior.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_lock_timeout_returns_503_with_retry_after_and_rolls_back"
+        }
+      ],
+      "execution": "docs/validation/application-boundaries-audit-current.txt"
+    },
+    {
+      "id": "CIBA-096",
+      "label": "Retry-After遵守",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "client_only",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Respecting Retry-After is a client duty. Emitting the header does not establish client retries.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-097",
+      "label": "pingクライアントのpoll許容",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Ping requests can be polled while pending and after approval; no successful notification receipt is needed to collect a saved result.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-098",
+      "label": "Token POST form",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "A form-encoded POST with non-rewindable Rack input successfully redeems an approved request. This is positive transport evidence, not an exhaustive charset or malformed-media matrix.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_rack_inputs_without_rewind_work_on_both_endpoints"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-099",
+      "label": "Token grant_type必須",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "Missing grant_type fails with invalid_request; successful requests use the exact CIBA grant value. Other OAuth grants retain their upstream dispatch.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_ciba_token_required_parameters_and_error_response_contract"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-100",
+      "label": "Token auth_req_id必須",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "Missing and empty auth_req_id fail with invalid_request; an unissued identifier fails with invalid_grant without token persistence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_ciba_token_required_parameters_and_error_response_contract"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-101",
+      "label": "auth_req_idのクライアント束縛",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "The request lookup binds its digest to the authenticated client. A different authenticated client cannot redeem it or alter the request; wrong account completion and exact expiry also reject issuance.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_other_identity_client_and_expiry_cannot_issue"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-102",
+      "label": "成功Token応答",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "Approved baseline issuance returns access_token, signed issuer/audience-verified ID Token, bearer token type, positive integer lifetime and no-store/no-cache headers. This does not certify every optional claims/resource/sender-binding combination.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_approved_request_issues_customer_id_token_once"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-103",
+      "label": "成功後の一回限り消費",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "Sequential redemption is rejected after success. Ten two-connection races per DB each yield exactly one successful signed response and one invalid_grant, with one grant per request. Arbitrary hooks and distributed adapters are outside this test.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_approved_request_issues_customer_id_token_once"
+        },
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_concurrent_polls_issue_one_grant"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-104",
+      "label": "認証承認前のToken禁止",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1.1",
+      "status": "protocol_boundary_verified",
+      "scope": "baseline poll token exchange on SQLite, PostgreSQL and MySQL; optional combinations audited separately",
+      "finding": "Pending, throttled-pending and denied requests return errors without access_token, id_token or refresh_token and create no OAuth grant. Customer authentication itself is supplied through the application completion boundary.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_pending_poll_updates_survive_json_halt"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_denial_and_expired_completion"
+        },
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_unapproved_poll_responses_never_include_tokens"
+        }
+      ],
+      "execution": "docs/validation/token-exchange-audit-current.txt"
+    },
+    {
+      "id": "CIBA-105",
+      "label": "ping HTTP POST",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Application completion sends POST for approval and denial after commit. Expiry does not require a callback. Transaction rollback sends none.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-106",
+      "label": "ping bearer認証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Outgoing Authorization Bearer contains the request notification token; signed requests cannot be overridden by an outer value.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_with_signed_request_and_user_code_uses_only_signed_notification_token"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-107",
+      "label": "ping payload",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Only auth_req_id is sent as JSON; no tokens or consent payload accompany a ping.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-108",
+      "label": "pingクライアント検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "client_only",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Receiver validation of bearer/auth_req_id association and invalid-bearer401 is outside this OP. Existing sender tests do not establish a production receiver implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-109",
+      "label": "ping応答処理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Ping accepts200/204 based on headers and closes without reading or draining the body. A real peer declaring10MB and withholding it observes immediate closure; installed/reference TLS fixtures accept140,000 ignored bytes. JWKS/sector body limits, TLS verification, address and redirect policies remain in force.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md",
+        "lib/rodauth/ciba/http.rb"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        },
+        {
+          "file": "test/ciba_http_test.rb",
+          "method": "test_header_only_response_closes_without_waiting_for_body"
+        }
+      ],
+      "execution": "docs/validation/ping-response-body-current.txt"
+    },
+    {
+      "id": "CIBA-110",
+      "label": "pingリダイレクト禁止",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Shared HTTP transport issues one request with no redirect handling. Installed TLS smoke rejects302 and sends only on explicit retry; this is not merely a mock assertion.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md",
+        "examples/ping_smoke.rb"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/mtls-remote-installed-final.txt"
+    },
+    {
+      "id": "CIBA-111",
+      "label": "ping後の取得",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2",
+      "status": "client_only",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "The client retrieves tokens after validating a notification. OP tests demonstrate retrieval works, not that every client performs the required validation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-112",
+      "label": "通知Endpoint TLS",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.9",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Ping endpoints require HTTPS; installed smoke uses verified TLS and rejects an untrusted receiver before credentials arrive. Arbitrary deployments remain application-owned.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md",
+        "examples/ping_smoke.rb"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/mtls-remote-installed-final.txt"
+    },
+    {
+      "id": "CIBA-113",
+      "label": "通知Endpoint bearer認証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.9",
+      "status": "protocol_boundary_verified",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Ping sends the saved client_notification_token as Bearer; receiver verification remains a separate client duty.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_ping_test.rb",
+          "method": "test_ping_approval_denial_and_private_delivery_storage"
+        }
+      ],
+      "execution": "docs/validation/ping-audit-current.txt"
+    },
+    {
+      "id": "CIBA-114",
+      "label": "push成功payload",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-115",
+      "label": "push at_hash",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-116",
+      "label": "push auth_req_id claim",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-117",
+      "label": "push rt_hash",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-118",
+      "label": "push受信検証",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "client_only",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "External push Client obligation; neither implementation provides push delivery, and no push client behavior is tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-119",
+      "label": "push応答処理",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-120",
+      "label": "pushリダイレクト禁止",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-121",
+      "label": "push未知パラメータ",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1",
+      "status": "client_only",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "External push Client obligation; neither implementation provides push delivery, and no push client behavior is tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-122",
+      "label": "Tokenエラー形式",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Required-parameter and unknown-request errors are JSON with cache suppression and no error_uri. Early authentication halts now receive no-store/no-cache from the CIBA HTTP boundary.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_ciba_token_required_parameters_and_error_response_contract"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-123",
+      "label": "authorization_pending",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Pending requests return authorization_pending and persist polling timestamps without issuing tokens.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_pending_poll_updates_survive_json_halt"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-124",
+      "label": "slow_down",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "partial",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Repeated early pending polls return slow_down and add five seconds to the saved interval, including concurrent calls. The reference delegates polling control to application policy; identical default throttling behavior is not claimed.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_pending_poll_updates_survive_json_halt"
+        },
+        {
+          "file": "test/ciba_lifecycle_test.rb",
+          "method": "test_concurrent_pending_polls_both_receive_retryable_results"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-125",
+      "label": "expired_token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "An approved request at its exact expiry returns expired_token without issuing a grant.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_other_identity_client_and_expiry_cannot_issue"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-126",
+      "label": "access_denied",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Application denial returns access_denied on poll. This is token retrieval after denial, distinct from pre-interaction HTTP403 policy rejection.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_denial_and_expired_completion"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-127",
+      "label": "invalid_grant",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Unknown request identifiers and identifiers owned by another authenticated client return invalid_grant without issuing tokens or mutating the foreign request.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_other_identity_client_and_expiry_cannot_issue"
+        },
+        {
+          "file": "test/ciba_security_test.rb",
+          "method": "test_ciba_token_required_parameters_and_error_response_contract"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-128",
+      "label": "繰返し過剰pollの拒否",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "reference_unsupported",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Optional terminal invalid_request after repeated fast polling is not implemented by either baseline. Gem continues slow_down with interval increases; node pending handler has no equivalent built-in throttling.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-129",
+      "label": "invalid_request後の停止",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "client_only",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Stopping polls after invalid_request is an external client duty, not an OP feature.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-130",
+      "label": "pushクライアントのToken拒否",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11",
+      "status": "protocol_boundary_verified",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "A client changed to push cannot redeem an existing approved request: unauthorized_client is returned, with the request unchanged and no OAuth grant. Push is also rejected at registration.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_push_client_cannot_redeem_existing_ciba_request"
+        }
+      ],
+      "execution": "docs/validation/push-boundary-audit-current.txt"
+    },
+    {
+      "id": "CIBA-131",
+      "label": "pushエラーJSON",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-132",
+      "label": "push error_description文字集合",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-133",
+      "label": "push access_denied",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-134",
+      "label": "push expired_token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-135",
+      "label": "push transaction_failed",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-136",
+      "label": "開始エラーJSON",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Six rejection/failure paths return JSON with ASCII error codes, no tokens or request identifiers, and cache suppression. Unexpected exceptions do not expose their messages.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_authentication_error_envelopes_do_not_expose_tokens_or_internal_errors"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-137",
+      "label": "error_description文字集合",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Allowed ASCII error descriptions survive; quotes, backslashes, newlines and non-ASCII custom descriptions are omitted.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_authentication_error_description_keeps_allowed_ascii_and_omits_unsafe_text"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-138",
+      "label": "error_uri文字集合",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "partial",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "The tested upstream responses do not emit error_uri. No custom URI injection mechanism or URI-syntax sanitizer is established; the conditional field is absent rather than positively validated.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_authentication_error_description_keeps_allowed_ascii_and_omits_unsafe_text"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-139",
+      "label": "400 invalid_request",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Missing or malformed parameters, duplicate form fields and conflicting hints return HTTP400 invalid_request. Specific optional hint combinations have separate evidence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_duplicate_parameters_are_rejected"
+        },
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-140",
+      "label": "400 invalid_scope",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Missing scope returns invalid_request; present malformed or disallowed scopes return HTTP400 invalid_scope.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_scope_syntax_errors_are_invalid_scope"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-141",
+      "label": "400 expired_login_hint_token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Application expiry errors become HTTP400 expired_login_hint_token; unexpected resolver errors become HTTP500 without pending records or dispatch. The gem does not infer arbitrary token expiry.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_hint_token_test.rb",
+          "method": "test_hint_token_expiry_and_resolver_failure_precede_persistence"
+        }
+      ],
+      "execution": "docs/validation/hint-audit-current.txt"
+    },
+    {
+      "id": "CIBA-142",
+      "label": "400 unknown_user_id",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "A validly shaped but unresolved login_hint returns HTTP400 unknown_user_id before request persistence.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_request_validation_and_unknown_parameters"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-143",
+      "label": "400 unauthorized_client",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "Clients lacking CIBA eligibility return HTTP400 unauthorized_client without creating requests; registered mode and grant changes are checked.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_configuration_test.rb",
+          "method": "test_unavailable_or_unsupported_client_metadata_is_rejected"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-144",
+      "label": "400 missing_user_code",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "Application-declared missing code yields the protocol error before dispatch.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_requires_explicit_callback_and_checks_before_device_dispatch"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-145",
+      "label": "400 invalid_user_code",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "user-code feature enabled unless otherwise stated",
+      "finding": "False/nil validation yields invalid_user_code; malformed input instead fails request validation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/user-code.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_user_code_test.rb",
+          "method": "test_user_code_requires_explicit_callback_and_checks_before_device_dispatch"
+        }
+      ],
+      "execution": "docs/validation/user-code-audit-current.txt"
+    },
+    {
+      "id": "CIBA-146",
+      "label": "400 invalid_binding_message",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "An oversized binding message returns HTTP400 invalid_binding_message before request persistence. Application-specific acceptable message content is separately configurable.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_expiry_binding_context_and_offline_access"
+        }
+      ],
+      "execution": "docs/validation/error-cache-matrix.txt"
+    },
+    {
+      "id": "CIBA-147",
+      "label": "401 invalid_client",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "protocol_boundary_verified",
+      "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
+      "finding": "At both CIBA endpoints, absent client identity returns HTTP400 invalid_request without a challenge; wrong Basic credentials return HTTP401 invalid_client with a Basic challenge. Matches measured reference boundary. Assertion-based identification without client_id remains supported; JWT/mTLS and non-CIBA regression subset passes on three DBs. Does not claim identical precedence for all malformed-input combinations.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/research/error-response-reference-contract.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_authentication_errors_use_invalid_client_and_http_401"
+        },
+        {
+          "file": "test/ciba_integration_test.rb",
+          "method": "test_client_authentication_is_required_at_both_endpoints"
+        }
+      ],
+      "execution": "docs/validation/missing-client-matrix.txt"
+    },
+    {
+      "id": "CIBA-148",
+      "label": "403 access_denied",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
+      "status": "app_contract",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "An explicit application rejection can send HTTP403 access_denied before persistence or device dispatch. The reference supports explicit OIDCProviderError(403), while its default AccessDenied is 400; gem ProtocolError also defaults to 400. Application policy must choose the appropriate status.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_requirements_test.rb",
+          "method": "test_application_can_reject_start_with_explicit_403_before_dispatch"
+        }
+      ],
+      "execution": "docs/validation/application-boundaries-audit-current.txt"
+    },
+    {
+      "id": "CIBA-149",
+      "label": "login_hint_token署名",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "app_contract",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Issuer-signature policy is delegated to the token-format resolver. Existing fixtures use opaque references and do not prove signature validation for a production login_hint_token format.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-150",
+      "label": "通知URLの管理権限",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "app_contract",
+      "scope": "ping enabled; statements shared with push are assessed for ping only",
+      "finding": "Application should establish notification endpoint administrative ownership. HTTPS/IP filtering and immutable destination snapshots are not proof of client ownership; no universal ownership protocol is supplied.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/http.rb",
+        "docs/ping.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-151",
+      "label": "期限切れid_token_hint許容",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "partial",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Expired ID hints are accepted, with optional maximum age from iat. Default unlimited age while keys remain trusted matches the measured reference; deployment-specific reasonable retention has not been established.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_id_token_hint_test.rb",
+          "method": "test_id_hint_retained_keys_audience_array_age_and_account_policy"
+        }
+      ],
+      "execution": "docs/validation/hint-audit-current.txt"
+    },
+    {
+      "id": "CIBA-152",
+      "label": "id_token_hintのissuerとaudience",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "protocol_boundary_verified",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Trusted OP issuer and authenticated-client audience membership are verified before subject resolution; wrong issuer/audience are rejected.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_id_token_hint_test.rb",
+          "method": "test_id_hint_rejects_untrusted_claims_and_signatures_before_subject_resolution"
+        }
+      ],
+      "execution": "docs/validation/hint-audit-current.txt"
+    },
+    {
+      "id": "CIBA-153",
+      "label": "id_token_hint署名",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "protocol_boundary_verified",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Configured asymmetric/Edwards signatures use trusted current or retained OP keys; HMAC issuance and hint verification use the client secret, with no OP-key fallback. Actual issuance/reuse and wrong-key rejection have direct tests. HMAC Basic/POST and hashed/plaintext storage pass three-DB and independent jose checks; installed-gem issuance/refresh/hints and backend secret replacement pass, as do Ruby 3.3/3.4 full suites. DCR generates sufficiently long HS256/384/512 secrets. This verifies the signature boundary, not all deployment rotation policies. Encrypted hints are rejected by both implementations; optional signature-free pairwise acceptance is not required by this catalog guidance.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md",
+        "docs/research/id-token-hint-reference-contract.md",
+        "docs/id-token-encryption.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_id_token_hint_test.rb",
+          "method": "test_id_hint_accepts_actual_op_tokens_with_configured_rsa_ec_and_hmac_keys"
+        },
+        {
+          "file": "test/ciba_edwards_id_token_test.rb",
+          "method": "test_edwards_id_token_issuance_public_keys_and_hints"
+        },
+        {
+          "file": "test/ciba_edwards_id_token_test.rb",
+          "method": "test_edwards_id_token_registration_requires_configured_keys"
+        },
+        {
+          "file": "test/ciba_edwards_id_token_test.rb",
+          "method": "test_edwards_id_token_encryption_does_not_silently_fall_back_to_plaintext"
+        },
+        {
+          "file": "test/ciba_edwards_id_token_test.rb",
+          "method": "test_edwards_id_token_refresh_public_subject"
+        },
+        {
+          "file": "test/ciba_edwards_id_token_test.rb",
+          "method": "test_edwards_id_token_refresh_pairwise_subject"
+        },
+        {
+          "file": "test/ciba_hmac_id_token_test.rb",
+          "method": "test_ciba_hmac_id_tokens_use_authenticated_client_secret"
+        },
+        {
+          "file": "test/ciba_hmac_id_token_test.rb",
+          "method": "test_ciba_hmac_secret_callback_and_missing_secret_rollback"
+        },
+        {
+          "file": "test/ciba_hmac_id_token_test.rb",
+          "method": "test_ciba_hmac_registration_generates_sufficient_client_secret"
+        }
+      ],
+      "execution": "docs/validation/hmac-registration-secret-matrix.txt"
+    },
+    {
+      "id": "CIBA-154",
+      "label": "push Endpoint保護",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "reference_unsupported",
+      "scope": "push mode, unsupported by pinned node 9.12.2 and the gem; poll/ping remain in scope",
+      "finding": "Conditional push behavior is not implemented or advertised. Pinned node 9.12.2 rejects push provider configuration; the gem rejects push registration and request eligibility. This records non-applicability to the shared enabled modes, not a passing push implementation.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "lib/rodauth/ciba/registration.rb",
+        "docs/research/push-reference-boundary.md"
+      ],
+      "test_refs": [],
+      "execution": "docs/validation/node-push-boundary.txt"
+    },
+    {
+      "id": "CIBA-155",
+      "label": "業務コンテキストの追加",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14",
+      "status": "protocol_boundary_verified",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "Opt-in request_context is validated in authenticated client context, stored and dispatched; signed input controls it, poll cannot replace it, and it is excluded from identity claims and observation events. Business meaning remains application-specific.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_request_context_test.rb",
+          "method": "test_request_context_is_validated_stored_and_not_a_token_claim"
+        },
+        {
+          "file": "test/ciba_request_context_test.rb",
+          "method": "test_request_context_signed_input_replaces_outer_context"
+        }
+      ],
+      "execution": "docs/validation/application-boundaries-audit-current.txt"
+    },
+    {
+      "id": "CIBA-156",
+      "label": "プライバシー配慮識別子",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15",
+      "status": "app_contract",
+      "scope": "application/client boundaries and optional polling policies; no production deployment certification",
+      "finding": "App-defined opaque login_hint references and token resolvers support alternatives to global identifiers. Actual unlinkability, identifier lifetime and privacy policy are not guaranteed by accepting an arbitrary string.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/api.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_protocol_test.rb",
+          "method": "test_login_hint_is_application_defined_and_unknown_fields_cannot_set_state"
+        }
+      ],
+      "execution": "docs/validation/application-boundaries-audit-current.txt"
+    },
+    {
+      "id": "CIBA-157",
+      "label": "pairwise ID Token hint",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15",
+      "status": "protocol_boundary_verified",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "Actual signed pairwise ID Token maps through an application resolver to a canonical account and creates a request without saved consent. Arbitrary resolver correctness is not proven.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [
+        {
+          "file": "test/ciba_pairwise_test.rb",
+          "method": "test_pairwise_jwt_access_token_userinfo_and_hint"
+        }
+      ],
+      "execution": "docs/validation/pairwise-hint-audit.txt"
+    },
+    {
+      "id": "CIBA-158",
+      "label": "一回限り識別子hint token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15",
+      "status": "app_contract",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "The optional AD-to-CD one-use reference protocol is not implemented. A resolver hook can integrate it; its existence does not prove atomic single-use handling or privacy properties.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    },
+    {
+      "id": "CIBA-159",
+      "label": "Discovery Service hint token",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15",
+      "status": "app_contract",
+      "scope": "optional hint mechanisms enabled where applicable",
+      "finding": "The optional discovery-service encrypted login_hint_token format is not implemented. Decryption and issuer/audience policy belong to an application resolver; no complete deployment has been tested.",
+      "code_refs": [
+        "lib/rodauth/features/ciba.rb",
+        "docs/login-hint-token.md",
+        "docs/id-token-hint.md"
+      ],
+      "test_refs": [],
+      "execution": null
+    }
+  ],
+  "pending_ids": []
+}

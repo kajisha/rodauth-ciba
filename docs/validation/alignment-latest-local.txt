@@ -1,0 +1,298 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 55222
+
+# Running:
+
+....................E....E..............E.................................................................E......SE........................................E......................................E....E..E...E.......E..........EE.........E......E......E..................................................................S................................................E...........E.
+
+Finished in 127.137110s, 2.9889 runs/s, 72.3392 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_ecdh_real_cache_expiry_okp:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_ecdh_remote_test.rb:30:in 'CibaIntegrationTest#assert_ecdh_remote_flow'
+    test/ciba_ecdh_remote_test.rb:26:in 'CibaIntegrationTest#test_ecdh_real_cache_expiry_okp'
+
+  2) Error:
+CibaIntegrationTest#test_symmetric_encryption_retains_remote_client_authentication:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_encryption_remote_test.rb:31:in 'CibaIntegrationTest#test_symmetric_encryption_retains_remote_client_authentication'
+
+  3) Error:
+CibaIntegrationTest#test_encryption_recipient_remote_failures_opaque:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_encryption_remote_test.rb:79:in 'CibaIntegrationTest#assert_encryption_remote_failures'
+    test/ciba_encryption_remote_test.rb:71:in 'CibaIntegrationTest#test_encryption_recipient_remote_failures_opaque'
+
+  4) Error:
+CibaIntegrationTest#test_signed_request_remote_jwks_failures_never_create_pending_requests:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_remote_jwks_test.rb:51:in 'CibaIntegrationTest#test_signed_request_remote_jwks_failures_never_create_pending_requests'
+
+  5) Error:
+CibaIntegrationTest#test_encryption_recipient_remote_failures_jwt:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_encryption_remote_test.rb:79:in 'CibaIntegrationTest#assert_encryption_remote_failures'
+    test/ciba_encryption_remote_test.rb:75:in 'CibaIntegrationTest#test_encryption_recipient_remote_failures_jwt'
+
+  6) Error:
+CibaIntegrationTest#test_ciba_mtls_remote_certificate_rotation_and_failure:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_mtls_remote_test.rb:7:in 'CibaIntegrationTest#test_ciba_mtls_remote_certificate_rotation_and_failure'
+
+  7) Error:
+CibaIntegrationTest#test_signed_request_remote_jwks_default_denial_and_response_limit:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_remote_jwks_test.rb:70:in 'CibaIntegrationTest#test_signed_request_remote_jwks_default_denial_and_response_limit'
+
+  8) Error:
+CibaIntegrationTest#test_symmetric_encryption_does_not_fetch_unrelated_jwks:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_encryption_remote_test.rb:8:in 'CibaIntegrationTest#test_symmetric_encryption_does_not_fetch_unrelated_jwks'
+
+  9) Error:
+CibaIntegrationTest#test_signed_request_remote_jwks_rotation_cache_and_untrusted_header_url:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_remote_jwks_test.rb:32:in 'CibaIntegrationTest#test_signed_request_remote_jwks_rotation_cache_and_untrusted_header_url'
+
+ 10) Error:
+CibaIntegrationTest#test_ecdh_remote_okp_jwt:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_ecdh_remote_test.rb:30:in 'CibaIntegrationTest#assert_ecdh_remote_flow'
+    test/ciba_ecdh_remote_test.rb:18:in 'CibaIntegrationTest#test_ecdh_remote_okp_jwt'
+
+ 11) Error:
+CibaIntegrationTest#test_ecdh_remote_ec_opaque:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_ecdh_remote_test.rb:30:in 'CibaIntegrationTest#assert_ecdh_remote_flow'
+    test/ciba_ecdh_remote_test.rb:6:in 'CibaIntegrationTest#test_ecdh_remote_ec_opaque'
+
+ 12) Error:
+CibaIntegrationTest#test_registered_remote_assertion_keys_obey_outbound_policy_and_uri_replacement:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_registration_remote_test.rb:14:in 'CibaIntegrationTest#test_registered_remote_assertion_keys_obey_outbound_policy_and_uri_replacement'
+
+ 13) Error:
+CibaIntegrationTest#test_ecdh_remote_okp_opaque:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_ecdh_remote_test.rb:30:in 'CibaIntegrationTest#assert_ecdh_remote_flow'
+    test/ciba_ecdh_remote_test.rb:14:in 'CibaIntegrationTest#test_ecdh_remote_okp_opaque'
+
+ 14) Error:
+CibaIntegrationTest#test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_edwards_auth_remote_test.rb:6:in 'CibaIntegrationTest#test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant'
+
+ 15) Error:
+CibaIntegrationTest#test_ecdh_remote_ec_jwt:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_ecdh_remote_test.rb:30:in 'CibaIntegrationTest#assert_ecdh_remote_flow'
+    test/ciba_ecdh_remote_test.rb:10:in 'CibaIntegrationTest#test_ecdh_remote_ec_jwt'
+
+ 16) Error:
+CibaIntegrationTest#test_ecdh_real_cache_expiry_ec:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_ecdh_remote_test.rb:30:in 'CibaIntegrationTest#assert_ecdh_remote_flow'
+    test/ciba_ecdh_remote_test.rb:22:in 'CibaIntegrationTest#test_ecdh_real_cache_expiry_ec'
+
+ 17) Error:
+CibaIntegrationTest#test_node_generated_edwards_vectors_with_remote_keys:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_edwards_request_test.rb:13:in 'CibaIntegrationTest#test_node_generated_edwards_vectors_with_remote_keys'
+
+ 18) Error:
+CibaHTTPTest#test_header_only_response_closes_without_waiting_for_body:
+Errno::EPERM: Operation not permitted - bind(2) for "127.0.0.1" port 0
+    test/ciba_http_test.rb:45:in 'TCPServer#initialize'
+    test/ciba_http_test.rb:45:in 'IO.new'
+    test/ciba_http_test.rb:45:in 'CibaHTTPTest#test_header_only_response_closes_without_waiting_for_body'
+
+380 runs, 9197 assertions, 0 failures, 18 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.

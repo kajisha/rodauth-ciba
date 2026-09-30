@@ -1,0 +1,15 @@
+Run options: --name /registered_remote_assertion/ --seed 38525
+
+# Running:
+
+F
+
+Finished in 0.237762s, 4.2059 runs/s, 8.4118 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_registered_remote_assertion_keys_obey_outbound_policy_and_uri_replacement [test/ciba_registration_remote_test.rb:43]:
+{"auth_req_id":"Ca5eKe3gM3K4H1DTt0O4iX4_d5jSGC9usLbshI01_Rc","expires_in":300,"interval":5}.
+Expected: 401
+  Actual: 200
+
+1 runs, 2 assertions, 1 failures, 0 errors, 0 skips

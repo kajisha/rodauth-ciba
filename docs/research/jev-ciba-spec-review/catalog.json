@@ -1,0 +1,1115 @@
+[
+  {
+    "id": "CIBA-001",
+    "section": "4",
+    "label": "CIBA grant識別子",
+    "requirement": "Use urn:openid:params:grant-type:ciba as the CIBA extension grant identifier.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-002",
+    "section": "4",
+    "label": "Discoveryの対応モード",
+    "requirement": "Publish required backchannel_token_delivery_modes_supported as an array of actually supported poll/ping/push modes.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-003",
+    "section": "4",
+    "label": "Discoveryの開始URL",
+    "requirement": "Publish required backchannel_authentication_endpoint as the actual Backchannel Endpoint URL.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-004",
+    "section": "4",
+    "label": "署名要求の対応表明",
+    "requirement": "Only advertise backchannel_authentication_request_signing_alg_values_supported when signed requests are supported; omission means unsupported.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-005",
+    "section": "4",
+    "label": "user_codeの対応表明",
+    "requirement": "Publish user_code support truthfully; absent backchannel_user_code_parameter_supported defaults to false.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-006",
+    "section": "4",
+    "label": "Discoveryのgrant_types",
+    "requirement": "Include the CIBA grant in grant_types_supported when supporting poll or ping.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-007",
+    "section": "4",
+    "label": "認証方式メタデータの共有",
+    "requirement": "Backchannel authentication methods match token_endpoint_auth_methods_supported.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-008",
+    "section": "4",
+    "label": "認証署名アルゴリズムの共有",
+    "requirement": "When applicable Backchannel authentication signing algorithms match token_endpoint_auth_signing_alg_values_supported.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-009",
+    "section": "4",
+    "label": "登録済み配送モード",
+    "requirement": "Require a registered single backchannel_token_delivery_mode from poll/ping/push for a CIBA client.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-010",
+    "section": "4",
+    "label": "CIBA grantのクライアント登録",
+    "requirement": "Poll/ping clients register the CIBA grant in grant_types; enforce eligibility before accepting their requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-011",
+    "section": "4",
+    "label": "通知URL登録",
+    "requirement": "Ping/push clients register an HTTPS backchannel_client_notification_endpoint.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-012",
+    "section": "4",
+    "label": "署名要求アルゴリズム登録",
+    "requirement": "Clients intending signed authentication requests register the signature algorithm; omission means unsigned requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-013",
+    "section": "4",
+    "label": "user_codeクライアント設定",
+    "requirement": "Respect backchannel_user_code_parameter only when OP user_code support is enabled; omitted value defaults false.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-014",
+    "section": "4",
+    "label": "登録された認証方式",
+    "requirement": "Use each client's registered token_endpoint_auth_method for both Backchannel and Token endpoints.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-015",
+    "section": "4",
+    "label": "pairwise sector算出",
+    "requirement": "For poll/ping pairwise subjects use jwks_uri or sector_identifier_uri instead of redirect_uri to determine sector.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-016",
+    "section": "4",
+    "label": "pairwise DCR検証",
+    "requirement": "For pairwise poll/ping dynamic registration validate jwks_uri and its inclusion in an explicit sector_identifier_uri document.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-017",
+    "section": "4",
+    "label": "pairwise鍵所有証明",
+    "requirement": "For pairwise poll/ping require proof of possession of key material associated with jwks_uri through signed requests or the specified asymmetric client authentication.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-018",
+    "section": "4",
+    "label": "push pairwise sector",
+    "requirement": "Use notification endpoint host for push pairwise sector and check membership when explicit sector_identifier_uri is supplied.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.4"
+  },
+  {
+    "id": "CIBA-019",
+    "section": "5",
+    "label": "poll配送",
+    "requirement": "Make authentication results available through the token endpoint in poll mode.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5"
+  },
+  {
+    "id": "CIBA-020",
+    "section": "5",
+    "label": "ping配送",
+    "requirement": "Notify the client then make the result available at the token endpoint in ping mode.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5"
+  },
+  {
+    "id": "CIBA-021",
+    "section": "5",
+    "label": "push配送",
+    "requirement": "Deliver the complete authentication result directly to the notification endpoint in push mode.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5"
+  },
+  {
+    "id": "CIBA-022",
+    "section": "5",
+    "label": "push sender-constrained token",
+    "requirement": "If supporting sender-constrained tokens in push, record Backchannel key material and bind issued tokens to it.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.5"
+  },
+  {
+    "id": "CIBA-023",
+    "section": "7",
+    "label": "開始APIのTLS",
+    "requirement": "Require TLS for Backchannel Authentication Endpoint communication.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7"
+  },
+  {
+    "id": "CIBA-024",
+    "section": "7.1",
+    "label": "開始APIのPOSTとform",
+    "requirement": "Accept authentication requests as HTTP POST application/x-www-form-urlencoded UTF-8 bodies.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-025",
+    "section": "7.1",
+    "label": "開始APIのクライアント認証",
+    "requirement": "Authenticate the client at Backchannel using its registered authentication method.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-026",
+    "section": "7.1",
+    "label": "JWT audienceのissuer受理",
+    "requirement": "At Backchannel accept OP issuer identifier as the audience of JWT client assertions.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-027",
+    "section": "7.1",
+    "label": "JWT audienceのToken URL受理",
+    "requirement": "At Backchannel accept Token Endpoint URL as the audience of JWT client assertions.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-028",
+    "section": "7.1",
+    "label": "JWT audienceのBackchannel URL受理",
+    "requirement": "At Backchannel accept Backchannel Endpoint URL as the audience of JWT client assertions.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-029",
+    "section": "7.1",
+    "label": "JWT audienceのissuer推奨",
+    "requirement": "Client should use the OP issuer identifier for JWT assertion audience at Backchannel.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-030",
+    "section": "7.1",
+    "label": "scope必須",
+    "requirement": "Require scope in a CIBA authentication request.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-031",
+    "section": "7.1",
+    "label": "openid scope",
+    "requirement": "Require the openid scope for the OpenID CIBA flow.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-032",
+    "section": "7.1",
+    "label": "追加scope",
+    "requirement": "Allow authorized additional scopes such as profile/email/address/phone without treating openid as the only possible scope.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-033",
+    "section": "7.1",
+    "label": "通知トークン必須条件",
+    "requirement": "Require client_notification_token for ping/push.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-034",
+    "section": "7.1",
+    "label": "通知トークンの長さと構文",
+    "requirement": "Validate client_notification_token max 1024 characters and bearer credential syntax.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-035",
+    "section": "7.1",
+    "label": "通知トークンentropy",
+    "requirement": "Client ensures at least 128 bits entropy for client_notification_token, with 160 recommended.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-036",
+    "section": "7.1",
+    "label": "acr_values受理",
+    "requirement": "Accept requested space-separated acr_values and preserve preference order for authentication selection.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-037",
+    "section": "7.1",
+    "label": "達成したacrの返却",
+    "requirement": "Report the authentication context actually achieved as acr in the ID Token; acr is highly recommended when acr_values was requested.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-038",
+    "section": "7.1",
+    "label": "login_hint_token",
+    "requirement": "Support user identification via login_hint_token according to deployment-specific token format and validation policy.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-039",
+    "section": "7.1",
+    "label": "id_token_hint",
+    "requirement": "Support user identification using an ID Token previously issued by the OP.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-040",
+    "section": "7.1",
+    "label": "暗号化id_token_hintの復号",
+    "requirement": "Client decrypts an asymmetrically encrypted ID Token before supplying it as id_token_hint.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-041",
+    "section": "7.1",
+    "label": "login_hint",
+    "requirement": "Support a login_hint string as a user identifier without requiring it to be an email address.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-042",
+    "section": "7.1",
+    "label": "binding_messageの受理と引継ぎ",
+    "requirement": "Accept binding_message and make it available for display on both consumption and authentication devices.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-043",
+    "section": "7.1",
+    "label": "binding_messageの関連付け",
+    "requirement": "Client chooses binding_message that lets the end-user correlate the initiating action and authentication device interaction.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-044",
+    "section": "7.1",
+    "label": "binding_messageの表示適性",
+    "requirement": "Keep binding_message relatively short with a limited set of plain-text characters suitable for display.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-045",
+    "section": "7.1",
+    "label": "user_code",
+    "requirement": "Support optional user_code validation when the OP/client has enabled it.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-046",
+    "section": "7.1",
+    "label": "requested_expiry構文",
+    "requirement": "Accept optional requested_expiry as a positive integer.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-047",
+    "section": "7.1",
+    "label": "requested_expiryの採用",
+    "requirement": "OP may use requested_expiry to influence the request lifetime; evaluate the implementation of this optional capability, not a mandatory obligation to honor it exactly.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-048",
+    "section": "7.1",
+    "label": "hintはちょうど一つ",
+    "requirement": "Require exactly one of login_hint, login_hint_token, id_token_hint in an authentication request.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1"
+  },
+  {
+    "id": "CIBA-049",
+    "section": "7.1.1",
+    "label": "署名要求のJWT形式",
+    "requirement": "Support signed authentication requests carried in the request parameter as a signed JWT containing all authentication parameters.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-050",
+    "section": "7.1.1",
+    "label": "署名要求の非対称署名",
+    "requirement": "Validate asymmetric signature for signed authentication requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-051",
+    "section": "7.1.1",
+    "label": "署名要求のaud",
+    "requirement": "Validate signed request aud as the OP issuer.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-052",
+    "section": "7.1.1",
+    "label": "署名要求のiss",
+    "requirement": "Validate signed request iss as the client_id.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-053",
+    "section": "7.1.1",
+    "label": "署名要求のexp",
+    "requirement": "Require and validate exp on signed authentication requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-054",
+    "section": "7.1.1",
+    "label": "署名要求のiat",
+    "requirement": "Require and validate iat on signed authentication requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-055",
+    "section": "7.1.1",
+    "label": "署名要求のnbf",
+    "requirement": "Require and validate nbf on signed authentication requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-056",
+    "section": "7.1.1",
+    "label": "署名要求のjti",
+    "requirement": "Require a unique jti on signed authentication requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-057",
+    "section": "7.1.1",
+    "label": "署名要求のrequested_expiry型",
+    "requirement": "Accept requested_expiry as either JSON string or number inside signed authentication requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-058",
+    "section": "7.1.1",
+    "label": "署名要求の内外混在禁止",
+    "requirement": "Do not allow authentication request parameters outside a signed request JWT; separate client authentication parameters remain outside.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-059",
+    "section": "7.1.1",
+    "label": "暗号化要求非対応",
+    "requirement": "Do not treat encrypted JWT authentication requests as a supported signed-request format.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.1"
+  },
+  {
+    "id": "CIBA-060",
+    "section": "7.1.2",
+    "label": "user_codeはOPパスワードと別",
+    "requirement": "If user_code is supported, use a code distinct from the user's OP password.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2"
+  },
+  {
+    "id": "CIBA-061",
+    "section": "7.1.2",
+    "label": "user_codeの例外ポリシー",
+    "requirement": "If user_code is supported, allow policy for clients/users without it as permitted by the specification.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2"
+  },
+  {
+    "id": "CIBA-062",
+    "section": "7.1.2",
+    "label": "user_codeの都度入力",
+    "requirement": "Client must not store user_code and requests it for each CIBA flow.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2"
+  },
+  {
+    "id": "CIBA-063",
+    "section": "7.1.2",
+    "label": "user_code変更手段",
+    "requirement": "If user_code is supported, OP should provide a way for users to change it.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.1.2"
+  },
+  {
+    "id": "CIBA-064",
+    "section": "7.2",
+    "label": "登録方式による認証検証",
+    "requirement": "Validate client authentication using the registered/configured method before accepting an authentication request.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-065",
+    "section": "7.2",
+    "label": "公開鍵認証の推奨",
+    "requirement": "Support the recommended public-key client authentication alternative to sending shared secrets in requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-066",
+    "section": "7.2",
+    "label": "署名要求検証",
+    "requirement": "If signed requests are supported, validate JWT signature and all other applicable JWT validity constraints.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-067",
+    "section": "7.2",
+    "label": "認証要求パラメータ検証",
+    "requirement": "Validate all authentication request parameters within the supported feature scope.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-068",
+    "section": "7.2",
+    "label": "複数hintのエラー",
+    "requirement": "Return invalid_request when multiple hints are provided.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-069",
+    "section": "7.2",
+    "label": "hintとユーザーの検証",
+    "requirement": "Process a supported hint to establish its validity and identify an eligible user before request acceptance.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-070",
+    "section": "7.2",
+    "label": "hintポリシーの伝達",
+    "requirement": "Communicate accepted hint types and where applicable issuer/max-age policy to clients.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-071",
+    "section": "7.2",
+    "label": "不正または不明hintのエラー",
+    "requirement": "Return an appropriate Authentication Error Response for an invalid hint or unidentified user.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-072",
+    "section": "7.2",
+    "label": "必須パラメータ検証",
+    "requirement": "Verify required parameters are present and used according to their requirements.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-073",
+    "section": "7.2",
+    "label": "未知パラメータの無視",
+    "requirement": "Ignore unrecognized authentication request parameters.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-074",
+    "section": "7.2",
+    "label": "開始エラーの形式",
+    "requirement": "Return Authentication Error Responses per section 13 when authentication request validation fails.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.2"
+  },
+  {
+    "id": "CIBA-075",
+    "section": "7.3",
+    "label": "受付成功HTTP 200",
+    "requirement": "Return HTTP 200 acknowledgement after validating and accepting an authentication request.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-076",
+    "section": "7.3",
+    "label": "auth_req_id必須と一意性",
+    "requirement": "Return a unique auth_req_id in the acknowledgement.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-077",
+    "section": "7.3",
+    "label": "auth_req_id entropy",
+    "requirement": "Generate auth_req_id with at least 128 bits entropy, preferably at least 160 bits.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-078",
+    "section": "7.3",
+    "label": "auth_req_id文字集合",
+    "requirement": "Restrict auth_req_id to A-Z a-z 0-9 dot hyphen underscore.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-079",
+    "section": "7.3",
+    "label": "auth_req_idのopaque扱い",
+    "requirement": "Client treats auth_req_id as opaque.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-080",
+    "section": "7.3",
+    "label": "expires_in",
+    "requirement": "Return expires_in as a positive integer JSON number measuring request lifetime in seconds from receipt.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-081",
+    "section": "7.3",
+    "label": "interval",
+    "requirement": "If provided for poll/ping, return interval as a positive integer JSON number in seconds.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-082",
+    "section": "7.3",
+    "label": "interval既定値",
+    "requirement": "Client uses five seconds when interval is omitted.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-083",
+    "section": "7.3",
+    "label": "未知応答パラメータ",
+    "requirement": "Client ignores unrecognized acknowledgement response parameters.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.3"
+  },
+  {
+    "id": "CIBA-084",
+    "section": "7.4",
+    "label": "受付応答の必須項目確認",
+    "requirement": "Client validates required acknowledgement parameters on HTTP 200.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.4"
+  },
+  {
+    "id": "CIBA-085",
+    "section": "7.4",
+    "label": "auth_req_id保持",
+    "requirement": "Client retains auth_req_id for subsequent polling or callback validation.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.4"
+  },
+  {
+    "id": "CIBA-086",
+    "section": "7.4",
+    "label": "クライアント期限管理",
+    "requirement": "Client should retain expiry for cleanup of requests awaiting callback.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.7.4"
+  },
+  {
+    "id": "CIBA-087",
+    "section": "8",
+    "label": "認証チャネルとacrの選択",
+    "requirement": "OP identifies user and chooses an authentication channel considering acr_values; evaluate gem/application responsibility separately.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.8"
+  },
+  {
+    "id": "CIBA-088",
+    "section": "8",
+    "label": "認証後の承認取得",
+    "requirement": "Before successful token issuance, obtain the authenticated end-user's authorization decision per OIDC Core 3.1.2.4.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.8"
+  },
+  {
+    "id": "CIBA-089",
+    "section": "10",
+    "label": "登録モード以外へ配送しない",
+    "requirement": "Deliver authentication result only through the client's single registered delivery mode.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10"
+  },
+  {
+    "id": "CIBA-090",
+    "section": "10.1",
+    "label": "Token Endpoint認証",
+    "requirement": "Require registered client authentication for CIBA token requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-091",
+    "section": "10.1",
+    "label": "クライアントpoll間隔",
+    "requirement": "Client must not poll more frequently than the OP's minimum interval.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-092",
+    "section": "10.1",
+    "label": "long polling",
+    "requirement": "Optionally support long polling with a recommended timeout of 30 seconds.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-093",
+    "section": "10.1",
+    "label": "OP応答時間",
+    "requirement": "OP should not take more than 30 seconds to respond to polling requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-094",
+    "section": "10.1",
+    "label": "重複poll禁止",
+    "requirement": "Client must not send overlapping requests using the same auth_req_id.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-095",
+    "section": "10.1",
+    "label": "503とRetry-After",
+    "requirement": "OP may return HTTP 503 with Retry-After under load; evaluate this optional behavior.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-096",
+    "section": "10.1",
+    "label": "Retry-After遵守",
+    "requirement": "Client should respect Retry-After before retrying a token request.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-097",
+    "section": "10.1",
+    "label": "pingクライアントのpoll許容",
+    "requirement": "Treat a ping client that polls the token endpoint as a poll client.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-098",
+    "section": "10.1",
+    "label": "Token POST form",
+    "requirement": "Accept CIBA token requests as HTTP POST form-urlencoded UTF-8 bodies.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-099",
+    "section": "10.1",
+    "label": "Token grant_type必須",
+    "requirement": "Require exact CIBA grant_type in token requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-100",
+    "section": "10.1",
+    "label": "Token auth_req_id必須",
+    "requirement": "Require auth_req_id in token requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-101",
+    "section": "10.1",
+    "label": "auth_req_idのクライアント束縛",
+    "requirement": "Verify auth_req_id was issued to the authenticated requesting client; reject mismatch.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1"
+  },
+  {
+    "id": "CIBA-102",
+    "section": "10.1.1",
+    "label": "成功Token応答",
+    "requirement": "After customer authentication and authorization, return the successful token response specified by OIDC Core 3.1.3.3 (access_token, token_type, id_token and applicable lifetime fields).",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1.1"
+  },
+  {
+    "id": "CIBA-103",
+    "section": "10.1.1",
+    "label": "成功後の一回限り消費",
+    "requirement": "Invalidate auth_req_id after a successful redemption, including concurrent requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1.1"
+  },
+  {
+    "id": "CIBA-104",
+    "section": "10.1.1",
+    "label": "認証承認前のToken禁止",
+    "requirement": "Return a token error instead of tokens when customer authentication/authorization has not succeeded.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.1.1"
+  },
+  {
+    "id": "CIBA-105",
+    "section": "10.2",
+    "label": "ping HTTP POST",
+    "requirement": "After successful or failed authentication send ping callback as HTTP POST to the registered notification endpoint.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-106",
+    "section": "10.2",
+    "label": "ping bearer認証",
+    "requirement": "Send client_notification_token as Authorization Bearer in ping callbacks.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-107",
+    "section": "10.2",
+    "label": "ping payload",
+    "requirement": "Send only auth_req_id as the ping JSON body.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-108",
+    "section": "10.2",
+    "label": "pingクライアント検証",
+    "requirement": "Client verifies notification token and its association with auth_req_id; invalid bearer should yield HTTP 401.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-109",
+    "section": "10.2",
+    "label": "ping応答処理",
+    "requirement": "Accept callback HTTP 204 and also HTTP 200, ignoring response bodies.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-110",
+    "section": "10.2",
+    "label": "pingリダイレクト禁止",
+    "requirement": "OP must not follow ping callback redirects.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-111",
+    "section": "10.2",
+    "label": "ping後の取得",
+    "requirement": "After verifying notification, client retrieves tokens at token endpoint.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.2"
+  },
+  {
+    "id": "CIBA-112",
+    "section": "9",
+    "label": "通知Endpoint TLS",
+    "requirement": "Require HTTPS notification URLs and TLS communication for ping/push.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.9"
+  },
+  {
+    "id": "CIBA-113",
+    "section": "9",
+    "label": "通知Endpoint bearer認証",
+    "requirement": "Authenticate notification requests using the client's client_notification_token.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.9"
+  },
+  {
+    "id": "CIBA-114",
+    "section": "10.3.1",
+    "label": "push成功payload",
+    "requirement": "Send ID Token/access token/optional refresh token/auth_req_id as JSON to registered notification endpoint after authorization.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-115",
+    "section": "10.3.1",
+    "label": "push at_hash",
+    "requirement": "Include access-token hash at_hash in push ID Token.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-116",
+    "section": "10.3.1",
+    "label": "push auth_req_id claim",
+    "requirement": "Include urn:openid:params:jwt:claim:auth_req_id in push ID Token.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-117",
+    "section": "10.3.1",
+    "label": "push rt_hash",
+    "requirement": "When pushing refresh token, include urn:openid:params:jwt:claim:rt_hash calculated like at_hash.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-118",
+    "section": "10.3.1",
+    "label": "push受信検証",
+    "requirement": "Client validates bearer token, ID Token and correspondence of auth_req_id/access-token hash/refresh-token hash.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-119",
+    "section": "10.3.1",
+    "label": "push応答処理",
+    "requirement": "OP accepts HTTP 204 and HTTP 200 callback responses and ignores their bodies.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-120",
+    "section": "10.3.1",
+    "label": "pushリダイレクト禁止",
+    "requirement": "OP must not follow push callback redirects.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-121",
+    "section": "10.3.1",
+    "label": "push未知パラメータ",
+    "requirement": "Client ignores unrecognized push request parameters.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.10.3.1"
+  },
+  {
+    "id": "CIBA-122",
+    "section": "11",
+    "label": "Tokenエラー形式",
+    "requirement": "Return invalid/unauthorized token request errors according to OIDC Core 3.1.3.4 and RFC6749 5.2.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-123",
+    "section": "11",
+    "label": "authorization_pending",
+    "requirement": "Return authorization_pending while authentication/authorization is pending.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-124",
+    "section": "11",
+    "label": "slow_down",
+    "requirement": "For too-fast pending polling return slow_down and increase interval by at least five seconds for subsequent requests.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-125",
+    "section": "11",
+    "label": "expired_token",
+    "requirement": "Return expired_token when auth_req_id has expired.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-126",
+    "section": "11",
+    "label": "access_denied",
+    "requirement": "Return access_denied when end-user denied authorization.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-127",
+    "section": "11",
+    "label": "invalid_grant",
+    "requirement": "Return invalid_grant for invalid auth_req_id or one issued to a different client.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-128",
+    "section": "11",
+    "label": "繰返し過剰pollの拒否",
+    "requirement": "OP may return invalid_request for continued too-fast polling; evaluate optional capability.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-129",
+    "section": "11",
+    "label": "invalid_request後の停止",
+    "requirement": "Client must stop requesting the same auth_req_id after invalid_request.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-130",
+    "section": "11",
+    "label": "pushクライアントのToken拒否",
+    "requirement": "Reject CIBA token requests by a client configured for push with unauthorized_client.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.11"
+  },
+  {
+    "id": "CIBA-131",
+    "section": "12",
+    "label": "pushエラーJSON",
+    "requirement": "Deliver push errors as application/json with required error and auth_req_id.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12"
+  },
+  {
+    "id": "CIBA-132",
+    "section": "12",
+    "label": "push error_description文字集合",
+    "requirement": "If push error_description is supplied, limit it to the specified ASCII character ranges.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12"
+  },
+  {
+    "id": "CIBA-133",
+    "section": "12",
+    "label": "push access_denied",
+    "requirement": "Deliver access_denied push error when end-user refuses authorization.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12"
+  },
+  {
+    "id": "CIBA-134",
+    "section": "12",
+    "label": "push expired_token",
+    "requirement": "Optionally deliver expired_token push error when authentication request expires.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12"
+  },
+  {
+    "id": "CIBA-135",
+    "section": "12",
+    "label": "push transaction_failed",
+    "requirement": "Deliver transaction_failed for unexpected unsuccessful push transactions.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.12"
+  },
+  {
+    "id": "CIBA-136",
+    "section": "13",
+    "label": "開始エラーJSON",
+    "requirement": "Return authentication errors with application/json and a required ASCII error code.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-137",
+    "section": "13",
+    "label": "error_description文字集合",
+    "requirement": "If authentication error_description is emitted, enforce the specified ASCII ranges.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-138",
+    "section": "13",
+    "label": "error_uri文字集合",
+    "requirement": "If error_uri is emitted, enforce URI-reference syntax and specified ASCII ranges.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-139",
+    "section": "13",
+    "label": "400 invalid_request",
+    "requirement": "Use HTTP 400 invalid_request for missing/invalid/repeated parameters and multiple hints.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-140",
+    "section": "13",
+    "label": "400 invalid_scope",
+    "requirement": "Use HTTP 400 invalid_scope for malformed, unknown or invalid scope.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-141",
+    "section": "13",
+    "label": "400 expired_login_hint_token",
+    "requirement": "Use HTTP 400 expired_login_hint_token for an expired login_hint_token when supported.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-142",
+    "section": "13",
+    "label": "400 unknown_user_id",
+    "requirement": "Use HTTP 400 unknown_user_id when supported hints cannot identify the intended user.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-143",
+    "section": "13",
+    "label": "400 unauthorized_client",
+    "requirement": "Use HTTP 400 unauthorized_client when a client is not allowed to use CIBA.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-144",
+    "section": "13",
+    "label": "400 missing_user_code",
+    "requirement": "Use HTTP 400 missing_user_code when required user_code is absent.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-145",
+    "section": "13",
+    "label": "400 invalid_user_code",
+    "requirement": "Use HTTP 400 invalid_user_code for invalid supplied user_code when supported.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-146",
+    "section": "13",
+    "label": "400 invalid_binding_message",
+    "requirement": "Use HTTP 400 invalid_binding_message for an unacceptable binding message.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-147",
+    "section": "13",
+    "label": "401 invalid_client",
+    "requirement": "Use HTTP 401 invalid_client for failed, absent or unsupported client authentication.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-148",
+    "section": "13",
+    "label": "403 access_denied",
+    "requirement": "When OP/resource-owner policy denies an authentication request before user interaction, return HTTP 403 access_denied.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13"
+  },
+  {
+    "id": "CIBA-149",
+    "section": "14",
+    "label": "login_hint_token署名",
+    "requirement": "When supporting login_hint_token, it should be digitally signed by its issuer.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-150",
+    "section": "14",
+    "label": "通知URLの管理権限",
+    "requirement": "OP should ensure registered notification endpoint is under the client's administrative authority.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-151",
+    "section": "14",
+    "label": "期限切れid_token_hint許容",
+    "requirement": "When supporting id_token_hint, accept expired ID Tokens for a reasonable period under the specified contextual validation policy.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-152",
+    "section": "14",
+    "label": "id_token_hintのissuerとaudience",
+    "requirement": "When supporting id_token_hint, verify OP issuer and that presenting client is listed in audience.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-153",
+    "section": "14",
+    "label": "id_token_hint署名",
+    "requirement": "When supporting id_token_hint, verify signature subject to the key rotation/pairwise alternatives discussed in section 14.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-154",
+    "section": "14",
+    "label": "push Endpoint保護",
+    "requirement": "For push, secure notification endpoint and its registration and consider sender-constrained tokens.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-155",
+    "section": "14",
+    "label": "業務コンテキストの追加",
+    "requirement": "Additional RP session context metadata may be conveyed by deployment-specific means; CIBA specifies no mandatory transport for it.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.14"
+  },
+  {
+    "id": "CIBA-156",
+    "section": "15",
+    "label": "プライバシー配慮識別子",
+    "requirement": "Permit alternatives to global static identifiers; evaluate gem ability to use an app-defined privacy-preserving login_hint and boundaries of unsupported hint tokens.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15"
+  },
+  {
+    "id": "CIBA-157",
+    "section": "15",
+    "label": "pairwise ID Token hint",
+    "requirement": "Support the described privacy option of using a previously issued pairwise ID Token without personal data as id_token_hint.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15"
+  },
+  {
+    "id": "CIBA-158",
+    "section": "15",
+    "label": "一回限り識別子hint token",
+    "requirement": "Support the described optional AD-to-CD single-use identifier carried in login_hint_token.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15"
+  },
+  {
+    "id": "CIBA-159",
+    "section": "15",
+    "label": "Discovery Service hint token",
+    "requirement": "Support the described optional discovery-service encrypted login_hint_token flow.",
+    "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.15"
+  }
+]

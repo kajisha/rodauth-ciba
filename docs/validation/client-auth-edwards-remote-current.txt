@@ -1,0 +1,9 @@
+Run options: --name /test_edwards_client_authentication_remote/ --seed 63413
+
+# Running:
+
+.
+
+Finished in 0.052070s, 19.2049 runs/s, 576.1475 assertions/s.
+
+1 runs, 30 assertions, 0 failures, 0 errors, 0 skips

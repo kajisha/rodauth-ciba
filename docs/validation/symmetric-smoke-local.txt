@@ -1,0 +1,17 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+PASS: installed dir/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed dir/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed dir/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed dir/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup

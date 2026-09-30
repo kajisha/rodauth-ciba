@@ -1,0 +1,15 @@
+Run options: --name test_symmetric_encryption_does_not_fetch_unrelated_jwks --seed 12524
+
+# Running:
+
+F
+
+Finished in 0.024429s, 40.9350 runs/s, 81.8699 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_symmetric_encryption_does_not_fetch_unrelated_jwks [test/ciba_encryption_remote_test.rb:22]:
+{"error":"server_error"}.
+Expected: 200
+  Actual: 500
+
+1 runs, 2 assertions, 1 failures, 0 errors, 0 skips

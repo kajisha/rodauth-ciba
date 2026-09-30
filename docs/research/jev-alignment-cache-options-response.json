@@ -1,0 +1,293 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "A_decision": {
+      "type": "choice",
+      "choice": "conditional",
+      "confidence": 0.64,
+      "probabilities": {
+        "adopt": 0.15,
+        "conditional": 0.73,
+        "reject": 0.11,
+        "insufficient": 0.01
+      }
+    },
+    "A_revocation_exposure": {
+      "type": "score",
+      "score": 1.96,
+      "confidence": 0.94,
+      "legend": {
+        "0": "No operations use expired keys after refresh failure.",
+        "1": "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "2": "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      },
+      "probabilities": {
+        "0": 0.02,
+        "1": 0.0,
+        "2": 0.98
+      }
+    },
+    "A_outage_continuity": {
+      "type": "score",
+      "score": 2.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "1": "Affected operations can continue for a fixed bounded grace, then stop.",
+        "2": "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 1.0
+      }
+    },
+    "A_reference_alignment": {
+      "type": "score",
+      "score": 1.99,
+      "confidence": 0.98,
+      "legend": {
+        "0": "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "1": "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "2": "Matches supplied reference freshness ordering and response-dependent reuse."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.01,
+        "2": 0.99
+      }
+    },
+    "A_implementation_burden": {
+      "type": "score",
+      "score": 0.97,
+      "confidence": 0.85,
+      "legend": {
+        "0": "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "1": "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "2": "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      },
+      "probabilities": {
+        "0": 0.06,
+        "1": 0.9,
+        "2": 0.04
+      }
+    },
+    "B_decision": {
+      "type": "choice",
+      "choice": "conditional",
+      "confidence": 0.36,
+      "probabilities": {
+        "adopt": 0.02,
+        "conditional": 0.52,
+        "reject": 0.44,
+        "insufficient": 0.02
+      }
+    },
+    "B_revocation_exposure": {
+      "type": "score",
+      "score": 0.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "No operations use expired keys after refresh failure.",
+        "1": "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "2": "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      },
+      "probabilities": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    },
+    "B_outage_continuity": {
+      "type": "score",
+      "score": 0.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "1": "Affected operations can continue for a fixed bounded grace, then stop.",
+        "2": "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      },
+      "probabilities": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    },
+    "B_reference_alignment": {
+      "type": "score",
+      "score": 0.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "1": "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "2": "Matches supplied reference freshness ordering and response-dependent reuse."
+      },
+      "probabilities": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    },
+    "B_implementation_burden": {
+      "type": "score",
+      "score": 0.01,
+      "confidence": 0.98,
+      "legend": {
+        "0": "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "1": "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "2": "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      },
+      "probabilities": {
+        "0": 0.99,
+        "1": 0.01,
+        "2": 0.0
+      }
+    },
+    "C_decision": {
+      "type": "choice",
+      "choice": "conditional",
+      "confidence": 0.88,
+      "probabilities": {
+        "adopt": 0.06,
+        "conditional": 0.91,
+        "reject": 0.03,
+        "insufficient": 0.0
+      }
+    },
+    "C_revocation_exposure": {
+      "type": "score",
+      "score": 1.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "No operations use expired keys after refresh failure.",
+        "1": "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "2": "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 1.0,
+        "2": 0.0
+      }
+    },
+    "C_outage_continuity": {
+      "type": "score",
+      "score": 1.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "1": "Affected operations can continue for a fixed bounded grace, then stop.",
+        "2": "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 1.0,
+        "2": 0.0
+      }
+    },
+    "C_reference_alignment": {
+      "type": "score",
+      "score": 0.97,
+      "confidence": 0.95,
+      "legend": {
+        "0": "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "1": "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "2": "Matches supplied reference freshness ordering and response-dependent reuse."
+      },
+      "probabilities": {
+        "0": 0.03,
+        "1": 0.97,
+        "2": 0.0
+      }
+    },
+    "C_implementation_burden": {
+      "type": "score",
+      "score": 1.99,
+      "confidence": 0.99,
+      "legend": {
+        "0": "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "1": "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "2": "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.01,
+        "2": 0.99
+      }
+    },
+    "D_decision": {
+      "type": "choice",
+      "choice": "conditional",
+      "confidence": 0.67,
+      "probabilities": {
+        "adopt": 0.01,
+        "conditional": 0.74,
+        "reject": 0.24,
+        "insufficient": 0.01
+      }
+    },
+    "D_revocation_exposure": {
+      "type": "score",
+      "score": 0.01,
+      "confidence": 0.99,
+      "legend": {
+        "0": "No operations use expired keys after refresh failure.",
+        "1": "Expired keys may be used only within a fixed deadline that failures cannot extend.",
+        "2": "Failures can repeatedly extend expired-key use without a fixed absolute deadline."
+      },
+      "probabilities": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    },
+    "D_outage_continuity": {
+      "type": "score",
+      "score": 0.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "Affected operations stop until a successful fetch; backoff may delay recovery further.",
+        "1": "Affected operations can continue for a fixed bounded grace, then stop.",
+        "2": "Affected operations can continue across prolonged failures in at least one response class by repeatedly reusing retained keys."
+      },
+      "probabilities": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    },
+    "D_reference_alignment": {
+      "type": "score",
+      "score": 0.0,
+      "confidence": 1.0,
+      "legend": {
+        "0": "Rejects all expired-key use after refresh failures, differing on the core reference reuse behavior.",
+        "1": "Allows some failed-refresh reuse but changes deadlines or error classes compared to reference.",
+        "2": "Matches supplied reference freshness ordering and response-dependent reuse."
+      },
+      "probabilities": {
+        "0": 1.0,
+        "1": 0.0,
+        "2": 0.0
+      }
+    },
+    "D_implementation_burden": {
+      "type": "score",
+      "score": 1.02,
+      "confidence": 0.96,
+      "legend": {
+        "0": "Only successful entries persist; failed calls reject without separate persistent failure/grace state.",
+        "1": "Freshness on failure or an additional retry timestamp requires dedicated failure-state tests.",
+        "2": "Tracks successful expiry separately from a nonrenewable grace deadline and classifies failures; requires deadline and failure-class interaction tests."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.98,
+        "2": 0.02
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 3907,
+    "output_tokens": 492
+  }
+}

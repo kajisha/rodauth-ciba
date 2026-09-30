@@ -1,0 +1,122 @@
+ Image rodauth-ciba-test-test Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 551B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.test
+#2 transferring dockerfile: 504B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 142B done
+#4 DONE 0.0s
+
+#5 [1/8] FROM docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#5 resolve docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 59.96kB 0.0s done
+#6 DONE 0.0s
+
+#7 [7/8] COPY test ./test
+#7 CACHED
+
+#8 [3/8] WORKDIR /app
+#8 CACHED
+
+#9 [6/8] RUN bundle install
+#9 CACHED
+
+#10 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+#10 CACHED
+
+#11 [5/8] COPY lib ./lib
+#11 CACHED
+
+#12 [4/8] COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+#12 CACHED
+
+#13 [8/8] COPY examples ./examples
+#13 CACHED
+
+#14 exporting to image
+#14 exporting layers done
+#14 exporting manifest sha256:1f5854a3823fb9857dc3852c12ce8d161f29a00d4067d35ca00b1c204952e705 done
+#14 exporting config sha256:ceadb64a92c38d7944bfd32db26be0a33b61047ef61a6f983d7c658416d34810 done
+#14 exporting attestation manifest sha256:88c0392c5966800e9487ae00d2bbebf319281a795f28ec8102a8600e6fb5ddce done
+#14 exporting manifest list sha256:96b580728aee17acc4fd7555d8d1b5abaa3ec952eae7491b9816054a6276a653 done
+#14 naming to docker.io/library/rodauth-ciba-test-test:latest done
+#14 unpacking to docker.io/library/rodauth-ciba-test-test:latest done
+#14 DONE 0.0s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image rodauth-ciba-test-test Built 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing CIBA on sqlite
+ Container rodauth-ciba-test-test-run-ae212ff30a66 Creating 
+ Container rodauth-ciba-test-test-run-ae212ff30a66 Created 
+Run options: --seed 6632
+
+# Running:
+
+...................................S.......................................................................................................................................................................................................................................................................................S...................................
+
+Finished in 53.834559s, 6.5200 runs/s, 104.7097 assertions/s.
+
+351 runs, 5637 assertions, 0 failures, 0 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.
+Testing CIBA on postgres
+ Container rodauth-ciba-test-test-run-bc9ce377cdc6 Creating 
+ Container rodauth-ciba-test-test-run-bc9ce377cdc6 Created 
+Run options: --seed 38285
+
+# Running:
+
+...............................................................................................................................................................................................................................................................................................................................................................
+
+Finished in 54.926943s, 6.3903 runs/s, 102.5726 assertions/s.
+
+351 runs, 5634 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on mysql
+ Container rodauth-ciba-test-test-run-3a3b8013c81f Creating 
+ Container rodauth-ciba-test-test-run-3a3b8013c81f Created 
+Run options: --seed 27226
+
+# Running:
+
+...............................................................................................................................................................................................................................................................................................................................................................
+
+Finished in 59.774180s, 5.8721 runs/s, 94.2547 assertions/s.
+
+351 runs, 5634 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

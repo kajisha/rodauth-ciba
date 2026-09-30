@@ -1,0 +1,6 @@
+WARNING:  no homepage specified
+WARNING:  See https://guides.rubygems.org/specification-reference/ for help
+  Successfully built RubyGem
+  Name: rodauth-ciba
+  Version: 0.1.0
+  File: rodauth-ciba-0.1.0.gem

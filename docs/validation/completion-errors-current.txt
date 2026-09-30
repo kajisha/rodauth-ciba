@@ -1,0 +1,10 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_generic_completion_error|test_invalid_completion_error|test_completion_error_migration|test_denial_and_expired_completion|test_approval_is_idempotent/" --seed 61510
+
+# Running:
+
+.......
+
+Finished in 0.065094s, 107.5368 runs/s, 2550.1582 assertions/s.
+
+7 runs, 166 assertions, 0 failures, 0 errors, 0 skips

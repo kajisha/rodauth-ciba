@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 3363
+
+# Running:
+
+...F..........
+
+Finished in 3.303383s, 4.2381 runs/s, 31.4829 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_generated_registration_bearer_manages_only_its_client [test/ciba_registration_test.rb:215]:
+{"backchannel_token_delivery_mode":"poll","redirect_uris":[],"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"token_endpoint_auth_method":"client_secret_basic","scope":"openid","client_id":"-QpjBB95oDABEIhdgrSnmT95ABjtaxseuaQZtjqTyQE","registration_client_uri":"https://op.example.test/register/-QpjBB95oDABEIhdgrSnmT95ABjtaxseuaQZtjqTyQE","registration_access_token":"ciba_reg_l3ze1BCG9UTr8gCIgHJ160LHreUrj1dOCd76n4tLRG0"}.
+Expected: 401
+  Actual: 200
+
+14 runs, 104 assertions, 1 failures, 0 errors, 0 skips

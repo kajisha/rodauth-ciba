@@ -1,0 +1,73 @@
+Run options: --seed 17414
+
+# Running:
+
+..............E.......S....................E.........F.............................F.......................................................................................................E......E.................................................................................F.................F......E.........................................................................S......
+
+Finished in 139.175383s, 2.7447 runs/s, 67.2102 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_edwards_id_token_refresh_public_subject:
+KeyError: key not found: "auth_time"
+    test/ciba_edwards_id_token_test.rb:50:in 'Hash#fetch'
+    test/ciba_edwards_id_token_test.rb:50:in 'block (2 levels) in CibaIntegrationTest#assert_edwards_refresh_subject'
+    test/ciba_edwards_id_token_test.rb:55:in 'block in CibaIntegrationTest#assert_edwards_refresh_subject'
+    test/ciba_edwards_id_token_test.rb:20:in 'Array#each'
+    test/ciba_edwards_id_token_test.rb:20:in 'CibaIntegrationTest#assert_edwards_refresh_subject'
+    test/ciba_edwards_id_token_test.rb:9:in 'CibaIntegrationTest#test_edwards_id_token_refresh_public_subject'
+
+  2) Error:
+CibaIntegrationTest#test_edwards_id_token_refresh_pairwise_subject:
+KeyError: key not found: "auth_time"
+    test/ciba_edwards_id_token_test.rb:50:in 'Hash#fetch'
+    test/ciba_edwards_id_token_test.rb:50:in 'block (2 levels) in CibaIntegrationTest#assert_edwards_refresh_subject'
+    test/ciba_edwards_id_token_test.rb:55:in 'block in CibaIntegrationTest#assert_edwards_refresh_subject'
+    test/ciba_edwards_id_token_test.rb:20:in 'Array#each'
+    test/ciba_edwards_id_token_test.rb:20:in 'CibaIntegrationTest#assert_edwards_refresh_subject'
+    test/ciba_edwards_id_token_test.rb:13:in 'CibaIntegrationTest#test_edwards_id_token_refresh_pairwise_subject'
+
+  3) Failure:
+CibaIntegrationTest#test_refresh_claims_and_rar_jwt [test/ciba_refresh_permissions_test.rb:46]:
+Expected: 123
+  Actual: nil
+
+  4) Failure:
+CibaIntegrationTest#test_refresh_claims_and_rar_opaque [test/ciba_refresh_permissions_test.rb:46]:
+Expected: 123
+  Actual: nil
+
+  5) Error:
+CibaIntegrationTest#test_pairwise_opaque_refresh_rotation_and_identifier_failure_rollback:
+KeyError: key not found: "auth_time"
+    test/ciba_pairwise_test.rb:379:in 'Hash#fetch'
+    test/ciba_pairwise_test.rb:379:in 'CibaIntegrationTest#assert_pairwise_refresh_flow'
+    test/ciba_pairwise_test.rb:238:in 'CibaIntegrationTest#test_pairwise_opaque_refresh_rotation_and_identifier_failure_rollback'
+
+  6) Error:
+CibaIntegrationTest#test_pairwise_jwt_refresh_rotation_and_identifier_failure_rollback:
+KeyError: key not found: "auth_time"
+    test/ciba_pairwise_test.rb:379:in 'Hash#fetch'
+    test/ciba_pairwise_test.rb:379:in 'CibaIntegrationTest#assert_pairwise_refresh_flow'
+    test/ciba_pairwise_test.rb:332:in 'CibaIntegrationTest#test_pairwise_jwt_refresh_rotation_and_identifier_failure_rollback'
+
+  7) Failure:
+CibaIntegrationTest#test_ciba_refresh_preserves_source_scope_and_authentication [test/ciba_refresh_test.rb:42]:
+Expected: 123
+  Actual: nil
+
+  8) Failure:
+CibaIntegrationTest#test_approved_request_issues_customer_id_token_once [test/ciba_integration_test.rb:19]:
+Expected: 1790755552
+  Actual: nil
+
+  9) Error:
+CibaIntegrationTest#test_common_oidc_claim_provider_only_receives_approved_scopes:
+KeyError: key not found: "auth_time"
+    test/ciba_alignment_test.rb:105:in 'Hash#fetch'
+    test/ciba_alignment_test.rb:105:in 'block in CibaIntegrationTest#test_common_oidc_claim_provider_only_receives_approved_scopes'
+    test/ciba_alignment_test.rb:93:in 'Array#each'
+    test/ciba_alignment_test.rb:93:in 'CibaIntegrationTest#test_common_oidc_claim_provider_only_receives_approved_scopes'
+
+382 runs, 9354 assertions, 4 failures, 5 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.

@@ -1,0 +1,18 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /global_setting/ --seed 43689
+
+# Running:
+
+FF
+
+Finished in 0.154219s, 12.9686 runs/s, 376.0885 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_mtls_global_setting_does_not_force_opaque_client_binding [test/ciba_mtls_test.rb:35]:
+Expected "jALrAu6OGbrRJb4UOwiYBZncfd2MGsadNXQSUOmkAWw" to be nil.
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_mtls_global_setting_does_not_force_jwt_client_binding [test/ciba_mtls_test.rb:39]:
+Expected "o3lsOG78ruLkFT4K_ZD4rJ4HggiaePRqcZKa8xPouZE" to be nil.
+
+2 runs, 58 assertions, 2 failures, 0 errors, 0 skips

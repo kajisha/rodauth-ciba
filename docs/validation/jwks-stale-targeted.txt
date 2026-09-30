@@ -1,0 +1,87 @@
+Run options: --seed 17935
+
+# Running:
+
+....S.....................................................................................................EEEEEEE
+
+Finished in 51.458616s, 2.1959 runs/s, 35.3294 assertions/s.
+
+  1) Error:
+CibaJwksCacheTest#test_publisher_shorter_grace_and_timeout:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:41:in 'CibaJwksCacheTest#test_publisher_shorter_grace_and_timeout'
+
+  2) Error:
+CibaJwksCacheTest#test_successful_removal_and_eviction_never_restore_old_keys:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:104:in 'CibaJwksCacheTest#test_successful_removal_and_eviction_never_restore_old_keys'
+
+  3) Error:
+CibaJwksCacheTest#test_nontransient_failures_disable_later_fallback:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:96:in 'block in CibaJwksCacheTest#test_nontransient_failures_disable_later_fallback'
+    test/ciba_jwks_cache_test.rb:94:in 'Array#each'
+    test/ciba_jwks_cache_test.rb:94:in 'CibaJwksCacheTest#test_nontransient_failures_disable_later_fallback'
+
+  4) Error:
+CibaJwksCacheTest#test_concurrent_eviction_or_replacement_wins_over_old_snapshot:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:116:in 'block in CibaJwksCacheTest#test_concurrent_eviction_or_replacement_wins_over_old_snapshot'
+    test/ciba_jwks_cache_test.rb:114:in 'Array#each'
+    test/ciba_jwks_cache_test.rb:114:in 'CibaJwksCacheTest#test_concurrent_eviction_or_replacement_wins_over_old_snapshot'
+
+  5) Error:
+CibaJwksCacheTest#test_grace_is_capped_fixed_and_checked_after_network:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:29:in 'CibaJwksCacheTest#test_grace_is_capped_fixed_and_checked_after_network'
+
+  6) Error:
+CibaJwksCacheTest#test_freshness_precedence_age_delay_and_invalid_dates:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:69:in 'CibaJwksCacheTest#test_freshness_precedence_age_delay_and_invalid_dates'
+
+  7) Error:
+CibaJwksCacheTest#test_restrictive_absent_ambiguous_and_variant_directives:
+IOError: attempt to read body out of block
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:644:in 'Net::HTTPResponse#stream_check'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:362:in 'Net::HTTPResponse#read_body'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/net-http-0.9.1/lib/net/http/response.rb:402:in 'Net::HTTPResponse#body'
+    lib/rodauth/ciba/jwks_cache.rb:51:in 'Rodauth::CibaSupport::JwksCache#fetch'
+    test/ciba_jwks_cache_test.rb:25:in 'CibaJwksCacheTest#fetch'
+    test/ciba_jwks_cache_test.rb:54:in 'block in CibaJwksCacheTest#test_restrictive_absent_ambiguous_and_variant_directives'
+    test/ciba_jwks_cache_test.rb:52:in 'Array#each'
+    test/ciba_jwks_cache_test.rb:52:in 'CibaJwksCacheTest#test_restrictive_absent_ambiguous_and_variant_directives'
+
+113 runs, 1818 assertions, 0 failures, 7 errors, 1 skips
+
+You have skipped tests. Run with --verbose for details.

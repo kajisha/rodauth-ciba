@@ -1,0 +1,28 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_ciba_encryption_(management|registration_rejects)/" --seed 9619
+
+# Running:
+
+FFF
+
+Finished in 2.787232s, 1.0763 runs/s, 12.5573 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_encryption_management_replaces_recipient_jwt [test/ciba_id_token_encryption_test.rb:12]:
+{"error":"invalid_client","error_description":"Invalid client"}.
+Expected: 200
+  Actual: 401
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_encryption_management_replaces_recipient_opaque [test/ciba_id_token_encryption_test.rb:8]:
+{"error":"invalid_client","error_description":"Invalid client"}.
+Expected: 200
+  Actual: 401
+
+  3) Failure:
+CibaIntegrationTest#test_ciba_encryption_registration_rejects_disabled_capability [test/ciba_id_token_encryption_test.rb:96]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"client_secret_basic","backchannel_token_delivery_mode":"poll","id_token_encrypted_response_alg":"RSA-OAEP-256","id_token_encrypted_response_enc":"A256GCM","jwks":{"keys":[{"kty":"RSA","n":"4KZ99BvY-wQcSBlURGp2kkzYKNUH3Q5c6dTU2juZZXgUDfIrK2rUFSqBXm_t9435-QzYCEE2546reNdkPZHGf-f5x--U17kfiZsiPQPmgA8E-LrGeUM7lE1eZdyFCZM3HNWB5yitPq1Kkz9e9w0pU_oizXd66d-xeRl91Bt8M0SgeruynzlevksXt-4q17jATkle3e8xexqwN4qsvQXZ7x_oClVbKPEEUM25UgjEL04Ef7jGPiBpVCOUpuZMomMd6MRq9cStd5xI-PZDMUbtK-9xpK_hrmXbCUSMSjdhFNxr6rMsMNPCNebo3COhRnKXRzC3BTL6IgLBuvuP1jV2bw","e":"AQAB","kid":"0cd9f73553a796d560b7227657d281e6150ed9925e8397286dca4ecfa503dc71"}]},"redirect_uris":[],"client_id":"a6pyRcRYgibyU5k94bFTAb2a_O4_9ZkXBrBh3_4yR4M","client_id_issued_at":1790748381,"client_secret":"_0KhJsr9241RUuY2TDr6_-_ivg9BV-XMNhmEWLhzC1U","client_secret_expires_at":0,"registration_access_token":"ciba_reg_5G97f6wvmWXnMq2U-mIa1Lx0NwiosoG7zeKNY0w61_o","registration_client_uri":"https://op.example.test/register/a6pyRcRYgibyU5k94bFTAb2a_O4_9ZkXBrBh3_4yR4M"}.
+Expected: 400
+  Actual: 201
+
+3 runs, 35 assertions, 3 failures, 0 errors, 0 skips

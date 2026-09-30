@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /default_max_age/ --seed 58485
+
+# Running:
+
+F
+
+Finished in 0.181334s, 5.5147 runs/s, 5.5147 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_registration_default_max_age_requires_nonnegative_safe_integer [test/ciba_registration_test.rb:46]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"client_secret_basic","backchannel_token_delivery_mode":"poll","default_max_age":-1,"redirect_uris":[],"client_id":"cBlkjsWm3ee_A1GpyywcudRd3rqCHO8f71s47W_xego","client_id_issued_at":1790730306,"client_secret":"leKzCUKxhi2WUi0HC_fZ3Ac30IVMg2BGMwF42BjCe8U","client_secret_expires_at":0,"registration_access_token":"ciba_reg_pstZMXV6uaE7bnA8Baeo2D9GMwsHGIdtM5qNt3GnpQc","registration_client_uri":"https://op.example.test/register/cBlkjsWm3ee_A1GpyywcudRd3rqCHO8f71s47W_xego"}.
+Expected: 400
+  Actual: 201
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

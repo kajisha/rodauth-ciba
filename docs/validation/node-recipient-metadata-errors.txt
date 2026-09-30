@@ -1,0 +1,39 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS P-256/omitted: initial/refresh decrypted and verified
+PASS P-256/empty: initial/refresh decrypted and verified
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/deriveBits: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/sign: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/encrypt: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for ECDH key
+PASS P-256/encrypt-wrapKey: 500 server_error
+PASS P-256/wrong-use: 400 invalid_client_metadata
+PASS P-256/wrong-alg: 400 invalid_client_metadata
+PASS X25519/omitted: initial/refresh decrypted and verified
+PASS X25519/empty: initial/refresh decrypted and verified
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/deriveBits: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/sign: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/encrypt: 500 server_error
+ERROR DETAIL SyntaxError: Unsupported key usage for X25519 key
+PASS X25519/encrypt-wrapKey: 500 server_error
+PASS X25519/wrong-use: 400 invalid_client_metadata
+PASS X25519/wrong-alg: 400 invalid_client_metadata
+PASS RSA/omitted: initial/refresh decrypted and verified
+PASS RSA/empty: 400 invalid_client_metadata
+PASS RSA/deriveBits: 400 invalid_client_metadata
+PASS RSA/sign: 400 invalid_client_metadata
+ERROR DETAIL TypeError: Invalid key for this operation, its "key_ops" must include "wrapKey" when present
+PASS RSA/encrypt: 500 server_error
+PASS RSA/encrypt-wrapKey: initial/refresh decrypted and verified
+PASS RSA/wrong-use: 400 invalid_client_metadata
+PASS RSA/wrong-alg: 400 invalid_client_metadata

@@ -1,0 +1,179 @@
+ Image rodauth-ciba-test-test Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 551B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile.test
+#2 transferring dockerfile: 504B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 142B done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 72.87kB 0.0s done
+#5 DONE 0.0s
+
+#6 [1/8] FROM docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+#6 resolve docker.io/library/ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db 0.0s done
+#6 DONE 0.0s
+
+#7 [2/8] RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [3/8] WORKDIR /app
+#8 CACHED
+
+#9 [4/8] COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+#9 DONE 0.0s
+
+#10 [5/8] COPY lib ./lib
+#10 DONE 0.0s
+
+#11 [6/8] RUN bundle install
+#11 1.371 Fetching gem metadata from https://rubygems.org/.........
+#11 1.903 Resolving dependencies...
+#11 1.923 Fetching rake 13.4.2
+#11 1.989 Installing rake 13.4.2
+#11 1.993 Fetching bcrypt 3.1.22
+#11 2.006 Fetching jwt 3.3.0
+#11 2.006 Fetching mysql2 0.5.7
+#11 2.006 Fetching uri 1.1.1
+#11 2.006 Fetching rack 3.2.7
+#11 2.006 Fetching rack-test 2.2.0
+#11 2.006 Fetching rodauth 2.28.0
+#11 2.006 Fetching rodauth-oauth 1.7.0
+#11 2.006 Fetching sqlite3 2.9.6 (aarch64-linux-gnu)
+#11 2.006 Fetching webrick 1.9.2
+#11 2.006 Fetching bigdecimal 4.1.3
+#11 2.018 Fetching json 2.18.0
+#11 2.018 Fetching minitest 5.27.0
+#11 2.018 Fetching net-http 0.9.1
+#11 2.018 Fetching pg 1.6.3 (aarch64-linux)
+#11 2.018 Fetching rackup 2.3.1
+#11 2.018 Fetching roda 3.108.0
+#11 2.018 Fetching sequel 5.108.0
+#11 2.244 Installing rack-test 2.2.0
+#11 2.248 Installing uri 1.1.1
+#11 2.260 Installing bcrypt 3.1.22 with native extensions
+#11 2.262 Installing webrick 1.9.2
+#11 2.263 Installing jwt 3.3.0
+#11 2.266 Installing rackup 2.3.1
+#11 2.270 Installing bigdecimal 4.1.3 with native extensions
+#11 2.272 Installing net-http 0.9.1
+#11 2.272 Installing rodauth-oauth 1.7.0
+#11 2.276 Installing rack 3.2.7
+#11 2.287 Installing minitest 5.27.0
+#11 2.295 Installing json 2.18.0 with native extensions
+#11 2.306 Installing rodauth 2.28.0
+#11 2.439 Installing sequel 5.108.0
+#11 2.530 Installing roda 3.108.0
+#11 2.564 Installing sqlite3 2.9.6 (aarch64-linux-gnu)
+#11 2.682 Installing pg 1.6.3 (aarch64-linux)
+#11 4.762 Installing mysql2 0.5.7 with native extensions
+#11 7.032 Bundle complete! 16 Gemfile dependencies, 21 gems now installed.
+#11 7.032 Use `bundle info [gemname]` to see where a bundled gem is installed.
+#11 7.032 Post-install message from minitest:
+#11 7.032 NOTE: minitest 5 will be the last in the minitest family to support
+#11 7.032       ruby 1.8 to 2.7. If you need to keep using these versions,
+#11 7.032       you need to pin your dependency to minitest with something
+#11 7.032       like "~> 5.0". See History.rdoc to locate compatible
+#11 7.032       versions.
+#11 7.032 
+#11 7.032       Further, minitest 6 will be dropping the following:
+#11 7.032 
+#11 7.032       + MiniTest (it's been Minitest for >10 years)
+#11 7.032       + MiniTest::Unit
+#11 7.032       + MiniTest::Unit::TestCase
+#11 7.032       + assert_send (unless you argue for it well)
+#11 7.032       + assert_equal nil, obj
+#11 7.032       + mocks and stubs: moving minitest/mock.rb to its own gem
+#11 DONE 7.1s
+
+#12 [7/8] COPY test ./test
+#12 DONE 0.0s
+
+#13 [8/8] COPY examples ./examples
+#13 DONE 0.0s
+
+#14 exporting to image
+#14 exporting layers
+#14 exporting layers 1.2s done
+#14 exporting manifest sha256:a5e0bdd1b0ab67d7ea1076ad6e0599a50ec12d238f30718ad3b1f62a5208afe2 done
+#14 exporting config sha256:e7fd8343602feeda11dfab9d02278df3946dd0ac80ab1dd2dc81fefce758c93a done
+#14 exporting attestation manifest sha256:9d44682bd4d76313c8519812b2db6cab89213adb4d2c40fffaaae45993545755 done
+#14 exporting manifest list sha256:b73fa85c053b110ce703e843de63a48f31774c1e2e48ca8cbae51d445a554a85 done
+#14 naming to docker.io/library/rodauth-ciba-test-test:latest done
+#14 unpacking to docker.io/library/rodauth-ciba-test-test:latest
+#14 unpacking to docker.io/library/rodauth-ciba-test-test:latest 0.2s done
+#14 DONE 1.4s
+
+#15 resolving provenance for metadata file
+#15 DONE 0.0s
+ Image rodauth-ciba-test-test Built 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing CIBA on sqlite
+ Container rodauth-ciba-test-test-run-43d02712b004 Creating 
+ Container rodauth-ciba-test-test-run-43d02712b004 Created 
+Run options: --seed 3363
+
+# Running:
+
+...................................................................................................................................................................................
+
+Finished in 2.452720s, 72.9802 runs/s, 658.8605 assertions/s.
+
+179 runs, 1616 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on postgres
+ Container rodauth-ciba-test-test-run-269f8d63364f Creating 
+ Container rodauth-ciba-test-test-run-269f8d63364f Created 
+Run options: --seed 3363
+
+# Running:
+
+...................................................................................................................................................................................
+
+Finished in 7.566900s, 23.6557 runs/s, 213.1652 assertions/s.
+
+179 runs, 1613 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on mysql
+ Container rodauth-ciba-test-test-run-b7522524f098 Creating 
+ Container rodauth-ciba-test-test-run-b7522524f098 Created 
+Run options: --seed 3363
+
+# Running:
+
+...................................................................................................................................................................................
+
+Finished in 7.866090s, 22.7559 runs/s, 205.0574 assertions/s.
+
+179 runs, 1613 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

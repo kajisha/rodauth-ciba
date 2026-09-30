@@ -1,0 +1,18 @@
+#<Thread:0x000000012270d668 test/ciba_http_test.rb:46 run> terminated with exception (report_on_exception is true):
+test/ciba_http_test.rb:47:in 'TCPServer#accept': closed stream (IOError)
+	from test/ciba_http_test.rb:47:in 'block in CibaHTTPTest#test_header_only_response_closes_without_waiting_for_body'
+Run options: --name /test_header_only/ --seed 49664
+
+# Running:
+
+E
+
+Finished in 0.000717s, 1394.7002 runs/s, 0.0000 assertions/s.
+
+  1) Error:
+CibaHTTPTest#test_header_only_response_closes_without_waiting_for_body:
+IOError: closed stream
+    test/ciba_http_test.rb:47:in 'TCPServer#accept'
+    test/ciba_http_test.rb:47:in 'block in CibaHTTPTest#test_header_only_response_closes_without_waiting_for_body'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips

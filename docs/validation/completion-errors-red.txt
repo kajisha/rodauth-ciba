@@ -1,0 +1,28 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_generic_completion_error|test_invalid_completion_error/" --seed 5190
+
+# Running:
+
+FE.
+
+Finished in 0.047014s, 63.8108 runs/s, 404.1349 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_generic_completion_error_uses_transactional_hooks_and_ping [test/ciba_alignment_test.rb:46]:
+[RuntimeError] exception expected, not
+Class: <ArgumentError>
+Message: <"unsupported result error">
+---Backtrace---
+/Users/hiroshi/orca/projects/rodauth-ciba/lib/rodauth/features/ciba.rb:565:in 'Rodauth::Ciba#backchannel_result'
+/Users/hiroshi/orca/projects/rodauth-ciba/test/ciba_alignment_test.rb:47:in 'block in CibaIntegrationTest#test_generic_completion_error_uses_transactional_hooks_and_ping'
+---------------
+
+  2) Error:
+CibaIntegrationTest#test_generic_completion_errors_are_returned_once_without_issuing_tokens:
+ArgumentError: unsupported result error
+    lib/rodauth/features/ciba.rb:565:in 'Rodauth::Ciba#backchannel_result'
+    test/ciba_alignment_test.rb:10:in 'block in CibaIntegrationTest#test_generic_completion_errors_are_returned_once_without_issuing_tokens'
+    test/ciba_alignment_test.rb:6:in 'Array#each'
+    test/ciba_alignment_test.rb:6:in 'CibaIntegrationTest#test_generic_completion_errors_are_returned_once_without_issuing_tokens'
+
+3 runs, 19 assertions, 1 failures, 1 errors, 0 skips

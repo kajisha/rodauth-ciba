@@ -1,0 +1,6 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS wrong client credentials: both endpoints return 401 invalid_client with no-store (no Pragma header)
+PASS policy denial: explicit application error returns 403; default AccessDenied returns 400; neither dispatches
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS acknowledgement: hint +7s, dispatch +3s, issued +7s, expiry +27s, expires_in=20, poll=authorization_pending
+PASS acknowledgement: hint +7s, dispatch +25s, issued +7s, expiry +27s, expires_in=20, poll=expired_token

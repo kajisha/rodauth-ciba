@@ -1,0 +1,9 @@
+Run options: --name "/^(?:test_ecdh_real_cache_expiry_okp|test_symmetric_encryption_retains_remote_client_authentication|test_encryption_recipient_remote_failures_opaque|test_signed_request_remote_jwks_failures_never_create_pending_requests|test_encryption_recipient_remote_failures_jwt|test_ciba_mtls_remote_certificate_rotation_and_failure|test_signed_request_remote_jwks_default_denial_and_response_limit|test_symmetric_encryption_does_not_fetch_unrelated_jwks|test_signed_request_remote_jwks_rotation_cache_and_untrusted_header_url|test_ecdh_remote_okp_jwt|test_ecdh_remote_ec_opaque|test_registered_remote_assertion_keys_obey_outbound_policy_and_uri_replacement|test_ecdh_remote_okp_opaque|test_edwards_client_authentication_remote_rotation_failure_and_ordinary_grant|test_ecdh_remote_ec_jwt|test_ecdh_real_cache_expiry_ec|test_node_generated_edwards_vectors_with_remote_keys|test_header_only_response_closes_without_waiting_for_body)$/" --seed 62866
+
+# Running:
+
+..................
+
+Finished in 12.372484s, 1.4548 runs/s, 31.6832 assertions/s.
+
+18 runs, 392 assertions, 0 failures, 0 errors, 0 skips

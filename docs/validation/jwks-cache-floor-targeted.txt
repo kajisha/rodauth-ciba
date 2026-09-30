@@ -1,0 +1,9 @@
+Run options: --name "/jwks_|remote_|minimum_cache/" --seed 37236
+
+# Running:
+
+.................
+
+Finished in 1.339202s, 12.6941 runs/s, 324.8203 assertions/s.
+
+17 runs, 435 assertions, 0 failures, 0 errors, 0 skips

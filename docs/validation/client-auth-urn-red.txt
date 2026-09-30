@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_ciba_registration_rejects_assertion_type/ --seed 62
+
+# Running:
+
+F
+
+Finished in 0.197480s, 5.0638 runs/s, 15.1914 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_registration_rejects_assertion_type_as_authentication_method [test/ciba_registration_test.rb:103]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"urn:ietf:params:oauth:client-assertion-type:jwt-bearer","backchannel_token_delivery_mode":"poll","redirect_uris":[],"client_id":"-ve0pYBfjooXjedk04GurKtfaK382bav7RU4YXAp1fA","client_id_issued_at":1790742373,"client_secret":"Bz9bSeYh7iZbuaWg4r5pdGYg0gVsDbe5dcDdEtaLO5g","client_secret_expires_at":0,"registration_access_token":"ciba_reg_fW9o10Rn7oaOYhzsWnuNcyAgn2AhLbYLZ0RZKkFHXEs","registration_client_uri":"https://op.example.test/register/-ve0pYBfjooXjedk04GurKtfaK382bav7RU4YXAp1fA"}.
+Expected: 400
+  Actual: 201
+
+1 runs, 3 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,12 @@
+PASS HS256/client_secret_basic/plaintext storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS384/client_secret_basic/plaintext storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS512/client_secret_basic/plaintext storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS256/client_secret_post/plaintext storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS384/client_secret_post/plaintext storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS512/client_secret_post/plaintext storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS256/client_secret_basic/hashed storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS384/client_secret_basic/hashed storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS512/client_secret_basic/hashed storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS256/client_secret_post/hashed storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS384/client_secret_post/hashed storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched
+PASS HS512/client_secret_post/hashed storage: gem initial/refresh ID Tokens verified with client secret; OP key rejected; at_hash matched

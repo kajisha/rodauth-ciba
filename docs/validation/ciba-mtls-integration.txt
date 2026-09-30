@@ -1,0 +1,25 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/mtls|dpop|authentication|assertion/" --seed 52781
+
+# Running:
+
+....................................E..................
+
+Finished in 4.054691s, 13.5645 runs/s, 167.2137 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_registered_remote_assertion_keys_obey_outbound_policy_and_uri_replacement:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_registration_remote_test.rb:14:in 'CibaIntegrationTest#test_registered_remote_assertion_keys_obey_outbound_policy_and_uri_replacement'
+
+55 runs, 678 assertions, 0 failures, 1 errors, 0 skips

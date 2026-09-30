@@ -1,0 +1,23 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_ciba_hmac_id_tokens/ --seed 61939
+
+# Running:
+
+E
+
+Finished in 0.034440s, 29.0360 runs/s, 87.1080 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_ciba_hmac_id_tokens_use_authenticated_client_secret:
+JWT::VerificationError: Signature verification failed
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt/encoded_token.rb:141:in 'JWT::EncodedToken#verify_signature!'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt/decode.rb:56:in 'JWT::Decode#verify_signature'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt/decode.rb:40:in 'JWT::Decode#decode_segments'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/jwt-3.3.0/lib/jwt.rb:46:in 'JWT.decode'
+    test/ciba_hmac_id_token_test.rb:37:in 'block (2 levels) in CibaIntegrationTest#test_ciba_hmac_id_tokens_use_authenticated_client_secret'
+    test/ciba_hmac_id_token_test.rb:35:in 'Array#each'
+    test/ciba_hmac_id_token_test.rb:35:in 'block in CibaIntegrationTest#test_ciba_hmac_id_tokens_use_authenticated_client_secret'
+    test/ciba_hmac_id_token_test.rb:12:in 'Array#each'
+    test/ciba_hmac_id_token_test.rb:12:in 'CibaIntegrationTest#test_ciba_hmac_id_tokens_use_authenticated_client_secret'
+
+1 runs, 3 assertions, 0 failures, 1 errors, 0 skips

@@ -1,0 +1,9 @@
+Run options: --name /test_ecdh_real_cache_expiry_/ --seed 40911
+
+# Running:
+
+..
+
+Finished in 6.161839s, 0.3246 runs/s, 10.3865 assertions/s.
+
+2 runs, 64 assertions, 0 failures, 0 errors, 0 skips

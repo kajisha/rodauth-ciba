@@ -1,0 +1,59 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /deletion_with/ --seed 39905
+
+# Running:
+
+E
+
+Finished in 0.542974s, 1.8417 runs/s, 5.5251 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_managed_client_deletion_with_ciba_and_ordinary_grants:
+Sequel::ForeignKeyConstraintViolation: SQLite3::ConstraintException: FOREIGN KEY constraint failed
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sqlite3-2.9.6-arm64-darwin/lib/sqlite3/database.rb:306:in 'SQLite3::Statement#step'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sqlite3-2.9.6-arm64-darwin/lib/sqlite3/database.rb:306:in 'block in SQLite3::Database#execute_batch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sqlite3-2.9.6-arm64-darwin/lib/sqlite3/database.rb:219:in 'SQLite3::Database#prepare'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sqlite3-2.9.6-arm64-darwin/lib/sqlite3/database.rb:299:in 'SQLite3::Database#execute_batch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/adapters/sqlite.rb:278:in 'block (2 levels) in Sequel::SQLite::Database#_execute'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/database/logging.rb:38:in 'Sequel::Database#log_connection_yield'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/adapters/sqlite.rb:278:in 'block in Sequel::SQLite::Database#_execute'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/connection_pool/timed_queue.rb:87:in 'Sequel::TimedQueueConnectionPool#hold'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/database/connecting.rb:283:in 'Sequel::Database#synchronize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/adapters/sqlite.rb:266:in 'Sequel::SQLite::Database#_execute'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/adapters/sqlite.rb:189:in 'Sequel::SQLite::Database#execute_dui'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:1274:in 'Sequel::Dataset#execute_dui'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/dataset/actions.rb:168:in 'Sequel::Dataset#delete'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/adapters/shared/sqlite.rb:671:in 'Sequel::SQLite::DatasetMethods#delete'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dynamic_client_registration.rb:81:in 'block (4 levels) in Rodauth::OauthDynamicClientRegistration#load_registration_client_uri_routes'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:242:in 'Roda::RodaPlugins::Base::RequestMethods#on'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dynamic_client_registration.rb:79:in 'block (3 levels) in Rodauth::OauthDynamicClientRegistration#load_registration_client_uri_routes'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:551:in 'Roda::RodaPlugins::Base::RequestMethods#always'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:196:in 'Roda::RodaPlugins::Base::RequestMethods#is'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dynamic_client_registration.rb:48:in 'block (2 levels) in Rodauth::OauthDynamicClientRegistration#load_registration_client_uri_routes'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:242:in 'Roda::RodaPlugins::Base::RequestMethods#on'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dynamic_client_registration.rb:36:in 'block in Rodauth::OauthDynamicClientRegistration#load_registration_client_uri_routes'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:242:in 'Roda::RodaPlugins::Base::RequestMethods#on'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oauth_dynamic_client_registration.rb:34:in 'Rodauth::OauthDynamicClientRegistration#load_registration_client_uri_routes'
+    lib/rodauth/ciba/registration.rb:57:in 'block in Rodauth::CibaSupport::Registration#load_registration_client_uri_routes'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/database/transactions.rb:264:in 'Sequel::Database#_transaction'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/database/transactions.rb:239:in 'block in Sequel::Database#transaction'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/connection_pool/timed_queue.rb:92:in 'Sequel::TimedQueueConnectionPool#hold'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/database/connecting.rb:283:in 'Sequel::Database#synchronize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/sequel-5.108.0/lib/sequel/database/transactions.rb:197:in 'Sequel::Database#transaction'
+    lib/rodauth/features/ciba.rb:1722:in 'Rodauth::Ciba#ciba_transaction'
+    lib/rodauth/ciba/registration.rb:42:in 'Rodauth::CibaSupport::Registration#load_registration_client_uri_routes'
+    test/ciba_registration_test.rb:27:in 'block in configure_dynamic_registration'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:534:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:512:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:396:in 'block in Roda::RodaPlugins::Base::ClassMethods#base_rack_app_callable'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:57:in 'Roda::RodaPlugins::Base::ClassMethods#call'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:76:in 'Rack::MockRequest#request'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:57:in 'Rack::MockRequest#delete'
+    test/ciba_registration_test.rb:520:in 'CibaIntegrationTest#test_managed_client_deletion_with_ciba_and_ordinary_grants'
+
+1 runs, 3 assertions, 0 failures, 1 errors, 0 skips

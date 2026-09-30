@@ -1,0 +1,88 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /pairwise.*refresh/ --seed 50479
+
+# Running:
+
+EE
+
+Finished in 0.114533s, 17.4622 runs/s, 436.5554 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_pairwise_jwt_refresh_rotation_and_identifier_failure_rollback:
+NotImplementedError: `get_oidc_param(account, claim)` auth method must be implemented to use oidc scopes.
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:235:in 'Rodauth::Oidc#get_additional_param'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:672:in 'Method#[]'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:672:in 'block in Rodauth::Oidc#proxy_get_param'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:663:in 'block in Rodauth::Oidc#fill_with_account_claims'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:662:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:662:in 'Rodauth::Oidc#fill_with_account_claims'
+    lib/rodauth/features/ciba.rb:1151:in 'Rodauth::Ciba#fill_with_account_claims'
+    lib/rodauth/ciba/pairwise.rb:22:in 'Rodauth::CibaSupport::PairwiseSubjects#fill_with_account_claims'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:165:in 'block (4 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:598:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:598:in 'Rodauth::Base#catch_error'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:127:in 'block (3 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:242:in 'Roda::RodaPlugins::Base::RequestMethods#on'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:126:in 'block (2 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:142:in 'block (3 levels) in Rodauth::Oidc#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:507:in 'Rodauth::Base#_around_rodauth'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:140:in 'block (2 levels) in Rodauth::Oidc#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:200:in 'Roda::RodaPlugins::Base::RequestMethods#is'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:138:in 'block in Rodauth::Oidc#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/oauth.rb:17:in 'block in Rodauth::Oidc#auth_server_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:165:in 'Rodauth::Base#route!'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:425:in 'Rodauth::RequestMethods#rodauth'
+    test/test_helper.rb:132:in 'block (2 levels) in setup'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:534:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:512:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:396:in 'block in Roda::RodaPlugins::Base::ClassMethods#base_rack_app_callable'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:57:in 'Roda::RodaPlugins::Base::ClassMethods#call'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:76:in 'Rack::MockRequest#request'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:49:in 'Rack::MockRequest#get'
+    test/ciba_pairwise_test.rb:179:in 'CibaIntegrationTest#assert_pairwise_refresh_flow'
+    test/ciba_pairwise_test.rb:131:in 'CibaIntegrationTest#test_pairwise_jwt_refresh_rotation_and_identifier_failure_rollback'
+
+  2) Error:
+CibaIntegrationTest#test_pairwise_opaque_refresh_rotation_and_identifier_failure_rollback:
+NotImplementedError: `get_oidc_param(account, claim)` auth method must be implemented to use oidc scopes.
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:235:in 'Rodauth::Oidc#get_additional_param'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:672:in 'Method#[]'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:672:in 'block in Rodauth::Oidc#proxy_get_param'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:663:in 'block in Rodauth::Oidc#fill_with_account_claims'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:662:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:662:in 'Rodauth::Oidc#fill_with_account_claims'
+    lib/rodauth/features/ciba.rb:1151:in 'Rodauth::Ciba#fill_with_account_claims'
+    lib/rodauth/ciba/pairwise.rb:22:in 'Rodauth::CibaSupport::PairwiseSubjects#fill_with_account_claims'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:165:in 'block (4 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:598:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:598:in 'Rodauth::Base#catch_error'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:127:in 'block (3 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:242:in 'Roda::RodaPlugins::Base::RequestMethods#on'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/features/oidc.rb:126:in 'block (2 levels) in <module:Rodauth>'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:142:in 'block (3 levels) in Rodauth::Oidc#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:507:in 'Rodauth::Base#_around_rodauth'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:140:in 'block (2 levels) in Rodauth::Oidc#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:672:in 'Roda::RodaPlugins::Base::RequestMethods#if_match'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda/request.rb:200:in 'Roda::RodaPlugins::Base::RequestMethods#is'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:138:in 'block in Rodauth::Oidc#route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-oauth-1.7.0/lib/rodauth/oauth.rb:17:in 'block in Rodauth::Oidc#auth_server_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth/features/base.rb:165:in 'Rodauth::Base#route!'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:425:in 'Rodauth::RequestMethods#rodauth'
+    test/test_helper.rb:132:in 'block (2 levels) in setup'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:534:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_run_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:512:in 'block in Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Kernel#catch'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:510:in 'Roda::RodaPlugins::Base::InstanceMethods#_roda_handle_main_route'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:396:in 'block in Roda::RodaPlugins::Base::ClassMethods#base_rack_app_callable'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:57:in 'Roda::RodaPlugins::Base::ClassMethods#call'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:76:in 'Rack::MockRequest#request'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rack-3.2.7/lib/rack/mock_request.rb:49:in 'Rack::MockRequest#get'
+    test/ciba_pairwise_test.rb:179:in 'CibaIntegrationTest#assert_pairwise_refresh_flow'
+    test/ciba_pairwise_test.rb:126:in 'CibaIntegrationTest#test_pairwise_opaque_refresh_rotation_and_identifier_failure_rollback'
+
+2 runs, 50 assertions, 0 failures, 2 errors, 0 skips

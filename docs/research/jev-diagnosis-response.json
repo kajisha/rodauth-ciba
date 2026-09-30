@@ -1,0 +1,99 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "schema_constraints": {
+      "type": "choice",
+      "choice": "present",
+      "confidence": 0.59,
+      "probabilities": {
+        "present": 0.73,
+        "absent": 0.18,
+        "unclear": 0.09
+      }
+    },
+    "identity_lifecycle": {
+      "type": "choice",
+      "choice": "present",
+      "confidence": 0.75,
+      "probabilities": {
+        "present": 0.83,
+        "absent": 0.09,
+        "unclear": 0.08
+      }
+    },
+    "retry_snapshot": {
+      "type": "choice",
+      "choice": "absent",
+      "confidence": 0.42,
+      "probabilities": {
+        "present": 0.35,
+        "absent": 0.62,
+        "unclear": 0.03
+      }
+    },
+    "atomic_order": {
+      "type": "choice",
+      "choice": "absent",
+      "confidence": 0.58,
+      "probabilities": {
+        "present": 0.27,
+        "absent": 0.71,
+        "unclear": 0.02
+      }
+    },
+    "poll_race": {
+      "type": "choice",
+      "choice": "present",
+      "confidence": 0.32,
+      "probabilities": {
+        "present": 0.55,
+        "absent": 0.37,
+        "unclear": 0.08
+      }
+    },
+    "callback_response": {
+      "type": "choice",
+      "choice": "present",
+      "confidence": 0.38,
+      "probabilities": {
+        "present": 0.58,
+        "absent": 0.38,
+        "unclear": 0.04
+      }
+    },
+    "cleanup_cutoff": {
+      "type": "choice",
+      "choice": "absent",
+      "confidence": 0.69,
+      "probabilities": {
+        "present": 0.2,
+        "absent": 0.79,
+        "unclear": 0.01
+      }
+    },
+    "public_subject": {
+      "type": "choice",
+      "choice": "absent",
+      "confidence": 1.0,
+      "probabilities": {
+        "present": 0.0,
+        "absent": 1.0,
+        "unclear": 0.0
+      }
+    },
+    "no_delivery_guarantee": {
+      "type": "choice",
+      "choice": "absent",
+      "confidence": 0.99,
+      "probabilities": {
+        "present": 0.0,
+        "absent": 1.0,
+        "unclear": 0.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 5202,
+    "output_tokens": 358
+  }
+}

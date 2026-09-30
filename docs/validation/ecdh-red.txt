@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name test_ciba_ecdh_encryption_issuance_and_refresh --seed 30244
+
+# Running:
+
+F
+
+Finished in 0.030600s, 32.6797 runs/s, 65.3595 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_ecdh_encryption_issuance_and_refresh [test/ciba_ecdh_encryption_test.rb:32]:
+{"error":"server_error"}.
+Expected: 200
+  Actual: 500
+
+1 runs, 2 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,9 @@
+Run options: --name "/grace|publisher|freshness|restrictive|nontransient|successful_removal|concurrent_eviction|explicit_stale/" --seed 53001
+
+# Running:
+
+..........
+
+Finished in 0.111569s, 89.6308 runs/s, 815.6399 assertions/s.
+
+10 runs, 91 assertions, 0 failures, 0 errors, 0 skips

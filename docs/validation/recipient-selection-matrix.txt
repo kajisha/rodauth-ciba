@@ -1,0 +1,56 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --name "/test_ciba_recipient_selection|test_ciba_rsa_recipient|test_ciba_encryption_missing_recipient|test_ciba_id_token_encryption_rejects|test_ciba_ecdh_encryption_rejects|test_ciba_id_token_recipient_encryption_and_refresh|test_ciba_ecdh_encryption_issuance_and_refresh/" --seed 64012
+
+# Running:
+
+.......
+
+Finished in 1.877822s, 3.7277 runs/s, 1602.9206 assertions/s.
+
+7 runs, 3010 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --name "/test_ciba_recipient_selection|test_ciba_rsa_recipient|test_ciba_encryption_missing_recipient|test_ciba_id_token_encryption_rejects|test_ciba_ecdh_encryption_rejects|test_ciba_id_token_recipient_encryption_and_refresh|test_ciba_ecdh_encryption_issuance_and_refresh/" --seed 16348
+
+# Running:
+
+.......
+
+Finished in 2.637961s, 2.6536 runs/s, 1141.0327 assertions/s.
+
+7 runs, 3010 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --name "/test_ciba_recipient_selection|test_ciba_rsa_recipient|test_ciba_encryption_missing_recipient|test_ciba_id_token_encryption_rejects|test_ciba_ecdh_encryption_rejects|test_ciba_id_token_recipient_encryption_and_refresh|test_ciba_ecdh_encryption_issuance_and_refresh/" --seed 60180
+
+# Running:
+
+.......
+
+Finished in 2.780854s, 2.5172 runs/s, 1082.4013 assertions/s.
+
+7 runs, 3010 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

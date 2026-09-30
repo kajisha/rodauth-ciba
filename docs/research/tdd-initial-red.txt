@@ -1,0 +1,27 @@
+:content_type_regexp option not provided to json_parser plugin, using /json/ for backwards compatibility, which may be insecure, using /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i is recommended
+Run options: --seed 19479
+
+# Running:
+
+F:content_type_regexp option not provided to json_parser plugin, using /json/ for backwards compatibility, which may be insecure, using /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i is recommended
+F:content_type_regexp option not provided to json_parser plugin, using /json/ for backwards compatibility, which may be insecure, using /\Aapplication\/json\b/i or /\Aapplication\/(?:vnd\.api\+)?json\b/i is recommended
+F
+
+Finished in 0.056616s, 52.9886 runs/s, 52.9886 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_signing_failure_rolls_back_consumption_and_grant_then_allows_retry [test/test_helper.rb:120]:
+Expected: 200
+  Actual: 404
+
+  2) Failure:
+CibaIntegrationTest#test_approved_request_issues_customer_id_token_once [test/test_helper.rb:120]:
+Expected: 200
+  Actual: 404
+
+  3) Failure:
+CibaIntegrationTest#test_concurrent_polls_issue_one_grant [test/test_helper.rb:120]:
+Expected: 200
+  Actual: 404
+
+3 runs, 3 assertions, 3 failures, 0 errors, 0 skips

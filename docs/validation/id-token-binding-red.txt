@@ -1,0 +1,46 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_dpop_alias_|test_ciba_mtls_/" --seed 42424
+
+# Running:
+
+FFF.F..E.F
+
+Finished in 2.583528s, 3.8707 runs/s, 50.7059 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_dpop_alias_jwt_target_binding [test/ciba_dpop_alias_test.rb:11]:
+ID Token must not inherit access-token sender binding
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_mtls_global_setting_does_not_force_jwt_client_binding [test/ciba_mtls_test.rb:39]:
+ID Token must not inherit certificate binding
+
+  3) Failure:
+CibaIntegrationTest#test_ciba_mtls_global_setting_does_not_force_opaque_client_binding [test/ciba_mtls_test.rb:35]:
+ID Token must not inherit certificate binding
+
+  4) Failure:
+CibaIntegrationTest#test_ciba_mtls_rejects_simultaneous_dpop_binding_and_rolls_back [test/ciba_mtls_test.rb:31]:
+ID Token must not inherit certificate binding
+
+  5) Error:
+CibaIntegrationTest#test_ciba_mtls_remote_certificate_rotation_and_failure:
+Errno::EPERM: Operation not permitted - bind(2) for 127.0.0.1
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'Socket#bind'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1146:in 'block in Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Array#each'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1134:in 'Socket.ip_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1165:in 'Socket.tcp_server_sockets_port0'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/4.0.0/socket.rb:1216:in 'Socket.tcp_server_sockets'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/utils.rb:60:in 'WEBrick::Utils.create_listeners'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:130:in 'WEBrick::GenericServer#listen'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/server.rb:111:in 'WEBrick::GenericServer#initialize'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/webrick-1.9.2/lib/webrick/httpserver.rb:47:in 'WEBrick::HTTPServer#initialize'
+    test/ciba_remote_jwks_test.rb:10:in 'CibaIntegrationTest#with_client_jwks_server'
+    test/ciba_mtls_remote_test.rb:7:in 'CibaIntegrationTest#test_ciba_mtls_remote_certificate_rotation_and_failure'
+
+  6) Failure:
+CibaIntegrationTest#test_dpop_alias_opaque_target_binding [test/ciba_dpop_alias_test.rb:7]:
+ID Token must not inherit access-token sender binding
+
+10 runs, 131 assertions, 5 failures, 1 errors, 0 skips

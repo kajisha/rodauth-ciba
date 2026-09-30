@@ -1,0 +1,146 @@
+WARNING:  no homepage specified
+WARNING:  See https://guides.rubygems.org/specification-reference/ for help
+  Successfully built RubyGem
+  Name: rodauth-ciba
+  Version: 0.1.0
+  File: rodauth-ciba-0.1.0.gem
+PASS: installed-gem discovery, acceptance, saved consent/result API, poll, verified ID Token, replay rejection and revocation
+PASS: installed-gem custom completion error returned once without token issuance
+PASS: installed-gem reference ID hint validation profile remains pending
+PASS: installed-gem opaque refresh migration, rotation, claims/RAR, original identity, grant revocation, advertised revocation endpoint and cleanup
+PASS: installed-gem opaque signed CIBA requests, validated request context, resource/claims/RAR migrations, consent, signed ID Token hint requiring new approval, nonce, at_hash, audience, UserInfo isolation and replay
+PASS: installed-gem reference ID hint validation profile remains pending
+PASS: installed-gem JWT refresh migration, rotation, claims/RAR, original identity, grant revocation, advertised revocation endpoint and cleanup
+PASS: installed-gem JWT signed CIBA requests, validated request context, resource/claims/RAR migrations, consent, signed ID Token hint requiring new approval, nonce, at_hash, audience, UserInfo isolation and replay
+PASS: installed Ed25519 Node/jose vector, opaque access token, verified ID Token
+PASS: installed EdDSA Node/jose vector, opaque access token, verified ID Token
+PASS: installed Ed25519 client authentication at both endpoints, replay rejected, opaque access token, verified ID Token
+PASS: installed EdDSA client authentication at both endpoints, replay rejected, opaque access token, verified ID Token
+PASS: installed Ed25519 Node/jose vector, JWT access token, verified ID Token
+PASS: installed EdDSA Node/jose vector, JWT access token, verified ID Token
+PASS: installed Ed25519 client authentication at both endpoints, replay rejected, JWT access token, verified ID Token
+PASS: installed EdDSA client authentication at both endpoints, replay rejected, JWT access token, verified ID Token
+PASS: installed Ed25519 ID Token, opaque access token, public JWKS
+PASS: installed EdDSA ID Token, opaque access token, public JWKS
+PASS: installed Ed25519 ID Token, JWT access token, public JWKS
+PASS: installed EdDSA ID Token, JWT access token, public JWKS
+PASS: installed RS256 encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed Ed25519 encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed EdDSA encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed RS256 encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed Ed25519 encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed EdDSA encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed HS256, plaintext secret, opaque access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS384, plaintext secret, opaque access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS512, plaintext secret, opaque access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS256, hashed secret, opaque access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS384, hashed secret, opaque access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS512, hashed secret, opaque access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS256, plaintext secret, JWT access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS384, plaintext secret, JWT access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS512, plaintext secret, JWT access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS256, hashed secret, JWT access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS384, hashed secret, JWT access token; issuance/refresh/hint and client-secret rotation
+PASS: installed HS512, hashed secret, JWT access token; issuance/refresh/hint and client-secret rotation
+PASS: installed dir/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128GCMKW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192GCMKW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256GCMKW/A256CBC-HS512, plaintext POST, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed dir/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128GCMKW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192GCMKW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256GCMKW/A256CBC-HS512, hashed Basic, opaque; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed dir/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128GCMKW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192GCMKW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256GCMKW/A256CBC-HS512, plaintext POST, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed dir/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128KW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192KW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256KW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A128GCMKW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A192GCMKW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed A256GCMKW/A256CBC-HS512, hashed Basic, JWT; initial/refresh decrypted and signatures verified; no remote recipient lookup
+PASS: installed P-256/ECDH-ES encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES+A128KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES+A192KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES+A256KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES+A128KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES+A192KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES+A256KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES+A128KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES+A192KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES+A256KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES+A128KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES+A192KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES+A256KW encrypted ID Token issuance/refresh, opaque access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES+A128KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES+A192KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-256/ECDH-ES+A256KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES+A128KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES+A192KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-384/ECDH-ES+A256KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES+A128KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES+A192KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed P-521/ECDH-ES+A256KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES+A128KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES+A192KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed X25519/ECDH-ES+A256KW encrypted ID Token issuance/refresh, JWT access token, recipient decryption and signature verified
+PASS: installed-gem dynamic registration, verified CIBA issuance, management rotation and dependent deletion
+PASS: installed-gem opaque DPoP alias port binding with canonical issuer (Rack transport)
+PASS: installed-gem opaque DPoP DCR, nonce/old-iat issuance, binding, UserInfo, replay and confidential refresh with new key
+PASS: installed-gem JWT DPoP alias port binding with canonical issuer (Rack transport)
+PASS: installed-gem JWT DPoP DCR, nonce/old-iat issuance, binding, UserInfo, replay and confidential refresh with new key
+PASS: installed real TLS alias tls_client_auth/opaque authentication plus DPoP issuance, UserInfo and refresh
+PASS: installed-gem real TLS DCR tls_client_auth/opaque CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied
+PASS: installed real TLS alias tls_client_auth/JWT authentication plus DPoP issuance, UserInfo and refresh
+PASS: installed-gem real TLS DCR tls_client_auth/JWT CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied
+PASS: installed-gem opaque remote x5c over verified HTTPS, cache expiry, same-key certificate rotation, refresh/new binding, old binding retained, failed fetch/recovery
+PASS: installed real TLS alias self_signed_tls_client_auth/opaque authentication plus DPoP issuance, UserInfo and refresh
+PASS: installed-gem real TLS DCR self_signed_tls_client_auth/opaque CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied
+PASS: installed-gem JWT remote x5c over verified HTTPS, cache expiry, same-key certificate rotation, refresh/new binding, old binding retained, failed fetch/recovery
+PASS: installed real TLS alias self_signed_tls_client_auth/JWT authentication plus DPoP issuance, UserInfo and refresh
+PASS: installed-gem real TLS DCR self_signed_tls_client_auth/JWT CIBA, binding, UserInfo, refresh and management via discovered aliases; canonical issuer and old binding retained, new policy applied
+PASS: installed-gem ping over verified TLS, Bearer/JSON, 200/204, 503/302/timeout retain approval, explicit retry, token collection
+PASS: installed-gem hybrid pairwise sector DCR over verified TLS, safe redirect success, loop/invalid/blocked-target refusal, URI membership and malformed/oversized/HTTP-error refusal without persistence or credential forwarding
+PASS: installed-gem pairwise private_key_jwt over real TLS JWKS, approval, verified ID Token, saved subject and matching UserInfo
+PASS: installed Ed25519 HTTPS client JWKS, both endpoint authentication, verified ID Token, opaque access token
+PASS: installed EdDSA HTTPS client JWKS, both endpoint authentication, verified ID Token, opaque access token
+PASS: installed Ed25519 HTTPS client JWKS, both endpoint authentication, verified ID Token, JWT access token
+PASS: installed EdDSA HTTPS client JWKS, both endpoint authentication, verified ID Token, JWT access token
+PASS: installed HTTPS RSA/RSA-OAEP-256 encryption key cache/rotation, 503/malformed rollback and recovery, opaque mode
+PASS: installed HTTPS P-256/ECDH-ES encryption key cache/rotation, 503/malformed rollback and recovery, opaque mode
+PASS: installed HTTPS X25519/ECDH-ES+A256KW encryption key cache/rotation, 503/malformed rollback and recovery, opaque mode
+PASS: installed HTTPS RSA/RSA-OAEP-256 encryption key cache/rotation, 503/malformed rollback and recovery, JWT mode
+PASS: installed HTTPS P-256/ECDH-ES encryption key cache/rotation, 503/malformed rollback and recovery, JWT mode
+PASS: installed HTTPS X25519/ECDH-ES+A256KW encryption key cache/rotation, 503/malformed rollback and recovery, JWT mode
+PASS: installed-gem ping rejects untrusted TLS before sending credentials, retains approval and allows token collection
+PASS: installed-gem sector registration rejects untrusted TLS without persistence
+PASS: installed Ed25519 HTTPS client JWKS rejects untrusted TLS before key retrieval, opaque mode
+PASS: installed EdDSA HTTPS client JWKS rejects untrusted TLS before key retrieval, opaque mode
+PASS: installed Ed25519 HTTPS client JWKS rejects untrusted TLS before key retrieval, JWT mode
+PASS: installed EdDSA HTTPS client JWKS rejects untrusted TLS before key retrieval, JWT mode
+PASS: installed HTTPS RSA/RSA-OAEP-256 encryption keys reject untrusted TLS, opaque mode
+PASS: installed HTTPS P-256/ECDH-ES encryption keys reject untrusted TLS, opaque mode
+PASS: installed HTTPS X25519/ECDH-ES+A256KW encryption keys reject untrusted TLS, opaque mode
+PASS: installed HTTPS RSA/RSA-OAEP-256 encryption keys reject untrusted TLS, JWT mode
+PASS: installed HTTPS P-256/ECDH-ES encryption keys reject untrusted TLS, JWT mode
+PASS: installed HTTPS X25519/ECDH-ES+A256KW encryption keys reject untrusted TLS, JWT mode
+SHA256 ddf468c63c53e1d78783ff4c2875ce68ff765a3591a6ef54f1dfbdfdc196bf51
+Runtime dependencies reused from installed local gems; no network dependency resolution tested.

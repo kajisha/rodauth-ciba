@@ -1,0 +1,11 @@
+ARG RUBY_IMAGE=ruby:4.0.6-bookworm@sha256:b4aa7093ffca123d849e79b3e2bc582064f6dd9c22940e69c08bc47d74e355db
+FROM ${RUBY_IMAGE}
+RUN apt-get update && apt-get install -y --no-install-recommends libpq-dev default-libmysqlclient-dev && rm -rf /var/lib/apt/lists/*
+ENV BUNDLE_WITH=database_adapters
+WORKDIR /app
+COPY Gemfile Gemfile.lock rodauth-ciba.gemspec ./
+COPY lib ./lib
+RUN bundle install
+COPY test ./test
+COPY examples ./examples
+CMD ["ruby", "test/run.rb"]

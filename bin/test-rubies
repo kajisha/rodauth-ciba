@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+for variant in \
+  '33 ruby:3.3-bookworm@sha256:dba270af6994f64e45ee3dd2b85225a2a0d01f29c04508c7a3c7c8dbf59d2a85' \
+  '34 ruby:3.4-bookworm@sha256:246b2dc3f6e40bba3af18503c22997a34dbb27c9f97e198dde6dd727895115c5'; do
+  set -- $variant
+  docker build -f Dockerfile.test --build-arg RUBY_IMAGE="$2" -t "rodauth-ciba-ruby$1-test" .
+  docker run --rm "rodauth-ciba-ruby$1-test" ruby test/run.rb --seed 3363
+done

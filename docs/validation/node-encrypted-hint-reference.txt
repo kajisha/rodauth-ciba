@@ -1,0 +1,45 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default features.ciba.validateBindingMessage function called, you SHOULD change it in order to verify the binding_message parameter is present when required and verify its value.
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS request_context: application callback receives supplied/omitted value, stored with request, rejection precedes device dispatch, no automatic ID claim
+PASS pending: repeated HTTP polls return authorization_pending
+PASS login_hint_token: application resolver, client policy, exclusive hints and resolved subject
+PASS denial: access_denied then invalid_grant
+PASS generic completion errors: transaction_failed/pending both consumed once
+PASS dispatch failure: persisted pending request survives without identifier in response
+PASS success/signature/client isolation/replay revocation
+PASS id_token_hint: current/expired/multiple-audience hints remain pending; issuer/audience/subject/nbf/signature checked, azp not checked
+PASS encrypted id_token_hint rejected before device dispatch despite valid nested JWE and OP decryption key
+PASS signed CIBA requests: registered algorithm/key, required claims, JWT-only parameters, numeric/string expiry; default jti reuse accepted
+PASS user_code: application policy rejects missing/wrong code before dispatch; valid code still requires new approval
+PASS explicit claims: requested-only, target separation and poll tampering
+PASS explicit claims: allowed-id-token, target separation and poll tampering
+PASS explicit claims: explicitly-rejected, target separation and poll tampering
+PASS explicit claims: userinfo-only, target separation and poll tampering
+PASS explicit claims: allowed-but-unrequested, target separation and poll tampering
+PASS claims malformed JSON/shape rejection
+PASS resources: repeated start parameters, one selected audience, per-resource consent scope
+PASS resource JWT introspection: structured token rejected before and after replay
+PASS resources: no approved resource permission yields empty scope, never OIDC fallback
+PASS resources: poll cannot select unrequested target, failed resolution leaves consumption
+PASS resources: omitted token target follows default UserInfo policy
+PASS resources: opt-in omission selection, ambiguity rejection, explicit default selection
+PASS resources: malformed/unknown target rejection
+PASS RAR: requested details and Grant.rar do not automatically become completed source permission
+PASS RAR: explicit completion permission and application policy control token/introspection details
+PASS RAR: replay revocation removes active introspection and authorization details
+PASS RAR: request shape, type registration and action-array checks
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+PASS refresh: default issuance gates, transient scope narrowing, reusable fresh token, original authentication context, saved consent revocation
+PASS refresh: default age-based rotation, foreign-client isolation, replay revokes consent and successor/access tokens, expiry rejection
+PASS refresh resource: original multi-resource permission survives first AT selection; each refresh filters current consent
+PASS refresh claims/RAR: rotation retains source, current rejected claims apply, refresh parameters cannot enlarge application-approved details
+oidc-provider NOTICE: default features.revocation.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to revoke the token.
+PASS refresh revocation: empty success, foreign-client isolation, missing/wrong/unknown hint fallback, grant-wide revocation and idempotence
+PASS access revocation: opaque AT revokes sibling ATs and refresh while retaining saved Grant; structured JWT rejected without revoking consent
+PASS expiry through HTTP
+PASS issuance failure: consumed survives, retry revokes grant
+PASS full oidc-provider v9.12.2 HTTP lifecycle; built-in memory adapter, no browser/notification delivery

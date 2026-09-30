@@ -1,0 +1,15 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /concurrent_client_delete_and_refresh/ --seed 56264
+
+# Running:
+
+F
+
+Finished in 3.512626s, 0.2847 runs/s, 1.1387 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_concurrent_client_delete_and_refresh_leave_no_live_client_tokens [test/ciba_registration_test.rb:680]:
+{"error":"server_error"} [["Sequel::DatabaseError", "SQLite3::BusyException"]].
+Expected [200, 400, 401, 503] to include 500.
+
+1 runs, 4 assertions, 1 failures, 0 errors, 0 skips

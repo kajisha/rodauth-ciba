@@ -1,0 +1,22 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 55996
+
+# Running:
+
+EE.
+
+Finished in 0.027903s, 107.5153 runs/s, 322.5460 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_ciba_discovery_retains_configured_dpop_algorithms:
+KeyError: key not found: "dpop_signing_alg_values_supported"
+    test/ciba_discovery_extensions_test.rb:44:in 'Hash#fetch'
+    test/ciba_discovery_extensions_test.rb:44:in 'CibaIntegrationTest#test_ciba_discovery_retains_configured_dpop_algorithms'
+
+  2) Error:
+CibaIntegrationTest#test_ciba_discovery_retains_introspection_configuration:
+KeyError: key not found: "introspection_endpoint"
+    test/ciba_discovery_extensions_test.rb:26:in 'Hash#fetch'
+    test/ciba_discovery_extensions_test.rb:26:in 'CibaIntegrationTest#test_ciba_discovery_retains_introspection_configuration'
+
+3 runs, 9 assertions, 0 failures, 2 errors, 0 skips

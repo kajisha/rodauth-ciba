@@ -1,0 +1,15 @@
+Run options: --name /mtls_remote/ --seed 8161
+
+# Running:
+
+F
+
+Finished in 0.030735s, 32.5362 runs/s, 488.0429 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_mtls_remote_certificate_rotation_and_failure [test/ciba_mtls_remote_test.rb:48]:
+{"error":"invalid_request"}.
+Expected: 401
+  Actual: 400
+
+1 runs, 15 assertions, 1 failures, 0 errors, 0 skips

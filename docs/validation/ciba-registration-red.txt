@@ -1,0 +1,28 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 3363
+
+# Running:
+
+.FF.F
+
+Finished in 0.034782s, 143.7525 runs/s, 920.0161 assertions/s.
+
+  1) Failure:
+CibaRegistrationTest#test_update_cannot_change_existing_ciba_subject_type_without_repeating_grant_type [test/ciba_registration_test.rb:96]:
+{"registration_access_token":"$2a$04$1zgvedx93WZ4L1DpxlZ/M.uhU19yle7vg8.T08v7/DjhGKrZYV/W2","backchannel_token_delivery_mode":"poll","subject_type":"pairwise","grant_types":["urn:openid:params:grant-type:ciba","authorization_code"],"token_endpoint_auth_method":["client_secret_basic"],"scope":"openid"}.
+Expected: 400
+  Actual: 200
+
+  2) Failure:
+CibaRegistrationTest#test_dynamic_poll_registration_without_browser_metadata_and_complete_flow [test/ciba_registration_test.rb:47]:
+{"error":"invalid_client_metadata","error_description":"The param 'redirect_uris' is required by this server."}.
+Expected: 201
+  Actual: 400
+
+  3) Failure:
+CibaRegistrationTest#test_registration_authentication_still_required [test/ciba_registration_test.rb:85]:
+{"error":"invalid_client_metadata","error_description":"The param 'redirect_uris' is required by this server."}.
+Expected: 401
+  Actual: 400
+
+5 runs, 32 assertions, 3 failures, 0 errors, 0 skips

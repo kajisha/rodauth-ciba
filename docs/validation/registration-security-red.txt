@@ -1,0 +1,20 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 3363
+
+# Running:
+
+......FE.
+
+Finished in 0.071079s, 126.6197 runs/s, 731.5804 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_management_response_never_exposes_registration_token_hash [test/ciba_registration_test.rb:163]:
+Expected true to not be truthy.
+
+  2) Error:
+CibaIntegrationTest#test_ciba_registration_ignores_internal_columns_and_generates_own_secret:
+KeyError: key not found: "client_secret"
+    test/ciba_registration_test.rb:146:in 'Hash#fetch'
+    test/ciba_registration_test.rb:146:in 'CibaIntegrationTest#test_ciba_registration_ignores_internal_columns_and_generates_own_secret'
+
+9 runs, 52 assertions, 1 failures, 1 errors, 0 skips

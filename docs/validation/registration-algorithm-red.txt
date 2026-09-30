@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /auth_signing_algorithm/ --seed 58146
+
+# Running:
+
+F
+
+Finished in 0.185439s, 5.3926 runs/s, 5.3926 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_dynamic_client_auth_signing_algorithm_is_validated_and_enforced [test/ciba_registration_test.rb:146]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"private_key_jwt","backchannel_token_delivery_mode":"poll","token_endpoint_auth_signing_alg":"none","jwks":{"keys":[{"kty":"RSA","n":"ryFexMa2U1dzM8zpzJU8VbrdTQYPjw0_nN8pDiksAkGx0D_k6XRF5Y1YeYBxWnK2qqfSiDwsmn7tyhy4xfyVKM1wFkVaj-eTakb0G134FgW4CeqUiMZ7pYj7zStgCZCU831Mqh1aUfyfbSIicLzURerY2V4vfomb2eUwoa5t6kdtS7Qv7WECDPyjEsdS51RROvXZ_mGd6-kl6gpm9MAmzbmxo0bz0kIhhnGgcg3mEoHI1F4ryra8G24em9JpeGA3MNwHTtiQdggU7D70JQNq2HmTVHzhkRRoG5D1AuCS4HJqfFd-iZ82q-RojufsIug_nWHXZG_FPBl2kt04trOTDw","e":"AQAB","kid":"RS256","alg":"RS256","use":"sig"},{"kty":"RSA","n":"ryFexMa2U1dzM8zpzJU8VbrdTQYPjw0_nN8pDiksAkGx0D_k6XRF5Y1YeYBxWnK2qqfSiDwsmn7tyhy4xfyVKM1wFkVaj-eTakb0G134FgW4CeqUiMZ7pYj7zStgCZCU831Mqh1aUfyfbSIicLzURerY2V4vfomb2eUwoa5t6kdtS7Qv7WECDPyjEsdS51RROvXZ_mGd6-kl6gpm9MAmzbmxo0bz0kIhhnGgcg3mEoHI1F4ryra8G24em9JpeGA3MNwHTtiQdggU7D70JQNq2HmTVHzhkRRoG5D1AuCS4HJqfFd-iZ82q-RojufsIug_nWHXZG_FPBl2kt04trOTDw","e":"AQAB","kid":"RS512","alg":"RS512","use":"sig"}]},"redirect_uris":[],"client_id":"dguhA51x3LyN4y-n30BoJzhr1bsxHDJYivsi42kNFI4","client_id_issued_at":1790726615,"client_secret":"Cy8NZpXnlDeFrNKtNevOrt2Qum5gVTmpYLzTaS0ICKU","client_secret_expires_at":0,"registration_access_token":"ciba_reg_9xDRJXcLeOz3gK4q-E4Iu38yd_vLMiIwKD-C37p7G_g","registration_client_uri":"https://op.example.test/register/dguhA51x3LyN4y-n30BoJzhr1bsxHDJYivsi42kNFI4"}.
+Expected: 400
+  Actual: 201
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

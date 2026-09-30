@@ -1,0 +1,17 @@
+
+> test
+> node lifecycle.mjs
+
+oidc-provider WARNING: Unsupported runtime. Use Node.js v22.x LTS, or a later LTS release.
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default features.ciba.validateBindingMessage function called, you SHOULD change it in order to verify the binding_message parameter is present when required and verify its value.
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS pending: repeated HTTP polls return authorization_pending
+PASS denial: access_denied then invalid_grant
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS success/signature/client isolation/replay revocation
+PASS expiry through HTTP
+PASS issuance failure: consumed survives, retry revokes grant
+PASS full oidc-provider v9.12.2 HTTP lifecycle; built-in memory adapter, no browser/notification delivery

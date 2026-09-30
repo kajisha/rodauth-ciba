@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+# Build and verify the local gem with existing dependencies, without network access.
+require "rubygems/package"
+require "rubygems/dependency_installer"
+require "tmpdir"
+require "open3"
+require "rbconfig"
+require "digest"
+require "fileutils"
+
+Dir.chdir(File.expand_path("..", __dir__)) do
+  FileUtils.mkdir_p("pkg")
+  spec = Gem::Specification.load("rodauth-ciba.gemspec")
+  artifact = File.expand_path("pkg/#{spec.name}-#{spec.version}.gem")
+  Gem::Package.build(spec, false, false, artifact)
+  Dir.mktmpdir("ciba-installed-") do |directory|
+    Gem::DependencyInstaller.new(install_dir: directory, ignore_dependencies: true, document: []).install(artifact)
+    env = {"GEM_HOME" => directory, "GEM_PATH" => ([directory] + Gem.path).join(File::PATH_SEPARATOR),
+      "RUBYLIB" => nil, "RUBYOPT" => nil, "BUNDLE_GEMFILE" => nil, "CIBA_INSTALLED_ROOT" => directory}
+    program = <<~'CODE'
+      require "rubygems"
+      gem "rodauth-ciba"
+      spec = Gem.loaded_specs.fetch("rodauth-ciba")
+      installed_root = File.realpath(ENV.fetch("CIBA_INSTALLED_ROOT"))
+      raise "repository gem loaded" unless File.realpath(spec.full_gem_path).start_with?(installed_root + "/")
+      %w[lib/rodauth/ciba/schema.rb docs/node-alignment.md docs/research/node-ciba-lifecycle.md
+         docs/authentication-claims.md docs/max-age.md docs/alignment-closeout.md
+         docs/research/required-parameter-inventory.md docs/research/request-parameter-inventory.md
+         docs/claims.md docs/resources.md docs/authorization-details.md docs/login-hint-token.md docs/id-token-hint.md docs/research/resource-reference-contract.md
+         docs/research/rar-reference-contract.md docs/signed-requests.md docs/user-code.md docs/refresh-tokens.md
+         docs/research/refresh-reference-contract.md docs/request-context.md examples/extensions_smoke.rb
+         docs/research/registration-reference-contract.md examples/registration_smoke.rb
+         lib/rodauth/ciba/dpop.rb docs/research/dpop-reference-contract.md examples/dpop_smoke.rb
+         lib/rodauth/ciba/mtls.rb docs/research/mtls-reference-contract.md examples/mtls_smoke.rb
+         examples/edwards_smoke.rb examples/edwards_tls_smoke.rb examples/edwards_id_token_smoke.rb examples/fixtures/edwards-requests.json
+         docs/research/client-assertion-algorithm-contract.md docs/id-token-encryption.md
+         lib/rodauth/ciba/id_token_encryption.rb examples/encrypted_id_token_smoke.rb examples/encryption_tls_smoke.rb
+         examples/hmac_id_token_smoke.rb examples/symmetric_id_token_smoke.rb examples/ecdh_id_token_smoke.rb].each do |path|
+        raise "missing artifact file: #{path}" unless File.file?(File.join(spec.full_gem_path, path))
+      end
+      load File.join(spec.full_gem_path, "examples/smoke.rb")
+      load File.join(spec.full_gem_path, "examples/extensions_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/edwards_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/edwards_id_token_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/encrypted_id_token_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/hmac_id_token_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/symmetric_id_token_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/ecdh_id_token_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/registration_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/dpop_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/mtls_smoke.rb")
+      load File.join(spec.full_gem_path, "examples/ping_smoke.rb")
+      %w[/rodauth/features/ciba.rb /rodauth/ciba/dpop.rb /rodauth/ciba/mtls.rb].each do |suffix|
+        feature = $LOADED_FEATURES.find { |path| path.end_with?(suffix) }
+        raise "#{suffix} loaded outside installed gem" unless feature && File.realpath(feature).start_with?(File.realpath(spec.full_gem_path) + "/")
+      end
+    CODE
+    output, errors, status = Open3.capture3(env, RbConfig.ruby, "-e", program, chdir: directory)
+    print output
+    warn errors unless errors.empty?
+    raise "installed package smoke failed" unless status.success?
+  end
+  puts "SHA256 #{Digest::SHA256.file(artifact).hexdigest}"
+  puts "Runtime dependencies reused from installed local gems; no network dependency resolution tested."
+end

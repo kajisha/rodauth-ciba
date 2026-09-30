@@ -1,0 +1,24 @@
+Command: ./bin/test-rubies
+Exit status: 0
+
+Ruby 3.3.12:
+Run options: --seed 3363
+
+# Running:
+
+..............................................
+
+Finished in 0.875758s, 52.5259 runs/s, 405.3633 assertions/s.
+
+46 runs, 355 assertions, 0 failures, 0 errors, 0 skips
+
+Ruby 3.4.11:
+Run options: --seed 3363
+
+# Running:
+
+..............................................
+
+Finished in 0.833259s, 55.2049 runs/s, 426.0379 assertions/s.
+
+46 runs, 355 assertions, 0 failures, 0 errors, 0 skips

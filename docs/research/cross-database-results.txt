@@ -1,0 +1,49 @@
+Command: ./bin/test-databases --seed 3363
+Exit status: 0
+
+Testing CIBA on sqlite
+ Container rodauth-ciba-test-test-run-40ca194c5e14 Creating 
+ Container rodauth-ciba-test-test-run-40ca194c5e14 Created 
+Run options: --seed 3363
+
+# Running:
+
+..............
+
+Finished in 0.164371s, 85.1733 runs/s, 918.6548 assertions/s.
+
+14 runs, 151 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on postgres
+ Container rodauth-ciba-test-test-run-7405ac2eb210 Creating 
+ Container rodauth-ciba-test-test-run-7405ac2eb210 Created 
+Run options: --seed 3363
+
+# Running:
+
+..............
+
+Finished in 0.485398s, 28.8423 runs/s, 311.0848 assertions/s.
+
+14 runs, 151 assertions, 0 failures, 0 errors, 0 skips
+Testing CIBA on mysql
+ Container rodauth-ciba-test-test-run-660c679cfc26 Creating 
+ Container rodauth-ciba-test-test-run-660c679cfc26 Created 
+Run options: --seed 3363
+
+# Running:
+
+..............
+
+Finished in 0.376724s, 37.1625 runs/s, 400.8238 assertions/s.
+
+14 runs, 151 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

@@ -1,0 +1,21 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_edwards_id_token_issuance/ --seed 26809
+
+# Running:
+
+E
+
+Finished in 0.019798s, 50.5102 runs/s, 0.0000 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_edwards_id_token_issuance_public_keys_and_hints:
+NoMethodError: undefined method 'ciba_id_token_signing_keys' for #<Rodauth::Configuration:0x0000000120dce328>
+    test/ciba_edwards_id_token_test.rb:11:in 'block in CibaIntegrationTest#test_edwards_id_token_issuance_public_keys_and_hints'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:321:in 'BasicObject#instance_exec'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:321:in 'Rodauth::Configuration#apply'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:374:in 'Rodauth::Auth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:61:in 'Rodauth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:312:in 'Roda::RodaPlugins::Base::ClassMethods#plugin'
+    test/ciba_edwards_id_token_test.rb:11:in 'CibaIntegrationTest#test_edwards_id_token_issuance_public_keys_and_hints'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips

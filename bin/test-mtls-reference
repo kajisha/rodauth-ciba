@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/../test/reference/full-op"
+fixture_dir=$(mktemp -d "$PWD/node_modules/.mtls-reference.XXXXXX")
+trap 'rm -rf "$fixture_dir"' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+ruby mtls-certificates.rb "$fixture_dir"
+docker run --rm --network none \
+  --mount "type=bind,src=$PWD,dst=/app,readonly" --workdir /app \
+  --env "CIBA_TEST_MTLS_DIRECTORY=/app/node_modules/$(basename "$fixture_dir")" \
+  node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 \
+  node mtls.mjs

@@ -1,0 +1,78 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "task": "Recommend remote JWKS cache policies for a generic OSS CIBA OP extension intended to align with public node-oidc-provider. Evaluate public reference behavior and conceptual alternatives fairly.",
+    "scope": "Generic OSS CIBA OP extension design evaluation only. No deployment identities, private source code, internal logs or test artifacts are included. User wants alignment with node-oidc-provider; no cache-policy exception approved.",
+    "reference": {
+      "package": "Public OSS node-oidc-provider 9.12.2",
+      "public_source_url": "https://github.com/panva/node-oidc-provider/blob/v9.12.2/lib/models/client.js"
+    },
+    "observations": [
+      "Public reference refresh logic parses JSON, then sets freshness to at least 60 seconds, then checks HTTP status and validates JWKS. Previously loaded keys are cleared only after these validations succeed.",
+      "Consequently a parseable HTTP503 can extend freshness of retained keys although the refresh call fails. A later call can reuse those keys without fetching. Invalid JSON fails before freshness update.",
+      "The proposed alternative is to honor HTTP freshness directives including short max-age and no-cache, and reject operations after expired-key refresh failures until a successful refresh.",
+      "Successful refresh replaces keys. Both policies can retain removed keys while cache remains fresh; neither promises immediate revocation.",
+      "The same conceptual cache choice applies to encryption recipient keys and mTLS client-authentication keys. Minimum successful-cache lifetime and failed-refresh reuse are separate policy decisions."
+    ],
+    "inferred_tradeoffs": [
+      "Reusing old verification keys can sustain authentication during JWKS outage but can accept a removed or compromised credential. Rejecting after failed refresh reduces that exposure after expiry but increases outages.",
+      "Encrypting to retained recipient keys can maintain service if receiver retains corresponding private keys; otherwise tokens can be undecryptable. If old private key compromised, confidentiality can be affected.",
+      "60-second floor reduces fetch load but overrides shorter publisher cache directives and delays rotation pickup. Respecting directives can increase fetch load and endpoint dependence.",
+      "Explicit bounded stale grace or configurable behavior is possible but adds public API, testing and operational complexity; neither automatically matches the reference status/body-dependent behavior."
+    ],
+    "unknowns": [
+      "No adopter outage or emergency-revocation SLA supplied.",
+      "No stated requirement for exact cache wire behavior beyond general reference alignment.",
+      "No upstream maintainer evidence that failed-refresh freshness ordering is intentional.",
+      "No measured production fetch load or demand for multiple configurable policies."
+    ],
+    "interpretation": "Choice distributions compare candidate policies; confidence is concentration, not correctness. We will report uncertainty and do not treat your response as user approval. Missing operational evidence may justify deferral, but do not require it if a defensible OSS default can be recommended."
+  },
+  "questions": {
+    "failure_default": {
+      "type": "choice",
+      "instructions": "Which default should this gem adopt for expired populated remote JWKS caches after refresh fails, balancing explicit reference alignment with OSS suitability?",
+      "criteria": {
+        "reference_exact": "Match observed reference behavior: refresh freshness before status/structure validation after successful JSON parsing, so subsequent requests may reuse old keys; document it and add regression tests.",
+        "reject_until_success": "Keep rejection until successful refresh, explicitly document this departure from reference; do not mark failed refresh fresh.",
+        "bounded_stale": "Implement an explicit bounded stale-on-error grace instead of reference response-dependent reuse; define limit and add tests, acknowledging non-identical behavior.",
+        "defer": "Available evidence is insufficient to recommend a default; obtain a concrete missing operational requirement or upstream intent first."
+      }
+    },
+    "ttl_default": {
+      "type": "choice",
+      "instructions": "Independently of refresh-failure behavior, what successful remote JWKS freshness policy should be the default given this user wants reference alignment?",
+      "criteria": {
+        "reference_floor": "Implement reference minimum 60-second freshness including when publisher asks for shorter lifetime; document operational impact.",
+        "http_directives": "Retain upstream rodauth-oauth HTTP freshness semantics, including shorter max-age and no-cache, as an explicit alignment deviation.",
+        "defer": "Do not select a default until additional operational requirements or performance evidence are supplied."
+      }
+    },
+    "configuration": {
+      "type": "choice",
+      "instructions": "Should initial release introduce public configuration to select different remote JWKS cache policies?",
+      "criteria": {
+        "single_default": "Ship one documented default and ordinary framework extension points; avoid new dedicated policy switches without demand.",
+        "explicit_switch": "Provide documented selectable cache policies now, with a clear default and tests for each, to meet both reference parity and stricter deployments.",
+        "defer": "Need more evidence before deciding whether a public policy switch belongs in initial release."
+      }
+    },
+    "key_purpose": {
+      "type": "choice",
+      "instructions": "Should initial release use separate default refresh-failure cache policies for encryption recipient keys versus mTLS client-authentication keys?",
+      "criteria": {
+        "same_policy": "Use the same default failure policy for both, while documenting distinct confidentiality/authentication impacts.",
+        "different_policy": "Use separate defaults for encryption recipients and authentication verification; accept extra implementation and test complexity.",
+        "defer": "No defensible choice on shared versus separate defaults without additional requirements."
+      }
+    },
+    "upstream_intent": {
+      "type": "noul",
+      "instructions": "Does supplied source and experimental evidence establish that reusing retained keys after a failed JSON-parseable HTTP503 refresh is an intentional supported upstream policy, rather than merely observed implementation behavior?"
+    },
+    "exact_parity_required": {
+      "type": "noul",
+      "instructions": "Given the explicit user goal of alignment, should failed-refresh cache behavior be copied exactly even if no upstream intent or deployment outage/revocation requirement is established?"
+    }
+  }
+}

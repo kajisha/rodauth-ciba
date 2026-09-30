@@ -1,0 +1,10 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /dpop/ --seed 305
+
+# Running:
+
+...........
+
+Finished in 2.195525s, 5.0102 runs/s, 83.8068 assertions/s.
+
+11 runs, 184 assertions, 0 failures, 0 errors, 0 skips

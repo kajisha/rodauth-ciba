@@ -1,0 +1,10 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/pairwise_ciba_issuance|pairwise_jwt_access_token_userinfo_and_hint/" --seed 8770
+
+# Running:
+
+..
+
+Finished in 0.061200s, 32.6797 runs/s, 457.5163 assertions/s.
+
+2 runs, 28 assertions, 0 failures, 0 errors, 0 skips

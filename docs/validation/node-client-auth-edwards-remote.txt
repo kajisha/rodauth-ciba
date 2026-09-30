@@ -1,0 +1,19 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: quick start development-only signing keys are used, you are expected to provide your own in the configuration "jwks" property
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+PASS RS256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS RS384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS RS512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS PS256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS PS384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS PS512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS ES256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS ES384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS ES512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS HS256: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS HS384: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS HS512: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS Ed25519: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS Ed25519-remote: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS EdDSA: advertised client assertion authenticates both endpoints; wrong key rejected at both
+PASS EdDSA-remote: advertised client assertion authenticates both endpoints; wrong key rejected at both

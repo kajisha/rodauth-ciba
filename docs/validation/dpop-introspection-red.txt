@@ -1,0 +1,20 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /introspection/ --seed 49611
+
+# Running:
+
+FF
+
+Finished in 0.041551s, 48.1336 runs/s, 192.5345 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_dpop_opaque_introspection_exposes_binding [test/ciba_dpop_test.rb:6]:
+Expected: true
+  Actual: false
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_dpop_resource_introspection_exposes_binding [test/ciba_dpop_test.rb:10]:
+Expected: true
+  Actual: false
+
+2 runs, 8 assertions, 2 failures, 0 errors, 0 skips

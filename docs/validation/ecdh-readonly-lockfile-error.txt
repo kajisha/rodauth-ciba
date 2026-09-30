@@ -1,0 +1,98 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+/usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:433:in 'Bundler::Definition#write_lock': Your lockfile is missing the current platform, your lockfile has an empty CHECKSUMS entry for "json", but can't be updated because file system is read-only (Bundler::ProductionError)
+
+Run `bundle install` elsewhere and add the updated Gemfile.lock to version control.
+
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:392:in 'Bundler::Definition#lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/runtime.rb:104:in 'Bundler::Runtime#lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/runtime.rb:35:in 'Bundler::Runtime#setup'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler.rb:166:in 'Bundler.setup'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/setup.rb:32:in 'block in <top (required)>'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/ui/shell.rb:177:in 'Bundler::UI::Shell#with_level'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/ui/shell.rb:122:in 'Bundler::UI::Shell#silence'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/setup.rb:32:in '<top (required)>'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from /app/test/test_helper.rb:2:in '<top (required)>'
+	from /app/test/ciba_refresh_test.rb:2:in 'Kernel#require_relative'
+	from /app/test/ciba_refresh_test.rb:2:in '<top (required)>'
+	from /app/test/ciba_access_revocation_test.rb:2:in 'Kernel#require_relative'
+	from /app/test/ciba_access_revocation_test.rb:2:in '<top (required)>'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from test/run.rb:2:in 'block in <main>'
+	from test/run.rb:2:in 'Array#each'
+	from test/run.rb:2:in '<main>'
+/usr/local/bundle/gems/bundler-4.0.16/lib/bundler/shared_helpers.rb:122:in 'Bundler::SharedHelpers#filesystem_access': There was an error while trying to write to `/app/Gemfile.lock`. File system is read-only. (Bundler::ReadOnlyFileSystemError)
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:429:in 'Bundler::Definition#write_lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:392:in 'Bundler::Definition#lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/runtime.rb:104:in 'Bundler::Runtime#lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/runtime.rb:35:in 'Bundler::Runtime#setup'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler.rb:166:in 'Bundler.setup'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/setup.rb:32:in 'block in <top (required)>'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/ui/shell.rb:177:in 'Bundler::UI::Shell#with_level'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/ui/shell.rb:122:in 'Bundler::UI::Shell#silence'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/setup.rb:32:in '<top (required)>'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from /app/test/test_helper.rb:2:in '<top (required)>'
+	from /app/test/ciba_refresh_test.rb:2:in 'Kernel#require_relative'
+	from /app/test/ciba_refresh_test.rb:2:in '<top (required)>'
+	from /app/test/ciba_access_revocation_test.rb:2:in 'Kernel#require_relative'
+	from /app/test/ciba_access_revocation_test.rb:2:in '<top (required)>'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from test/run.rb:2:in 'block in <main>'
+	from test/run.rb:2:in 'Array#each'
+	from test/run.rb:2:in '<main>'
+/usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:430:in 'File#initialize': Read-only file system @ rb_sysopen - /app/Gemfile.lock (Errno::EROFS)
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:430:in 'IO.open'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:430:in 'block in Bundler::Definition#write_lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/shared_helpers.rb:106:in 'Bundler::SharedHelpers#filesystem_access'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:429:in 'Bundler::Definition#write_lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/definition.rb:392:in 'Bundler::Definition#lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/runtime.rb:104:in 'Bundler::Runtime#lock'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/runtime.rb:35:in 'Bundler::Runtime#setup'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler.rb:166:in 'Bundler.setup'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/setup.rb:32:in 'block in <top (required)>'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/ui/shell.rb:177:in 'Bundler::UI::Shell#with_level'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/ui/shell.rb:122:in 'Bundler::UI::Shell#silence'
+	from /usr/local/bundle/gems/bundler-4.0.16/lib/bundler/setup.rb:32:in '<top (required)>'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from /app/test/test_helper.rb:2:in '<top (required)>'
+	from /app/test/ciba_refresh_test.rb:2:in 'Kernel#require_relative'
+	from /app/test/ciba_refresh_test.rb:2:in '<top (required)>'
+	from /app/test/ciba_access_revocation_test.rb:2:in 'Kernel#require_relative'
+	from /app/test/ciba_access_revocation_test.rb:2:in '<top (required)>'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from <internal:/usr/local/lib/ruby/3.4.0/rubygems/core_ext/kernel_require.rb>:136:in 'Kernel#require'
+	from test/run.rb:2:in 'block in <main>'
+	from test/run.rb:2:in 'Array#each'
+	from test/run.rb:2:in '<main>'
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

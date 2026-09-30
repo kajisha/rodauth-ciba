@@ -1,0 +1,263 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "subject_scope": {
+      "type": "choice",
+      "choice": "public_only",
+      "confidence": 0.28,
+      "probabilities": {
+        "both": 0.01,
+        "insufficient_or_other": 0.47,
+        "public_only": 0.52
+      }
+    },
+    "registration_scope": {
+      "type": "choice",
+      "choice": "static_only",
+      "confidence": 0.62,
+      "probabilities": {
+        "static_only": 0.75,
+        "dynamic_also": 0.0,
+        "insufficient_or_other": 0.25
+      }
+    },
+    "request_storage": {
+      "type": "choice",
+      "choice": "insufficient_or_other",
+      "confidence": 0.34,
+      "probabilities": {
+        "dedicated_table": 0.37,
+        "insufficient_or_other": 0.56,
+        "extend_grants": 0.07
+      }
+    },
+    "resolver_default": {
+      "type": "choice",
+      "choice": "required_override",
+      "confidence": 0.16,
+      "probabilities": {
+        "login_default": 0.31,
+        "structured_default": 0.0,
+        "required_override": 0.37,
+        "insufficient_or_other": 0.32
+      }
+    },
+    "completion_identity": {
+      "type": "choice",
+      "choice": "account_context",
+      "confidence": 0.42,
+      "probabilities": {
+        "rodauth_session": 0.0,
+        "upstream_token": 0.01,
+        "insufficient_or_other": 0.42,
+        "account_context": 0.57
+      }
+    },
+    "completion_shape": {
+      "type": "choice",
+      "choice": "insufficient_or_other",
+      "confidence": 0.01,
+      "probabilities": {
+        "insufficient_or_other": 0.34,
+        "one_complete": 0.33,
+        "separate_methods": 0.33
+      }
+    },
+    "completion_retries": {
+      "type": "choice",
+      "choice": "insufficient_or_other",
+      "confidence": 0.18,
+      "probabilities": {
+        "insufficient_or_other": 0.46,
+        "strict_once": 0.1,
+        "idempotent_same": 0.44
+      }
+    },
+    "reference_design": {
+      "type": "choice",
+      "choice": "separate_handle",
+      "confidence": 0.37,
+      "probabilities": {
+        "insufficient_or_other": 0.36,
+        "separate_handle": 0.58,
+        "shared_reference": 0.06
+      }
+    },
+    "context_storage": {
+      "type": "choice",
+      "choice": "app_owned",
+      "confidence": 0.67,
+      "probabilities": {
+        "opaque_metadata": 0.06,
+        "app_owned": 0.76,
+        "insufficient_or_other": 0.18,
+        "request_extension": 0.0
+      }
+    },
+    "dispatch_reliability": {
+      "type": "choice",
+      "choice": "callback_only",
+      "confidence": 0.49,
+      "probabilities": {
+        "callback_only": 0.62,
+        "recoverable_requests": 0.26,
+        "gem_outbox": 0.0,
+        "insufficient_or_other": 0.12
+      }
+    },
+    "observation_delivery": {
+      "type": "choice",
+      "choice": "after_commit",
+      "confidence": 0.37,
+      "probabilities": {
+        "after_commit": 0.58,
+        "insufficient_or_other": 0.37,
+        "in_transaction": 0.05
+      }
+    },
+    "observation_failure": {
+      "type": "choice",
+      "choice": "logger",
+      "confidence": 0.81,
+      "probabilities": {
+        "callback_only": 0.0,
+        "logger": 0.86,
+        "insufficient_or_other": 0.14,
+        "silent": 0.0
+      }
+    },
+    "observation_payload": {
+      "type": "choice",
+      "choice": "minimal_allowlist",
+      "confidence": 0.93,
+      "probabilities": {
+        "minimal_allowlist": 0.95,
+        "full_request": 0.0,
+        "insufficient_or_other": 0.05
+      }
+    },
+    "hook_surface": {
+      "type": "choice",
+      "choice": "lifecycle_only",
+      "confidence": 0.81,
+      "probabilities": {
+        "fine_grained": 0.0,
+        "insufficient_or_other": 0.12,
+        "lifecycle_only": 0.88
+      }
+    },
+    "expiry_defaults": {
+      "type": "choice",
+      "choice": "insufficient_or_other",
+      "confidence": 0.57,
+      "probabilities": {
+        "insufficient_or_other": 0.67,
+        "require_config": 0.25,
+        "long_fifteen_minutes": 0.02,
+        "short_five_minutes": 0.06
+      }
+    },
+    "poll_strategy": {
+      "type": "choice",
+      "choice": "immediate",
+      "confidence": 0.74,
+      "probabilities": {
+        "long_poll": 0.0,
+        "immediate": 0.83,
+        "insufficient_or_other": 0.17
+      }
+    },
+    "cleanup": {
+      "type": "choice",
+      "choice": "explicit_cleanup",
+      "confidence": 0.47,
+      "probabilities": {
+        "background_thread": 0.0,
+        "explicit_cleanup": 0.6,
+        "insufficient_or_other": 0.39,
+        "request_cleanup": 0.01
+      }
+    },
+    "retention": {
+      "type": "choice",
+      "choice": "explicit_policy",
+      "confidence": 0.29,
+      "probabilities": {
+        "insufficient_or_other": 0.45,
+        "indefinite": 0.01,
+        "explicit_policy": 0.45999999999999996,
+        "short_default": 0.08
+      }
+    },
+    "concurrency_method": {
+      "type": "choice",
+      "choice": "conditional_update",
+      "confidence": 0.84,
+      "probabilities": {
+        "external_lock": 0.0,
+        "conditional_update": 0.88,
+        "insufficient_or_other": 0.11,
+        "row_locks": 0.01
+      }
+    },
+    "ci_matrix": {
+      "type": "choice",
+      "choice": "representative",
+      "confidence": 0.45,
+      "probabilities": {
+        "sqlite_only": 0.14,
+        "insufficient_or_other": 0.25,
+        "representative": 0.58,
+        "full_cross_product": 0.03
+      }
+    },
+    "migration_delivery": {
+      "type": "choice",
+      "choice": "insufficient_or_other",
+      "confidence": 0.49,
+      "probabilities": {
+        "explicit_migration": 0.37,
+        "insufficient_or_other": 0.61,
+        "auto_migrate": 0.01,
+        "docs_only": 0.01
+      }
+    },
+    "dependency_policy": {
+      "type": "choice",
+      "choice": "tested_range",
+      "confidence": 0.79,
+      "probabilities": {
+        "exact_pin": 0.0,
+        "insufficient_or_other": 0.15,
+        "unbounded": 0.0,
+        "tested_range": 0.85
+      }
+    },
+    "example_app": {
+      "type": "choice",
+      "choice": "minimal_runnable",
+      "confidence": 0.8,
+      "probabilities": {
+        "production_integration": 0.0,
+        "insufficient_or_other": 0.13,
+        "snippets_only": 0.02,
+        "minimal_runnable": 0.85
+      }
+    },
+    "release_readiness": {
+      "type": "choice",
+      "choice": "contract_draft",
+      "confidence": 0.98,
+      "probabilities": {
+        "full_implementation": 0.0,
+        "insufficient_or_other": 0.01,
+        "contract_draft": 0.99,
+        "more_options": 0.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 7475,
+    "output_tokens": 1263
+  }
+}

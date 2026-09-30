@@ -1,0 +1,58 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --seed 50986
+
+# Running:
+
+................................................................................................................................................................................................................S.......................................S..................................................................................................................................................
+
+Finished in 140.633492s, 2.8087 runs/s, 75.3235 assertions/s.
+
+395 runs, 10593 assertions, 0 failures, 0 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --seed 33682
+
+# Running:
+
+...........................................................................................................................................................................................................................................................................................................................................................................................................
+
+Finished in 126.613678s, 3.1197 runs/s, 83.6403 assertions/s.
+
+395 runs, 10590 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --seed 40161
+
+# Running:
+
+...........................................................................................................................................................................................................................................................................................................................................................................................................
+
+Finished in 134.213722s, 2.9431 runs/s, 78.9040 assertions/s.
+
+395 runs, 10590 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

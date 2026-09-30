@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name test_ciba_symmetric_encryption_registered_client_secret --seed 45366
+
+# Running:
+
+F
+
+Finished in 0.028971s, 34.5173 runs/s, 34.5173 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_symmetric_encryption_registered_client_secret [test/ciba_symmetric_encryption_test.rb:23]:
+{"error":"invalid_client_metadata","error_description":"Unsupported CIBA ID Token encryption"}.
+Expected: 201
+  Actual: 400
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

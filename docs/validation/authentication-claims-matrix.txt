@@ -1,0 +1,56 @@
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Creating 
+ Network rodauth-ciba-test_default Created 
+ Network rodauth-ciba-test_default Created 
+ Container rodauth-ciba-test-postgres-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Creating 
+ Container rodauth-ciba-test-mysql-1 Created 
+ Container rodauth-ciba-test-postgres-1 Created 
+ Container rodauth-ciba-test-postgres-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Starting 
+ Container rodauth-ciba-test-mysql-1 Started 
+ Container rodauth-ciba-test-postgres-1 Started 
+ Container rodauth-ciba-test-mysql-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Waiting 
+ Container rodauth-ciba-test-postgres-1 Healthy 
+ Container rodauth-ciba-test-mysql-1 Healthy 
+Testing current read-only checkout on Ruby 3.4 / sqlite
+Run options: --name "/test_authentication_claim|test_ciba_auth_time_metadata|test_edwards_id_token_refresh|test_refresh_claims_and_rar|test_pairwise_.*refresh_rotation|test_ciba_refresh_preserves_source|test_approved_request_issues_customer|test_common_oidc_claim_provider/" --seed 48157
+
+# Running:
+
+.............
+
+Finished in 2.021440s, 6.4311 runs/s, 470.4566 assertions/s.
+
+13 runs, 951 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / postgres
+Run options: --name "/test_authentication_claim|test_ciba_auth_time_metadata|test_edwards_id_token_refresh|test_refresh_claims_and_rar|test_pairwise_.*refresh_rotation|test_ciba_refresh_preserves_source|test_approved_request_issues_customer|test_common_oidc_claim_provider/" --seed 6979
+
+# Running:
+
+.............
+
+Finished in 2.691324s, 4.8303 runs/s, 353.3577 assertions/s.
+
+13 runs, 951 assertions, 0 failures, 0 errors, 0 skips
+Testing current read-only checkout on Ruby 3.4 / mysql
+Run options: --name "/test_authentication_claim|test_ciba_auth_time_metadata|test_edwards_id_token_refresh|test_refresh_claims_and_rar|test_pairwise_.*refresh_rotation|test_ciba_refresh_preserves_source|test_approved_request_issues_customer|test_common_oidc_claim_provider/" --seed 14218
+
+# Running:
+
+.............
+
+Finished in 2.982845s, 4.3583 runs/s, 318.8231 assertions/s.
+
+13 runs, 951 assertions, 0 failures, 0 errors, 0 skips
+ Container rodauth-ciba-test-mysql-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopping 
+ Container rodauth-ciba-test-postgres-1 Stopped 
+ Container rodauth-ciba-test-postgres-1 Removing 
+ Container rodauth-ciba-test-postgres-1 Removed 
+ Container rodauth-ciba-test-mysql-1 Stopped 
+ Container rodauth-ciba-test-mysql-1 Removing 
+ Container rodauth-ciba-test-mysql-1 Removed 
+ Network rodauth-ciba-test_default Removing 
+ Network rodauth-ciba-test_default Removed 

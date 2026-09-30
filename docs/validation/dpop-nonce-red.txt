@@ -1,0 +1,38 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /nonce/ --seed 63546
+
+# Running:
+
+FEE.
+
+Finished in 0.043700s, 91.5332 runs/s, 137.2998 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_dpop_nonce_requires_explicit_secret [test/ciba_dpop_test.rb:7]:
+Rodauth::CibaSupport::ConfigurationError expected but nothing was raised.
+
+  2) Error:
+CibaIntegrationTest#test_ciba_dpop_nonce_jwt_flow_and_replay_retention:
+NoMethodError: undefined method 'ciba_dpop_nonce_secret' for #<Rodauth::Configuration:0x00000001250f8978>
+    test/ciba_dpop_test.rb:24:in 'block in CibaIntegrationTest#assert_ciba_dpop_nonce_flow'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:321:in 'BasicObject#instance_exec'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:321:in 'Rodauth::Configuration#apply'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:374:in 'Rodauth::Auth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:61:in 'Rodauth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:312:in 'Roda::RodaPlugins::Base::ClassMethods#plugin'
+    test/ciba_dpop_test.rb:23:in 'CibaIntegrationTest#assert_ciba_dpop_nonce_flow'
+    test/ciba_dpop_test.rb:18:in 'CibaIntegrationTest#test_ciba_dpop_nonce_jwt_flow_and_replay_retention'
+
+  3) Error:
+CibaIntegrationTest#test_ciba_dpop_nonce_opaque_flow_and_replay_retention:
+NoMethodError: undefined method 'ciba_dpop_nonce_secret' for #<Rodauth::Configuration:0x000000012519bb28>
+    test/ciba_dpop_test.rb:24:in 'block in CibaIntegrationTest#assert_ciba_dpop_nonce_flow'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:321:in 'BasicObject#instance_exec'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:321:in 'Rodauth::Configuration#apply'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:374:in 'Rodauth::Auth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:61:in 'Rodauth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:312:in 'Roda::RodaPlugins::Base::ClassMethods#plugin'
+    test/ciba_dpop_test.rb:23:in 'CibaIntegrationTest#assert_ciba_dpop_nonce_flow'
+    test/ciba_dpop_test.rb:13:in 'CibaIntegrationTest#test_ciba_dpop_nonce_opaque_flow_and_replay_retention'
+
+4 runs, 6 assertions, 1 failures, 2 errors, 0 skips

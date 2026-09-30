@@ -1,0 +1,18 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_edwards/ --seed 21452
+
+# Running:
+
+E
+
+Finished in 0.022612s, 44.2243 runs/s, 0.0000 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_edwards_signed_requests_and_key_rejection:
+Rodauth::CibaSupport::ConfigurationError: configure asymmetric CIBA request signing algorithms
+    lib/rodauth/features/ciba.rb:678:in 'Rodauth::Ciba#post_configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/rodauth-2.28.0/lib/rodauth.rb:62:in 'Rodauth.configure'
+    /Users/hiroshi/.local/share/mise/installs/ruby/4.0.6/lib/ruby/gems/4.0.0/gems/roda-3.108.0/lib/roda.rb:312:in 'Roda::RodaPlugins::Base::ClassMethods#plugin'
+    test/ciba_edwards_request_test.rb:7:in 'CibaIntegrationTest#test_edwards_signed_requests_and_key_rejection'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips

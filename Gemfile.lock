@@ -1,0 +1,110 @@
+PATH
+  remote: .
+  specs:
+    rodauth-ciba (0.1.0)
+      bcrypt (~> 3.1)
+      json (~> 2.18)
+      jwe (~> 1.1.1)
+      jwt (~> 3.3.0)
+      rodauth (~> 2.28.0)
+      rodauth-oauth (= 1.7.0)
+      sequel (~> 5.108.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    base64 (0.3.0)
+    bcrypt (3.1.22)
+    bigdecimal (4.1.3)
+    json (2.18.0)
+    jwe (1.1.1)
+      base64
+    jwt (3.3.0)
+      base64
+    mini_portile2 (2.8.9)
+    minitest (5.27.0)
+    mysql2 (0.5.7)
+      bigdecimal
+    net-http (0.9.1)
+      uri (>= 0.11.1)
+    pg (1.6.3)
+    pg (1.6.3-x86_64-linux)
+    rack (3.2.7)
+    rack-test (2.2.0)
+      rack (>= 1.3)
+    rackup (2.3.1)
+      rack (>= 3)
+    rake (13.4.2)
+    roda (3.108.0)
+      rack
+    rodauth (2.28.0)
+      roda (>= 2.6.0)
+      sequel (>= 4)
+    rodauth-oauth (1.7.0)
+      base64
+      rodauth (~> 2.28)
+    sequel (5.108.0)
+      bigdecimal
+    sqlite3 (2.9.6)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.9.6-arm64-darwin)
+    sqlite3 (2.9.6-x86_64-linux-gnu)
+    uri (1.1.1)
+    webrick (1.9.2)
+
+PLATFORMS
+  arm64-darwin-25
+  ruby
+  x86_64-linux
+
+DEPENDENCIES
+  base64
+  bcrypt (~> 3.1)
+  jwt (~> 3.0)
+  minitest (~> 5.0)
+  mysql2 (~> 0.5)
+  net-http (~> 0.9)
+  pg (~> 1.6)
+  rack-test (~> 2.0)
+  rackup (~> 2.0)
+  rake (~> 13.0)
+  rodauth (= 2.28.0)
+  rodauth-ciba!
+  rodauth-oauth (= 1.7.0)
+  sequel (~> 5.0)
+  sqlite3 (~> 2.0)
+  webrick (~> 1.9)
+
+CHECKSUMS
+  base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
+  bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
+  bigdecimal (4.1.3) sha256=61ebe1e5e559bdc3cc6f2c0ee7f427321fc838f59611c294356eb04d6e21cf66
+  json (2.18.0) sha256=b10506aee4183f5cf49e0efc48073d7b75843ce3782c68dbeb763351c08fd505
+  jwe (1.1.1) sha256=f101a7a698266b501d5d8153969666dbe7a0f6a246962efac03000687b95ab13
+  jwt (3.3.0) sha256=44cc34fbc341c148233cf66641522b4bce0dfb1ce55e8073f05c56f44f4ee546
+  mini_portile2 (2.8.9) sha256=0cd7c7f824e010c072e33f68bc02d85a00aeb6fce05bb4819c03dfd3c140c289
+  minitest (5.27.0) sha256=2d3b17f8a36fe7801c1adcffdbc38233b938eb0b4966e97a6739055a45fa77d5
+  mysql2 (0.5.7) sha256=ba09ede515a0ae8a7192040a1b778c0fb0f025fa5877e9be895cd325fa5e9d7b
+  net-http (0.9.1) sha256=25ba0b67c63e89df626ed8fac771d0ad24ad151a858af2cc8e6a716ca4336996
+  pg (1.6.3) sha256=1388d0563e13d2758c1089e35e973a3249e955c659592d10e5b77c468f628a99
+  pg (1.6.3-x86_64-linux) sha256=5d9e188c8f7a0295d162b7b88a768d8452a899977d44f3274d1946d67920ae8d
+  rack (3.2.7) sha256=93e13e1c24f93556671d85d2d79fa228c3485815c50d7e2f265b5330c6528fb7
+  rack-test (2.2.0) sha256=005a36692c306ac0b4a9350355ee080fd09ddef1148a5f8b2ac636c720f5c463
+  rackup (2.3.1) sha256=6c79c26753778e90983761d677a48937ee3192b3ffef6bc963c0950f94688868
+  rake (13.4.2) sha256=cb825b2bd5f1f8e91ca37bddb4b9aaf345551b4731da62949be002fa89283701
+  roda (3.108.0) sha256=a209acc5c885c7c9cfe703ad985b343026f79f67949932dd739b83e5a129ffbd
+  rodauth (2.28.0) sha256=3dba5cdc6225ebf5c388862dbfdc72c9f8c1735dc46bafd2df75ef5a2dd2b8ba
+  rodauth-ciba (0.1.0)
+  rodauth-oauth (1.7.0) sha256=6b4e8d19b94838d24704552ad1cc26ca625e4aabb1d1c5f20aa926c5c248fced
+  sequel (5.108.0) sha256=ae5996d1196775427916a2fa36e02f99762ead9affb8ea9b1aec2c0b16bdb3a3
+  sqlite3 (2.9.6) sha256=956fe606956420d04ac7157d3ace620c8caba2135b2e05c76e483493da24d08e
+  sqlite3 (2.9.6-arm64-darwin) sha256=849b5d7f795e60fe25076d62c72dd722beb45b3850b516ad978d60ee848ec15b
+  sqlite3 (2.9.6-x86_64-linux-gnu) sha256=613188ce02f614126ddbc38c5e217ccffd6306d0dcd9adca9764547aa890a634
+  uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
+  webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
+
+RUBY VERSION
+  ruby 4.0.6
+
+BUNDLED WITH
+  4.0.16

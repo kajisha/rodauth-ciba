@@ -1,0 +1,23 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_ping_management_change|test_ping_rejects_bad_tokens_and_uses/" --seed 13057
+
+# Running:
+
+EE
+
+Finished in 0.698581s, 2.8629 runs/s, 22.9036 assertions/s.
+
+  1) Error:
+CibaIntegrationTest#test_ping_management_change_during_send_preserves_destination_and_saved_result:
+Rodauth::CibaSupport::Ineligible: ping client or endpoint changed
+    lib/rodauth/features/ciba.rb:562:in 'Rodauth::Ciba#retry_ciba_ping'
+    test/ciba_ping_test.rb:244:in 'block (2 levels) in CibaIntegrationTest#test_ping_management_change_during_send_preserves_destination_and_saved_result'
+
+  2) Error:
+CibaIntegrationTest#test_ping_rejects_bad_tokens_and_uses_current_registered_destination:
+Rodauth::CibaSupport::Ineligible: ping client or endpoint changed
+    lib/rodauth/features/ciba.rb:562:in 'Rodauth::Ciba#retry_ciba_ping'
+    test/ciba_ping_test.rb:102:in 'block in CibaIntegrationTest#test_ping_rejects_bad_tokens_and_uses_current_registered_destination'
+    test/ciba_ping_test.rb:31:in 'block in CibaIntegrationTest#with_ping_sender'
+
+2 runs, 16 assertions, 0 failures, 2 errors, 0 skips

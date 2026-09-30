@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /malformed_or_private_jwks/ --seed 58584
+
+# Running:
+
+F
+
+Finished in 0.183017s, 5.4640 runs/s, 5.4640 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_dynamic_registration_rejects_malformed_or_private_jwks_without_persistence [test/ciba_registration_test.rb:190]:
+{"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"scope":"openid","token_endpoint_auth_method":"private_key_jwt","backchannel_token_delivery_mode":"poll","jwks":{},"redirect_uris":[],"client_id":"NIpzA0GbdO8wW5jRAd9cXNNe3wNZy9hprsFCRieIiJE","client_id_issued_at":1790726942,"client_secret":"nPr7seHaj0Vy1B6aMnaWf4YPRc8qVN8HuefmwQKwrqk","client_secret_expires_at":0,"registration_access_token":"ciba_reg_pNbVs4tzcqMK5f1Wpq7fsUZK2QKUrH50PQJQUXRytGA","registration_client_uri":"https://op.example.test/register/NIpzA0GbdO8wW5jRAd9cXNNe3wNZy9hprsFCRieIiJE"}.
+Expected: 400
+  Actual: 201
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

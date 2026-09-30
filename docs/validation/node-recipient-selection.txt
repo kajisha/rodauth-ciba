@@ -1,0 +1,18 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS P-256/priority: initial/refresh decrypted and verified
+PASS P-256/equal-order: initial/refresh decrypted and verified
+ERROR DETAIL DataError: Invalid keyData
+PASS P-256/invalid-priority: selected invalid key fails without fallback
+PASS X25519/priority: initial/refresh decrypted and verified
+PASS X25519/equal-order: initial/refresh decrypted and verified
+ERROR DETAIL OperationError: The operation failed for an operation-specific reason
+PASS X25519/invalid-priority: selected invalid key fails without fallback
+PASS RSA/priority: initial/refresh decrypted and verified
+PASS RSA/equal-order: initial/refresh decrypted and verified
+ERROR DETAIL TypeError: RSA-OAEP-256 requires key modulusLength to be 2048 bits or larger
+PASS RSA/invalid-priority: selected invalid key fails without fallback

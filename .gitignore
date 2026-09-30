@@ -1,0 +1,6 @@
+/.bundle/
+/pkg/
+/coverage/
+*.gem
+/examples/*.db*
+/test/reference/full-op/node_modules/

@@ -1,0 +1,15 @@
+WARNING:  no homepage specified
+WARNING:  See https://guides.rubygems.org/specification-reference/ for help
+  Successfully built RubyGem
+  Name: rodauth-ciba
+  Version: 0.1.0
+  File: rodauth-ciba-0.1.0.gem
+PASS: installed-gem discovery, acceptance, saved consent/result API, poll, verified ID Token, replay rejection and revocation
+PASS: installed-gem opaque refresh migration, rotation, claims/RAR, original identity, grant revocation, advertised revocation endpoint and cleanup
+PASS: installed-gem opaque signed CIBA requests, resource/claims/RAR migrations, consent, signed ID Token hint requiring new approval, nonce, at_hash, audience, UserInfo isolation and replay
+PASS: installed-gem JWT refresh migration, rotation, claims/RAR, original identity, grant revocation, advertised revocation endpoint and cleanup
+PASS: installed-gem JWT signed CIBA requests, resource/claims/RAR migrations, consent, signed ID Token hint requiring new approval, nonce, at_hash, audience, UserInfo isolation and replay
+PASS: installed-gem ping over verified TLS, Bearer/JSON, 200/204, 503/302/timeout retain approval, explicit retry, token collection
+PASS: installed-gem ping rejects untrusted TLS before sending credentials, retains approval and allows token collection
+SHA256 3e57e6b74f90b47073651910954be2b6c42cba1eee02ab23cfe5a3e78cf084b2
+Runtime dependencies reused from installed local gems; no network dependency resolution tested.

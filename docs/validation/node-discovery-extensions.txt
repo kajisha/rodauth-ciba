@@ -1,0 +1,24 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS DCR DPoP: strict booleans, omitted/false default, true stored for issued client
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+oidc-provider NOTICE: default features.introspection.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to receive the introspection response.
+PASS CIBA DPoP: start without proof; poll requires proof; random jti accepted; invalid method/URI/time/jti do not consume approval; AT bound to proof key
+PASS UserInfo: bearer presentation, wrong proof key and wrong ath rejected; matching proof accepted
+PASS UserInfo rejects reuse of the same proof jti
+PASS POST UserInfo: method binding, matching proof and replay rejection
+PASS confidential refresh: RT has no jkt, current proof is required, new key accepted for new AT, repeated proof rejected
+oidc-provider NOTICE: default features.revocation.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to revoke the token.
+PASS introspection: active DPoP cnf reflects issuance/refresh key; unknown and revoked tokens inactive
+PASS DCR management: invalid boolean preserves credential/policy; omission resets DPoP requirement to false
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS nonce: token400/UserInfo401 challenges; valid nonce waives old iat, spans endpoints, but never permits proof replay
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS optional nonce: old proof gets challenge; fresh proof without nonce succeeds and returns nonce
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS disabled DPoP: registration ignores unsupported dpop_bound_access_tokens metadata
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+PASS Discovery: enabled introspection/DPoP metadata present, disabled extensions omitted

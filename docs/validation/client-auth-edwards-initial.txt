@@ -1,0 +1,11 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /alignment_probe/ --seed 4569
+
+# Running:
+
+{"Ed25519":[[200,null],[200,null]],"EdDSA":[[200,null],[200,null]]}
+.
+
+Finished in 0.030397s, 32.8980 runs/s, 98.6939 assertions/s.
+
+1 runs, 3 assertions, 0 failures, 0 errors, 0 skips

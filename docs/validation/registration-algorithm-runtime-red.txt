@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /auth_signing_algorithm/ --seed 65478
+
+# Running:
+
+F
+
+Finished in 0.188759s, 5.2978 runs/s, 105.9552 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_dynamic_client_auth_signing_algorithm_is_validated_and_enforced [test/ciba_registration_test.rb:160]:
+{"auth_req_id":"ifFUX4CqNtgTE0uJnKzF3rUcgu6jsf4koDGFCaqRZV0","expires_in":300,"interval":5}.
+Expected: 401
+  Actual: 200
+
+1 runs, 20 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,58 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "failure_default": {
+      "type": "choice",
+      "choice": "reference_exact",
+      "confidence": 0.42,
+      "probabilities": {
+        "reference_exact": 0.57,
+        "defer": 0.01,
+        "bounded_stale": 0.18,
+        "reject_until_success": 0.24
+      }
+    },
+    "ttl_default": {
+      "type": "choice",
+      "choice": "reference_floor",
+      "confidence": 0.84,
+      "probabilities": {
+        "http_directives": 0.1,
+        "defer": 0.0,
+        "reference_floor": 0.9
+      }
+    },
+    "configuration": {
+      "type": "choice",
+      "choice": "single_default",
+      "confidence": 0.78,
+      "probabilities": {
+        "single_default": 0.86,
+        "defer": 0.11,
+        "explicit_switch": 0.03
+      }
+    },
+    "key_purpose": {
+      "type": "choice",
+      "choice": "same_policy",
+      "confidence": 0.91,
+      "probabilities": {
+        "same_policy": 0.94,
+        "defer": 0.04,
+        "different_policy": 0.02
+      }
+    },
+    "upstream_intent": {
+      "type": "noul",
+      "noul": 0.11
+    },
+    "exact_parity_required": {
+      "type": "noul",
+      "noul": 0.4
+    }
+  },
+  "usage": {
+    "input_tokens": 1561,
+    "output_tokens": 217
+  }
+}

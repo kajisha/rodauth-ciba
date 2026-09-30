@@ -1,0 +1,97 @@
+{
+  "model": "jev-latest",
+  "state": {
+    "proposal": "# CIBA 初版の実装契約案\n\n状態: Codex の提案。既存の合意を前提とするが、新しい選択はユーザーの合意として記録しない。Jev との反復評価で改善する。GO は実装着手の判断であり、公開・本番適合の判定ではない。\n\n## 対応範囲\n\n合意済み: poll、login_hint、refresh token 発行なし、署名付き認証要求・user_code は対象外。Ruby >= 3.3、DB は rodauth-oauth に従う。UI・通知トランスポート・上流 IdP の検証・業務上の承認権限・委譲はアプリが担当する。\n\n追加提案: CIBA クライアントは初版 public subject・事前登録のみ。既存の別フローの pairwise や DCR を変更しない。CIBA に不適合な登録内容は実行時にも検証する。public から pairwise への将来の移行は既存ユーザーの対応付けに影響するため、自動変更しない。\n\n## 本人の解決と Ruby API\n\n以下の名前は公開契約の候補で、Rodauth の実装慣例との整合を実装時に確認する。\n\n```ruby\nresolve_ciba_login_hint(login_hint, oauth_application:) # => local account_id\nciba_request(request_id) # => read-only snapshot or not-found\napprove_ciba_request(request_id, account_id:, auth_time: nil, acr: nil, amr: nil)\ndeny_ciba_request(request_id, account_id:)\npending_ciba_requests(after_id: nil, limit: 100) # bounded recovery lookup\ncleanup_ciba_requests(before:) # caller explicitly chooses retention cutoff\n```\n\nresolver の設定を必須にし、メールアドレスや既存 login 列への暗黙のマッピングは行わない。要求受付時に対象をローカル account_id に解決・固定する。後から同じ login_hint を再解決して別人に承認を付け替えない。\n\nRuby API は信頼するアプリコードからの呼び出し専用。request_id の所持だけでは認証・認可の証明にならない。HTTP に公開する場合の呼び出し元認証、CSRF 対策、権限確認はアプリが実施する。gem は明示された account_id が受付時の対象と一致すること、期限と状態を検証する。別の管理者による代理承認は初版の契約に含めない。\n\nID Token の sub は、CIBA OP がこのローカルアカウントに対して生成する値。上流 OP の sub やサポートアカウントの sub をそのまま代入しない。auth_time は分かる場合に実際の認証時刻を渡し、承認時刻を代用しない。acr/amr はアプリが確認した認証情報を渡す。未知の認証強度を gem が捏造しない。認証時刻等の必須要求を今後サポートする場合、必要な情報がない成功応答を許さない。\n\nacr_values はアプリへ渡し、実際に達成した acr を結果として受け取る。初版 gem が独自の強度比較表を持つことはしない。アプリが実施すべき認証ポリシーとして定義する。\n\noffline_access は初版の有効 scope から除き、応答は実際に付与した scope を反映する。これは refresh token を提供しない製品方針で、CIBA が特定のエラーを強制するという主張ではない。未知のパラメータは仕様通り無視する。既知の対象外機能 request/user_code の指定は invalid_request とし、無検証の署名要求を受理しない。このエラー選択は初版の明示方針である。\n\n## 保存する情報\n\n専用 CIBA 要求テーブルを同じ DB に作る。主な情報は内部 request_id、公開 auth_req_id の検索用ダイジェスト、client_id、account_id、scope、binding_message、要求された acr、期限、poll 間隔・直前 poll 時刻、状態、確定した認証コンテキスト、完了時刻・消費時刻・作成時刻。\n\nauth_req_id は十分な乱数で生成し、クライアント向けの受付応答にだけ生値を返す。内部 API は別の内部 request_id を使う。いずれも単独で承認する権限を与えない。ログ相関には内部 request_id とイベント ID を使い、auth_req_id の生値やトークンは出さない。\n\nlogin_hint の生値は既定では永続化しない。binding_message 等も利用者情報を含み得るため、サイズ制限と cleanup の対象とする。業務コンテキストはアプリが内部 request_id に関連付けて保存する。任意の HTTP パラメータを自動保存しない。\n\n## 状態遷移と再送\n\n```text\npending ── approve ──> approved ── token issuance ──> consumed\n   └────── deny ─────> denied\npending / approved ── deadline ──> expired（時刻から判定可能）\n```\n\n期限の経過はアクセス時にも検証し、cleanup が実行されるまで有効になる設計にしない。denied、consumed を再び pending/approved にしない。\n\n同じ account_id・同じ認証コンテキストによる approve の再送は、期限内で既に approved/consumed なら already_completed を返す。deny の同一再送も既存結果を返す。新たな状態変更、フック、成功イベントは発生させない。逆の決定や異なる本人・コンテキストは Conflict / IdentityMismatch とする。期限切れは Expired、削除済みは NotFound。消費済みへの再送でもトークンは返さない。\n\n予期しない処理障害を顧客の拒否に変換しない。アプリ側の本人確認・通知に一時障害が起きた場合は再試行可能なまま要求を残し、期限までに完了しなければ expired とする。技術的な終端失敗専用 API は初版では設けない。\n\ntoken endpoint の成功は一度だけ。commit 後に応答が失われても、再度同じ auth_req_id からトークンを発行・返却しない。クライアントは新規要求からやり直す。Ruby API の冪等性とは別の契約。\n\n## トランザクションと競合\n\nすべての状態変更は条件付き UPDATE と件数確認を基本にする。approve/deny は pending かつ期限内の行だけを対象とし、トークン発行は approved かつ期限内の行だけを消費する。トークン・grant の作成、消費への更新、before/after フックは同じ DB トランザクションに含める。\n\n同時 poll の片方だけが消費権を獲得する。発行中の例外なら消費と grant 作成をともに rollback する。before/after フックの実行前に競合の勝者を確定し、敗者が同じ副作用を実行しない。これが実現できる SQL 順序と隔離動作は DB ごとの競合テストで確認する。\n\n外側にアプリの transaction がある場合も、観測通知は最外 transaction の commit 後。外部 HTTP やファイル出力は rollback できないため transaction 内フックで成功保証を期待しない。\n\n## アプリへの引き渡しと観測\n\nbefore/after フックは受付・承認・拒否・トークン発行の主要な変更に設ける。未設定は no-op。例外は状態変更を rollback し、内部 API の呼び出し元へ伝播する。認証エラーではなく、機密情報を含まない適切なサーバーエラーへ HTTP 境界で変換する。\n\n受付確定後にアプリ向け callback を呼べる。commit と callback の間のプロセス停止による通知欠落は起こり得るので、pending_ciba_requests で復旧可能にする。アプリは transaction 内フックで同じ DB に配送ジョブを保存する方法も選べる。スケジューラ、配送の重複排除、再送はアプリの責務。gem はジョブ実行基盤を持たない。\n\n観測用イベントは commit 後に配信する。失敗は設定可能な reporter、既定 logger へ報告し、observer/reporter の例外で既に確定した CIBA の結果を変えない。プロセス停止によるイベント欠落を許容する best-effort の契約。厳密な監査保存はアプリが transaction 内フックを利用する。\n\nイベントは version、event_id、内部 request_id、発生時刻、適用可能な client/account 参照、変更前後の状態、公開可能な結果コードを基本にする。トークン、認証情報、raw login_hint は既定で含めない。HTTP 応答がクライアントへ到達したことまで表すイベントにはしない。\n\n## 運用とテスト\n\n通常 poll のみ。要求期限の default と maximum はアプリに明示設定を求め、設定例は300秒とする（SLA の推奨値ではない）。requested_expiry は仕様に従って設定範囲内に制限する。poll interval の既定は5秒。検証・制限の詳細は仕様テストに対応付ける。\n\ncleanup は明示メソッド／タスクのみで、保存期間は before 引数でアプリが決める。未消費・期限内の要求を削除しない。要求テーブルを長期監査台帳として扱わない。バックグラウンドスレッドを起動せず、起動時の自動 migration もしない。\n\nSequel migration の実行可能な例と設定可能なテーブル／カラム名を提供する。依存 gem は検証した下限・上限を指定する。正確なバージョン範囲はコードと CI の検証結果で決める。\n\nRuby 3.3/3.4/4.0 と SQLite、代表 MRI で PostgreSQL/MySQL の実 DB 競合テストを最初の CI 案とする。ほかの上流対応 DB を禁止する API は作らず、未検証環境を区別して示す。\n\n必須シナリオ: 他クライアントの要求ID、本人不一致、期限境界、approve/deny 競合、二重 poll、フック例外時 rollback、外側 transaction rollback、完了結果の再送、commit 後の応答喪失、通知回復、ログへの秘密情報非混入。仕様上の要求と対応するテストを一覧化する。\n\nベンダーの認証情報不要の最小 RP/poll とブラウザ承認サンプルを提供する。デモ本人確認を本番向けと表現しない。ライセンスや最終 gem 名は公開前に確認し、実装の安全性と別の公開条件として扱う。\n\n## 仕様確認の参照\n\n- [CIBA §7.2–8](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#auth_request_validation): 有効ユーザーへの hint 解決は成功受付前。認証・承認はその後。\n- [CIBA §7.1](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#auth_request): requested_expiry は正整数、採用は OP の裁量。acr_values と実際の認証コンテキストを区別。\n- [CIBA §10.1.1](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#successful_token_response): 成功交換後に auth_req_id を再利用しない。\n- [CIBA §11–12](https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#token_error_response): 顧客拒否と技術障害を混同しない。push の transaction_failed を poll の標準エラーだと扱わない。\n- [OIDC Core §2](https://openid.net/specs/openid-connect-core-1_0.html#IDToken)、[§11](https://openid.net/specs/openid-connect-core-1_0.html#OfflineAccess): auth_time/amr は CIBA 全体の一律必須項目とはしない。offline_access の扱いを製品方針と区別。\n",
+    "authority": "Proposal only, not user-approved scope expansion. Critically evaluate; do not reward agreement. API names and reversible defaults may be implementation choices. Do not infer production readiness.",
+    "known_limits": [
+      "No performance/SLA/retention requirement provided.",
+      "No real DB race tests or feature integration code exists yet.",
+      "Transport and business approval policy stay with application.",
+      "Each assessment is independent and does not see other outputs."
+    ],
+    "purpose": "Diagnose specific possible deficiencies in the contract. These candidate defects are hypotheses, not findings. Do not infer that prior assessments found them. Return absent if text resolves the concern."
+  },
+  "questions": {
+    "schema_constraints": {
+      "type": "choice",
+      "instructions": "Does the proposal lack concrete uniqueness/index/foreign-key and nullability constraints needed to preserve request identity and state invariants?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "identity_lifecycle": {
+      "type": "choice",
+      "instructions": "Does the proposal leave account deletion/disablement or client disablement/reconfiguration between acceptance and token issuance materially unresolved?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "retry_snapshot": {
+      "type": "choice",
+      "instructions": "Does the proposal lack enough canonicalization/immutable snapshot detail to distinguish exact completion retry from conflicting new completion?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "atomic_order": {
+      "type": "choice",
+      "instructions": "Does the proposal leave ordering of state reservation, expiry check, hooks, grant creation and affected-row validation materially unspecified?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "poll_race": {
+      "type": "choice",
+      "instructions": "Does the proposal leave concurrent polling interval updates and slow_down state materially unspecified?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "callback_response": {
+      "type": "choice",
+      "instructions": "Does the proposal leave whether callback exceptions after commit affect the acknowledgement HTTP response materially unspecified?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "cleanup_cutoff": {
+      "type": "choice",
+      "instructions": "Does the proposal leave eligible cleanup states/cutoff bounds and preservation of active requests materially unspecified?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "public_subject": {
+      "type": "choice",
+      "instructions": "Does the proposal accidentally allow upstream IdP sub or support-account sub to replace the actual locally authenticated CIBA subject?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    },
+    "no_delivery_guarantee": {
+      "type": "choice",
+      "instructions": "Does the proposal falsely promise durable observational delivery despite describing best-effort and process-crash loss?",
+      "criteria": {
+        "present": "This specific gap/contradiction is materially present.",
+        "absent": "The draft already handles this, or this claim is false.",
+        "unclear": "The provided text cannot establish whether this specific issue is present."
+      }
+    }
+  }
+}

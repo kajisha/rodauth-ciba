@@ -1,0 +1,15 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_ciba_id_token_encryption_prefers/ --seed 28428
+
+# Running:
+
+F
+
+Finished in 0.139310s, 7.1782 runs/s, 21.5347 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_id_token_encryption_prefers_explicit_recipient_metadata [test/ciba_id_token_encryption_test.rb:25]:
+Expected: "precise"
+  Actual: "generic"
+
+1 runs, 3 assertions, 1 failures, 0 errors, 0 skips

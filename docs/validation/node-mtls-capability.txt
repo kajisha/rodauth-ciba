@@ -1,0 +1,12 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider WARNING: quick start development-only signing keys are used, you are expected to provide your own in the configuration "jwks" property
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+oidc-provider NOTICE: default features.introspection.allowedPolicy function called, you SHOULD change it in order to to check whether the caller is authorized to receive the introspection response.
+PASS tls_client_auth: real TLS CIBA/refresh, exact certificate cnf, UserInfo certificate binding; absent/header-only certificate rejected
+PASS self_signed_tls_client_auth: real TLS CIBA/refresh, exact certificate cnf, UserInfo certificate binding; absent/header-only certificate rejected
+PASS mTLS DCR: strict boolean, one PKI subject, required self-signed keys, defaults and management replacement
+PASS mTLS capability true does not force per-client binding; false policy issues unbound tokens while old tokens stay bound

@@ -1,0 +1,65 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "storage": {
+      "type": "choice",
+      "choice": "continue_incrementally",
+      "confidence": 0.99,
+      "probabilities": {
+        "other": 0.0,
+        "revise_design_first": 0.0,
+        "more_evidence_first": 0.0,
+        "continue_incrementally": 1.0
+      }
+    },
+    "atomicity": {
+      "type": "choice",
+      "choice": "continue_incrementally",
+      "confidence": 0.96,
+      "probabilities": {
+        "other": 0.0,
+        "revise_design_first": 0.03,
+        "more_evidence_first": 0.0,
+        "continue_incrementally": 0.97
+      }
+    },
+    "upstream_integration": {
+      "type": "choice",
+      "choice": "continue_incrementally",
+      "confidence": 0.98,
+      "probabilities": {
+        "other": 0.0,
+        "revise_design_first": 0.01,
+        "more_evidence_first": 0.0,
+        "continue_incrementally": 0.99
+      }
+    },
+    "concurrency": {
+      "type": "choice",
+      "choice": "continue_incrementally",
+      "confidence": 0.95,
+      "probabilities": {
+        "other": 0.0,
+        "revise_design_first": 0.01,
+        "more_evidence_first": 0.03,
+        "continue_incrementally": 0.96
+      }
+    },
+    "next_step": {
+      "type": "choice",
+      "choice": "cross_database_experiment",
+      "confidence": 0.98,
+      "probabilities": {
+        "other": 0.0,
+        "complete_protocol_slice": 0.0,
+        "cross_database_experiment": 0.99,
+        "return_to_user_requirements": 0.0,
+        "repair_transaction_design": 0.01
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 10047,
+    "output_tokens": 307
+  }
+}

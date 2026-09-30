@@ -1,0 +1,90 @@
+oidc-provider WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
+oidc-provider NOTICE: default ttl.BackchannelAuthenticationRequest function called, you SHOULD change it in order to define the expiration for BackchannelAuthenticationRequest artifacts.
+oidc-provider NOTICE: default ttl.Grant function called, you SHOULD change it in order to define the expiration for Grant artifacts.
+oidc-provider NOTICE: default ttl.AccessToken function called, you SHOULD change it in order to define the expiration for AccessToken artifacts.
+oidc-provider NOTICE: default ttl.RefreshToken function called, you SHOULD change it in order to define the expiration for RefreshToken artifacts.
+oidc-provider NOTICE: default ttl.IdToken function called, you SHOULD change it in order to define the expiration for IdToken artifacts.
+PASS dir/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS dir/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128KW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192KW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256KW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A128GCMKW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A192GCMKW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256GCM/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256GCM/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128CBC-HS256/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A128CBC-HS256/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192CBC-HS384/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A192CBC-HS384/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256CBC-HS512/no JWKS: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified
+PASS A256GCMKW/A256CBC-HS512/unavailable JWKS URI: no recipient key fetch; client-secret-derived key decrypts issuance/refresh; wrong key rejected; inner RS256 verified

@@ -1,0 +1,16 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_signed_request_empty_jti/ --seed 24758
+
+# Running:
+
+F
+
+Finished in 0.025483s, 39.2418 runs/s, 39.2418 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_signed_request_empty_jti_matches_reference_without_reusing_approval [test/ciba_signed_request_test.rb:51]:
+{"error":"invalid_request"}.
+Expected: 200
+  Actual: 400
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,15 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_client_authentication_is_required_at_both_endpoints/ --seed 45744
+
+# Running:
+
+F
+
+Finished in 0.021758s, 45.9601 runs/s, 45.9601 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_client_authentication_is_required_at_both_endpoints [test/ciba_integration_test.rb:136]:
+Expected: 400
+  Actual: 401
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips

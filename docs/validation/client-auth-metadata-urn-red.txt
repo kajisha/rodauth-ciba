@@ -1,0 +1,14 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name /test_ciba_registration_rejects_assertion_type/ --seed 35765
+
+# Running:
+
+F
+
+Finished in 0.027550s, 36.2976 runs/s, 72.5953 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_ciba_registration_rejects_assertion_type_as_authentication_method [test/ciba_registration_test.rb:101]:
+Expected ["client_secret_basic", "client_secret_post", "client_secret_jwt", "private_key_jwt", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"] to not include "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".
+
+1 runs, 2 assertions, 1 failures, 0 errors, 0 skips

@@ -1,0 +1,27 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --seed 3363
+
+# Running:
+
+........FFF.
+
+Finished in 2.152539s, 5.5748 runs/s, 37.1654 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_update_cannot_change_existing_ciba_subject_type_without_repeating_grant_type [test/ciba_registration_test.rb:96]:
+Expected: "invalid_request"
+  Actual: "invalid_client_metadata"
+
+  2) Failure:
+CibaIntegrationTest#test_ciba_management_rejects_wrong_bearer_and_ignores_internal_update [test/ciba_registration_test.rb:184]:
+{"backchannel_token_delivery_mode":"poll","subject_type":"public","grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"token_endpoint_auth_method":"client_secret_basic","scope":"openid","client_id":"support","registration_client_uri":"https://op.example.test/register/support","registration_access_token":"management-test-only"}.
+Expected: 400
+  Actual: 200
+
+  3) Failure:
+CibaIntegrationTest#test_ciba_management_replacement_clears_omitted_metadata_and_checks_client_id [test/ciba_registration_test.rb:227]:
+{"backchannel_token_delivery_mode":"poll","redirect_uris":[],"grant_types":["urn:openid:params:grant-type:ciba"],"response_types":[],"client_name":"Original name","token_endpoint_auth_method":"client_secret_basic","scope":"openid","client_id":"jMCtGtFun6T43bcyWWdU4Kg3MavRU3KXPsAenXR66_M","registration_client_uri":"https://op.example.test/register/jMCtGtFun6T43bcyWWdU4Kg3MavRU3KXPsAenXR66_M","registration_access_token":"wvlWLZN4VhVnZwWDzjH-d5gYCi7YM3V4YAHrFbq6eyA"}.
+Expected: 400
+  Actual: 200
+
+12 runs, 80 assertions, 3 failures, 0 errors, 0 skips

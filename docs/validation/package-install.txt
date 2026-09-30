@@ -1,0 +1,14 @@
+Fresh Ruby 4.0.6 Docker container, only pkg mounted read-only.
+Building native extensions. This could take a while...
+Successfully installed bcrypt-3.1.22
+Successfully installed jwt-3.3.0
+Successfully installed sequel-5.108.0
+Successfully installed rack-3.2.7
+Successfully installed roda-3.108.0
+Successfully installed rodauth-2.28.0
+Successfully installed rodauth-oauth-1.7.0
+Successfully installed rodauth-ciba-0.1.0
+8 gems installed
+Successfully installed sqlite3-2.9.6-aarch64-linux-gnu
+1 gem installed
+PASS: installed-gem discovery, acceptance, Ruby approval, poll and verified ID Token
