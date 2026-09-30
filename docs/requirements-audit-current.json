@@ -2949,7 +2949,7 @@
       "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html#rfc.section.13",
       "status": "protocol_boundary_verified",
       "scope": "CIBA error envelopes and baseline poll; authentication transports additionally exercised by the three-DB subset",
-      "finding": "At both CIBA endpoints, absent client identity returns HTTP400 invalid_request without a challenge; wrong Basic credentials return HTTP401 invalid_client with a Basic challenge. Matches measured reference boundary. Assertion-based identification without client_id remains supported; JWT/mTLS and non-CIBA regression subset passes on three DBs. Does not claim identical precedence for all malformed-input combinations.",
+      "finding": "Missing client authentication now returns HTTP401 invalid_client rather than400 invalid_request at the Backchannel endpoint and CIBA token polling endpoint. Direct tests cover absent/wrong credentials, Basic challenge, no new pending request, preserved approval, no issued grant and successful authenticated retry. This intentionally supersedes the prior reference-aligned missing-identifier mapping; it is not an exhaustive proof for all optional authentication error paths.",
       "code_refs": [
         "lib/rodauth/features/ciba.rb",
         "docs/research/error-response-reference-contract.md"
@@ -2964,7 +2964,7 @@
           "method": "test_client_authentication_is_required_at_both_endpoints"
         }
       ],
-      "execution": "docs/validation/missing-client-matrix.txt"
+      "execution": "docs/validation/missing-client-auth-green.txt"
     },
     {
       "id": "CIBA-148",

@@ -134,19 +134,21 @@ class CibaIntegrationTest
 
   def test_client_authentication_is_required_at_both_endpoints
     response = post("/backchannel-authentication", {login_hint: "customer@example.test", scope: "openid"}, "HTTP_AUTHORIZATION" => nil)
-    assert_equal 400, response.status
-    assert_equal "invalid_request", JSON.parse(response.body).fetch("error")
-    assert_nil response["www-authenticate"]
+    assert_equal 401, response.status
+    assert_equal "invalid_client", JSON.parse(response.body).fetch("error")
+    assert_match(/\ABasic/, response["www-authenticate"])
     assert_equal 0, @db[:ciba_requests].count
     id = accept_request
     approve(id)
     rejected = poll(id, "HTTP_AUTHORIZATION" => nil)
-    assert_equal 400, rejected.status
-    assert_equal "invalid_request", JSON.parse(rejected.body).fetch("error")
-    assert_nil rejected["www-authenticate"]
+    assert_equal 401, rejected.status
+    assert_equal "invalid_client", JSON.parse(rejected.body).fetch("error")
+    assert_match(/\ABasic/, rejected["www-authenticate"])
     assert_equal "no-store", rejected["cache-control"]
     assert_equal "no-cache", rejected["pragma"]
+    assert_equal "approved", @db[:ciba_requests].get(:status)
     assert_equal 0, @db[:oauth_grants].count
+    assert_equal 200, poll(id).status
   end
 
   def test_authorization_code_flow_still_uses_oidc_wrapper

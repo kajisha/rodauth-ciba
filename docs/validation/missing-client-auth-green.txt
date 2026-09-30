@@ -1,0 +1,10 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_authentication_errors_use_invalid_client_and_http_401|test_client_authentication_is_required_at_both_endpoints/" --seed 45492
+
+# Running:
+
+..
+
+Finished in 0.020911s, 95.6434 runs/s, 1099.8996 assertions/s.
+
+2 runs, 23 assertions, 0 failures, 0 errors, 0 skips

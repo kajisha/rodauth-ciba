@@ -1,5 +1,7 @@
 # Changelog
 
+- Return HTTP401 invalid_client with a Basic challenge when CIBA client authentication is absent, following CIBA Core section13. Failed unauthenticated polls retain approval and issue no tokens; an authenticated retry can still succeed.
+
 - Replace the reference-style minimum JWKS cache lifetime with explicit HTTP freshness. Authentication and encryption share publisher-authorized stale-if-error capped at60 seconds, without renewed freshness on failures. Honor restrictive directives and Age/Date; bound per-configuration cache storage and prevent in-flight fetches from restoring evicted keys.
 
 - Accept and save CIBA max_age policy input, with request/default precedence and signed-input isolation. Existing request tables require Schema.add_request_max_age; application code enforces freshness.

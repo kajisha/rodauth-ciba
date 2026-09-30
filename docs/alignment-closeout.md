@@ -112,3 +112,21 @@ alignment roadmap. Do not infer overall release readiness from this change alone
   two existing row-lock skips ([full log](validation/jwks-stale-full.txt)).
 - Database-specific concurrency is unchanged; this cache revision has not been
   rerun against PostgreSQL/MySQL. Those older matrix results are historical.
+
+
+## Missing-client-authentication correction
+
+CIBA Core section13 maps absent client authentication to401 invalid_client. The
+previous400 invalid_request mapping for a request with neither a header, client_id
+nor client_assertion is corrected at the Backchannel and CIBA poll endpoints.
+Regression checks fail before the fix and pass afterward; rejected polls preserve
+approval, create no grant and allow an authenticated retry. See
+[before](validation/missing-client-auth-red.txt) and
+[after](validation/missing-client-auth-green.txt). This deliberately differs from
+the earlier reference-aligned error mapping. Other optional-authentication error
+paths have not been exhaustively reassessed by this narrow correction.
+
+Final Ruby4.0.6 / SQLite validation:410 tests /10,844 assertions, zero
+failures/errors and two existing row-lock skips ([full log](validation/missing-client-auth-final.txt)).
+The focused error/authentication regression run passed8 tests /171 assertions
+([targeted log](validation/missing-client-auth-targeted.txt)).

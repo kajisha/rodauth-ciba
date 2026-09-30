@@ -177,13 +177,13 @@ module Rodauth
               param("client_assertion_type") == "urn:ietf:params:oauth:client-assertion-type:jwt-bearer" &&
               request.params["client_assertion"].is_a?(String)
           end
-          # Missing identity is a malformed CIBA request, distinct from failed
-          # authentication. Assertion subjects may identify clients without client_id.
+          # CIBA Core section 13 classifies absent client authentication as
+          # invalid_client. Assertions can identify clients without client_id.
           if (request.path == backchannel_authentication_path ||
               (request.path == token_path && request.params["grant_type"] == CibaSupport::GRANT_TYPE)) &&
              !request.env["HTTP_AUTHORIZATION"] && !request.params.key?("client_id") &&
              !request.params.key?("client_assertion")
-            ciba_error("invalid_request")
+            authorization_required
           end
           super
         end

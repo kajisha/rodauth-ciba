@@ -1,0 +1,21 @@
+mise WARN  failed to write cache file: /Users/hiroshi/.cache/mise/lua/5.5.0/exec_env_3b86e418117b5590-7f2de.msgpack.z Operation not permitted (os error 1)
+Run options: --name "/test_authentication_errors_use_invalid_client_and_http_401|test_client_authentication_is_required_at_both_endpoints/" --seed 41218
+
+# Running:
+
+FF
+
+Finished in 0.017008s, 117.5917 runs/s, 352.7752 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_client_authentication_is_required_at_both_endpoints [test/ciba_integration_test.rb:137]:
+Expected: 401
+  Actual: 400
+
+  2) Failure:
+CibaIntegrationTest#test_authentication_errors_use_invalid_client_and_http_401 [test/ciba_requirements_test.rb:130]:
+{"error":"invalid_request"}.
+Expected: 401
+  Actual: 400
+
+2 runs, 6 assertions, 2 failures, 0 errors, 0 skips

@@ -84,7 +84,7 @@ class CibaIntegrationTest
       [{scope: "not-allowed"}, {}, 400, "invalid_scope"],
       [{login_hint: "unknown"}, {}, 400, "unknown_user_id"],
       [{binding_message: "x" * 129}, {}, 400, "invalid_binding_message"],
-      [{}, {"HTTP_AUTHORIZATION" => nil}, 400, "invalid_request"],
+      [{}, {"HTTP_AUTHORIZATION" => nil}, 401, "invalid_client"],
       [{}, {"test.before_request" => ->(_) { raise "private credential value" },
              "test.processing_error" => ->(_) {}}, 500, "server_error"]
     ]
@@ -127,9 +127,9 @@ class CibaIntegrationTest
     assert_match(/\ABasic/, response["www-authenticate"])
 
     response = ciba_requirements_request({}, "HTTP_AUTHORIZATION" => nil)
-    assert_equal 400, response.status, response.body
-    assert_equal "invalid_request", JSON.parse(response.body).fetch("error")
-    assert_nil response["www-authenticate"]
+    assert_equal 401, response.status, response.body
+    assert_equal "invalid_client", JSON.parse(response.body).fetch("error")
+    assert_match(/\ABasic/, response["www-authenticate"])
   end
 
   def test_scope_syntax_errors_are_invalid_scope

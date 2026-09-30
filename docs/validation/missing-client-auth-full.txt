@@ -1,0 +1,23 @@
+Run options: --seed 56711
+
+# Running:
+
+....................................F..........................................S.......................................................................................................................................................................................................................................................................................................................S..........F.......
+
+Finished in 141.892810s, 2.8895 runs/s, 76.1772 assertions/s.
+
+  1) Failure:
+CibaIntegrationTest#test_authentication_error_envelopes_do_not_expose_tokens_or_internal_errors [test/ciba_requirements_test.rb:93]:
+{"error":"invalid_client","error_description":"Invalid client"}.
+Expected: 400
+  Actual: 401
+
+  2) Failure:
+CibaIntegrationTest#test_backchannel_ignores_other_grant_parameters_without_bypassing_client_authentication [test/ciba_security_test.rb:75]:
+{"error":"invalid_client","error_description":"Invalid client"}.
+Expected: 400
+  Actual: 401
+
+410 runs, 10809 assertions, 2 failures, 0 errors, 2 skips
+
+You have skipped tests. Run with --verbose for details.

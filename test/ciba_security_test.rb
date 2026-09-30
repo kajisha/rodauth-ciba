@@ -72,8 +72,8 @@ class CibaIntegrationTest
     params = {grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer", assertion: security_assertion,
       login_hint: "customer@example.test", scope: "openid"}
     response = post("/backchannel-authentication", params, "HTTP_AUTHORIZATION" => nil)
-    assert_error response, "invalid_request"
-    assert_nil response["www-authenticate"]
+    assert_invalid_client response
+    assert_match(/\ABasic/, response["www-authenticate"])
     assert_equal 0, @db[:ciba_requests].count
     # Extra grant fields do not prevent a correctly authenticated CIBA request.
     assert_equal 200, security_start(security_assertion, params).status
