@@ -130,3 +130,7 @@ Final Ruby4.0.6 / SQLite validation:410 tests /10,844 assertions, zero
 failures/errors and two existing row-lock skips ([full log](validation/missing-client-auth-final.txt)).
 The focused error/authentication regression run passed8 tests /171 assertions
 ([targeted log](validation/missing-client-auth-targeted.txt)).
+
+[Jev reassessment](research/jev-auth-fix-review/report.md) scored the narrow
+correction3.95/4 (confidence0.96), with supported status (confidence0.97).
+It did not establish complete coverage of all optional authentication-error paths.

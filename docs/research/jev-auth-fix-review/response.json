@@ -1,0 +1,49 @@
+{
+  "model": "jev-1.13.0",
+  "answers": {
+    "missing_auth_status": {
+      "type": "choice",
+      "choice": "supported",
+      "confidence": 0.97,
+      "probabilities": {
+        "supported": 0.99,
+        "insufficient": 0.0,
+        "gap": 0.01
+      }
+    },
+    "missing_auth_score": {
+      "type": "score",
+      "score": 3.95,
+      "confidence": 0.96,
+      "legend": {
+        "0": "No implementation or a direct contradiction is shown.",
+        "1": "Only intent/scaffolding is shown.",
+        "2": "Core response fix exists but important covered-path behavior is missing or contradicted.",
+        "3": "Code appears correct, but direct regression evidence is materially incomplete.",
+        "4": "Code and direct passing regressions verify401 invalid_client, challenge, no unauthorized issuance/consumption, and successful legitimate retry."
+      },
+      "probabilities": {
+        "0": 0.0,
+        "1": 0.0,
+        "2": 0.01,
+        "3": 0.03,
+        "4": 0.96
+      }
+    },
+    "ciba147_full_status": {
+      "type": "choice",
+      "choice": "partial",
+      "confidence": 0.98,
+      "probabilities": {
+        "insufficient": 0.0,
+        "gap": 0.01,
+        "partial": 0.99,
+        "complete": 0.0
+      }
+    }
+  },
+  "usage": {
+    "input_tokens": 15268,
+    "output_tokens": 109
+  }
+}
