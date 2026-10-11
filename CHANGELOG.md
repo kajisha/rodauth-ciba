@@ -4,6 +4,8 @@
 
 First release of the CIBA OpenID Provider extension for rodauth-oauth.
 
+- Require saved-consent authorization for optional refresh issuance and renewal.
+
 - Poll delivery, Discovery, TLS/form request validation and confidential client
   authentication, including integration with upstream JWT client authentication.
 - Ruby completion and saved-consent APIs, idempotent completion, account/client
@@ -18,6 +20,8 @@ First release of the CIBA OpenID Provider extension for rodauth-oauth.
   publisher-authorized stale-if-error allowance.
 - HTTP 401 `invalid_client` for absent CIBA client authentication; rejected polls
   preserve approval and allow a legitimate authenticated retry.
+- Startup rejection of upstream single-row OAuth token storage, preserving token/consent provenance.
+- Saved `require_auth_time` enforcement during approval, issuance and refresh, without fabricating timestamps.
 - Local approval/client examples, installed-package smoke tests and Ruby/DB CI.
 
 Refresh tokens, pairwise subjects and dynamic CIBA registration are experimental,

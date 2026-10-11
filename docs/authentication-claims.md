@@ -23,7 +23,13 @@ selection uses the scopes authorized for the current issuance, including refresh
 narrowing. It is application configuration, not a client-supplied mapping.
 Client metadata and explicit request selection are saved at acceptance; replacing
 client metadata later does not reinterpret an accepted request or refresh source.
-Missing authentication values remain absent even if selected. The gem does not
+An accepted `require_auth_time: true` is saved as the `auth_time_required` marker
+in the existing authentication selection. Approval requires a verified
+`auth_time` and rejects a missing value before changing the pending request.
+Issuance and refresh reject an incomplete required context with `invalid_grant`
+without consuming its source. Later client metadata changes do not relax this
+saved requirement. Optional selected authentication values remain absent when
+not supplied. The gem does not
 invent a login timestamp, echo a requested ACR as achieved, or verify the truth of
 application-provided authentication context.
 
@@ -43,6 +49,9 @@ For renamed request storage, pass `table:` and `column:` and set the matching
 `ciba_request_columns` mapping. Startup checks require the request column and,
 when refresh is enabled, its refresh-source column. No automatic migration runs.
 Upgrade workers together: old workers do not record selection for new requests.
+The required-time marker needs no new column. Requests and refresh sources
+accepted by earlier workers do not carry it; drain or explicitly invalidate them
+before relying on mandatory-time enforcement. Do not fabricate missing timestamps.
 Existing NULL rows retain the previous output contract (all supplied context
 claims). New requests store an explicit list, including an empty list. Do not
 backfill NULL with an empty list unless changing pending requests' output is

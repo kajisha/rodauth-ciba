@@ -9,7 +9,8 @@ For development tests, explicitly create storage with
 `Rodauth::CibaSupport::Schema.create_refresh_tokens(db)` and configure
 `ciba_refresh_tokens_enabled true`. Register both the CIBA grant and
 `refresh_token` for the client, and allow `offline_access` in both OP and client
-scopes. Initial issuance requires `offline_access` on the CIBA source and the
+scopes. Initial issuance requires `offline_access` in both the CIBA source and
+its saved consent, as well as the
 refresh grant registration, matching the reference default policy.
 
 `ciba_refresh_tokens_table` defaults to `:ciba_refresh_tokens` and
@@ -19,7 +20,9 @@ account/client, consent ID and authentication context separately from each acces
 token. Short-lived CIBA request cleanup does not remove it.
 
 Updates validate the authenticated client, current grant registration, account,
-saved consent and enabled optional capabilities. Scope narrowing applies to the
+saved consent and enabled optional capabilities. Removing `offline_access` from
+the saved consent rejects subsequent refreshes with `invalid_grant` before
+rotation or issuance. Scope narrowing applies to the
 current access token, not the saved refresh source. Resource selection is computed
 against the current consent. Each update creates a new access-token record.
 

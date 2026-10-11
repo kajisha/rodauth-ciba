@@ -6,6 +6,19 @@ The same activation boundary applies to [resources](resources.md) and [RAR](auth
 
 ## Database migration
 
+CIBA requires a separate OAuth grant row for each token issuance. Startup rejects
+the upstream single-row mode detected by a unique index matching
+`oauth_grants_unique_columns` (normally application ID, account ID and scopes).
+That mode keeps an old token while replacing its consent reference, so it cannot
+be used with CIBA. Remove or redesign that index in an explicit application
+migration before enabling CIBA; keep token/token-hash uniqueness. No index is
+changed automatically. Review how this affects existing non-CIBA flows and
+restart all workers after the migration. Merely overriding the internal upstream
+mode flag leaves the conflicting database constraint in place.
+Tokens previously issued in that mode may already have an incorrect consent
+reference. Invalidate the affected CIBA token, refresh and request artifacts as
+part of deployment; removing the index cannot reconstruct their provenance.
+
 New installations use the current base migration. When upgrading an earlier
 development snapshot, add missing columns with explicit forward migrations;
 do not rerun table creation. The current base request schema requires
