@@ -22,7 +22,9 @@ from no policy. This is an internal representation adaptation, not an HTTP respo
 change. Client metadata changes after acceptance do not alter the saved policy.
 Applications must enforce freshness during authentication; approval does not reject
 an old supplied auth_time automatically. Selected max_age causes auth_time to be
-selected for ID Token output, but does not invent an authentication time.
+selected and required for ID Token output. Approval without a verified time is
+rejected, and issuance/refresh reject missing required context without consuming
+the source. This does not invent a time or automatically enforce freshness.
 Refresh preserves the original authentication claim selection/context and does
 not start a new authentication request or reapply current client defaults.
 

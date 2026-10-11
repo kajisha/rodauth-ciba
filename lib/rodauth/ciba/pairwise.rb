@@ -22,7 +22,8 @@ module Rodauth
         result = super
         if @ciba_userinfo_grant_id && request.path == userinfo_path && oauth_application &&
             (oauth_application[oauth_applications_subject_type_column] || oauth_jwt_subject_type) == "pairwise"
-          claims["sub"] = jwt_subject(account[account_id_column], oauth_application)
+          issued = db[oauth_grants_table].where(oauth_grants_id_column => @ciba_userinfo_grant_id).first
+          claims["sub"] = issued && issued[ciba_token_subject_column] || jwt_subject(account[account_id_column], oauth_application)
         end
         result
       end

@@ -1,0 +1,3537 @@
+{
+  "title": "CIBA Core final requirement ledger for local conformance improvements",
+  "as_of": "2026-10-11",
+  "base_sha": "74ccc85e4f7af9596fec2b965bd43eed0ff708bc",
+  "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html",
+  "scope": "Poll plus advertised opt-in ping, hints, signing and user codes; push excluded; pairwise and DCR experimental. OIDC claims/max_age are separately identified extensions.",
+  "method": "159 inherited authored CIBA rows plus five conditional OIDC rows cover the current inventory. Not an official denominator, certification or exhaustive proof. Local regression results do not discharge application gates, optional combinations or official-suite acceptance.",
+  "levels_note": "Normative details distinguish capitalized RFC2119 words from lowercase descriptive guidance; REQUIRED parameter semantics are retained. Compound rows may contain both definitions and normative requirements.",
+  "items": [
+    {
+      "id": "CIBA-001",
+      "section": "4",
+      "requirement": "Use urn:openid:params:grant-type:ciba as the CIBA extension grant identifier.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "Specification definition (fixed grant value; no MUST/REQUIRED keyword)",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-002",
+      "section": "4",
+      "requirement": "Publish required backchannel_token_delivery_modes_supported as an array of actually supported poll/ping/push modes.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-003",
+      "section": "4",
+      "requirement": "Publish required backchannel_authentication_endpoint as the actual Backchannel Endpoint URL.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-004",
+      "section": "4",
+      "requirement": "Only advertise backchannel_authentication_request_signing_alg_values_supported when signed requests are supported; omission means unsupported.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OP may omit; absence says unsupported）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-005",
+      "section": "4",
+      "requirement": "Publish user_code support truthfully; absent backchannel_user_code_parameter_supported defaults to false.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OP may omit; omitted means false）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-006",
+      "section": "4",
+      "requirement": "Include the CIBA grant in grant_types_supported when supporting poll or ping.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "仕様定義（poll/pingのgrant_types_supported。MUSTという語ではない）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-007",
+      "section": "4",
+      "requirement": "Backchannel authentication methods match token_endpoint_auth_methods_supported.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "Specification definition (metadata consistency; no MUST/REQUIRED keyword)",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-008",
+      "section": "4",
+      "requirement": "When applicable Backchannel authentication signing algorithms match token_endpoint_auth_signing_alg_values_supported.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "Conditional specification definition (metadata consistency; no MUST/REQUIRED keyword)",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-009",
+      "section": "4",
+      "requirement": "Require a registered single backchannel_token_delivery_mode from poll/ping/push for a CIBA client.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-010",
+      "section": "4",
+      "requirement": "Poll/ping clients register the CIBA grant in grant_types; enforce eligibility before accepting their requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-011",
+      "section": "4",
+      "requirement": "Ping/push clients register an HTTPS backchannel_client_notification_endpoint.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-012",
+      "section": "4",
+      "requirement": "Clients intending signed authentication requests register the signature algorithm; omission means unsigned requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-013",
+      "section": "4",
+      "requirement": "Respect backchannel_user_code_parameter only when OP user_code support is enabled; omitted value defaults false.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "Optional client metadata (OPTIONAL; only applies when OP support is true)",
+      "conditional": true,
+      "feature": "user_code",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-014",
+      "section": "4",
+      "requirement": "Use each client's registered token_endpoint_auth_method for both Backchannel and Token endpoints.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "Specification definition (registered method; no MUST/REQUIRED keyword)",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "oauth_grant_types_supported",
+        "ciba_client_eligible?",
+        "post_configure"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-015",
+      "section": "4",
+      "requirement": "For poll/ping pairwise subjects use jwks_uri or sector_identifier_uri instead of redirect_uri to determine sector.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "experimental_unverified",
+      "acceptance_gate": "Pairwise/DCR disabled by default; outside supported release",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-016",
+      "section": "4",
+      "requirement": "For pairwise poll/ping dynamic registration validate jwks_uri and its inclusion in an explicit sector_identifier_uri document.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "experimental_unverified",
+      "acceptance_gate": "Pairwise/DCR disabled by default; outside supported release",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-017",
+      "section": "4",
+      "requirement": "For pairwise poll/ping require proof of possession of key material associated with jwks_uri through signed requests or the specified asymmetric client authentication.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "experimental_unverified",
+      "acceptance_gate": "Pairwise/DCR disabled by default; outside supported release",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-018",
+      "section": "4",
+      "requirement": "Use notification endpoint host for push pairwise sector and check membership when explicit sector_identifier_uri is supplied.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_registration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-019",
+      "section": "5",
+      "requirement": "Make authentication results available through the token endpoint in poll mode.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.5",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（該当節にMUST/SHOULD/MAYの規範語なし）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_metadata",
+        "create_token"
+      ],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-020",
+      "section": "5",
+      "requirement": "Notify the client then make the result available at the token endpoint in ping mode.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.5",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（該当節にMUST/SHOULD/MAYの規範語なし）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-021",
+      "section": "5",
+      "requirement": "Deliver the complete authentication result directly to the notification endpoint in push mode.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.5",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（該当節にMUST/SHOULD/MAYの規範語なし）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-022",
+      "section": "5",
+      "requirement": "If supporting sender-constrained tokens in push, record Backchannel key material and bind issued tokens to it.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.5",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "任意能力に対する設計指針（lowercase should）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-023",
+      "section": "7",
+      "requirement": "Require TLS for Backchannel Authentication Endpoint communication.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "backchannel_authentication route"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-024",
+      "section": "7.1",
+      "requirement": "Accept authentication requests as HTTP POST application/x-www-form-urlencoded UTF-8 bodies.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-025",
+      "section": "7.1",
+      "requirement": "Authenticate the client at Backchannel using its registered authentication method.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "CibaSupport::ClientAuthentication#require_oauth_application",
+        "CibaSupport::ClientAuthentication#jwt_assertion",
+        "require_oauth_application (upstream)"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-026",
+      "section": "7.1",
+      "requirement": "At Backchannel accept OP issuer identifier as the audience of JWT client assertions.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "CibaSupport::ClientAuthentication#require_oauth_application",
+        "CibaSupport::ClientAuthentication#jwt_assertion",
+        "require_oauth_application (upstream)"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-027",
+      "section": "7.1",
+      "requirement": "At Backchannel accept Token Endpoint URL as the audience of JWT client assertions.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "CibaSupport::ClientAuthentication#require_oauth_application",
+        "CibaSupport::ClientAuthentication#jwt_assertion",
+        "require_oauth_application (upstream)"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-028",
+      "section": "7.1",
+      "requirement": "At Backchannel accept Backchannel Endpoint URL as the audience of JWT client assertions.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "CibaSupport::ClientAuthentication#require_oauth_application",
+        "CibaSupport::ClientAuthentication#jwt_assertion",
+        "require_oauth_application (upstream)"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-029",
+      "section": "7.1",
+      "requirement": "Client should use the OP issuer identifier for JWT assertion audience at Backchannel.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "推奨（SHOULD use OP Issuer as JWT aud）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-030",
+      "section": "7.1",
+      "requirement": "Require scope in a CIBA authentication request.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-031",
+      "section": "7.1",
+      "requirement": "Require the openid scope for the OpenID CIBA flow.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-032",
+      "section": "7.1",
+      "requirement": "Allow authorized additional scopes such as profile/email/address/phone without treating openid as the only possible scope.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（other scopes MAY be present）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-033",
+      "section": "7.1",
+      "requirement": "Require client_notification_token for ping/push.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（ping/push登録ならREQUIRED）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-034",
+      "section": "7.1",
+      "requirement": "Validate client_notification_token max 1024 characters and bearer credential syntax.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "条件付き必須（ping/push時; MUST NOT exceed 1024 / bearer syntax）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-035",
+      "section": "7.1",
+      "requirement": "Client ensures at least 128 bits entropy for client_notification_token, with 160 recommended.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（client MUST ensure entropy; 160 bits is recommended）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-036",
+      "section": "7.1",
+      "requirement": "Accept requested space-separated acr_values and preserve preference order for authentication selection.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OPTIONAL acr_values; order is preference; OP discretion）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-037",
+      "section": "7.1",
+      "requirement": "Report the authentication context actually achieved as acr in the ID Token; acr is highly recommended when acr_values was requested.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "強く推奨（highly RECOMMENDED acr claim when requested）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem + upstream + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-038",
+      "section": "7.1",
+      "requirement": "Support user identification via login_hint_token according to deployment-specific token format and validation policy.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "Optional parameter (OPTIONAL)",
+      "conditional": true,
+      "feature": "login_hint_token",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-039",
+      "section": "7.1",
+      "requirement": "Support user identification using an ID Token previously issued by the OP.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "Optional parameter (OPTIONAL)",
+      "conditional": true,
+      "feature": "id_token_hint",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-040",
+      "section": "7.1",
+      "requirement": "Client decrypts an asymmetrically encrypted ID Token before supplying it as id_token_hint.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST",
+      "normative_detail": "条件付き必須（暗号化ID Tokenをhintに使うclientはMUST decrypt）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-041",
+      "section": "7.1",
+      "requirement": "Support a login_hint string as a user identifier without requiring it to be an email address.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OPTIONAL login_hint）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-042",
+      "section": "7.1",
+      "requirement": "Accept binding_message and make it available for display on both consumption and authentication devices.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "Optional parameter (OPTIONAL)",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-043",
+      "section": "7.1",
+      "requirement": "Client chooses binding_message that lets the end-user correlate the initiating action and authentication device interaction.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "Recommendation (SHOULD)",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-044",
+      "section": "7.1",
+      "requirement": "Keep binding_message relatively short with a limited set of plain-text characters suitable for display.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "Recommendation (SHOULD)",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-045",
+      "section": "7.1",
+      "requirement": "Support optional user_code validation when the OP/client has enabled it.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OPTIONAL user_code; lowercase “should only” condition is non-RFC2119）",
+      "conditional": true,
+      "feature": "user_code",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-046",
+      "section": "7.1",
+      "requirement": "Accept optional requested_expiry as a positive integer.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OPTIONAL requested_expiry with positive-integer value）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-047",
+      "section": "7.1",
+      "requirement": "OP may use requested_expiry to influence the request lifetime; evaluate the implementation of this optional capability, not a mandatory obligation to honor it exactly.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（server MAY honor; encouraged where useful）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-048",
+      "section": "7.1",
+      "requirement": "Require exactly one of login_hint, login_hint_token, id_token_hint in an authentication request.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_ciba_transport!",
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-049",
+      "section": "7.1.1",
+      "requirement": "Support signed authentication requests carried in the request parameter as a signed JWT containing all authentication parameters.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-050",
+      "section": "7.1.1",
+      "requirement": "Validate asymmetric signature for signed authentication requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-051",
+      "section": "7.1.1",
+      "requirement": "Validate signed request aud as the OP issuer.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-052",
+      "section": "7.1.1",
+      "requirement": "Validate signed request iss as the client_id.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-053",
+      "section": "7.1.1",
+      "requirement": "Require and validate exp on signed authentication requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-054",
+      "section": "7.1.1",
+      "requirement": "Require and validate iat on signed authentication requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-055",
+      "section": "7.1.1",
+      "requirement": "Require and validate nbf on signed authentication requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-056",
+      "section": "7.1.1",
+      "requirement": "Require a unique jti on signed authentication requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Signed JWT includes a string jti. Client/issuer supplies uniqueness per RFC7519; request-jti consumption/replay prevention is not implemented. Empty jti is accepted. No blanket JWT conformance pass.",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-057",
+      "section": "7.1.1",
+      "requirement": "Accept requested_expiry as either JSON string or number inside signed authentication requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（OP must accept either type; source uses lowercase “must”）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Signed requested_expiry accepts positive finite integral JSON numbers; targeted acceptance/rejection regression.",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_claim_constraints_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-058",
+      "section": "7.1.1",
+      "requirement": "Do not allow authentication request parameters outside a signed request JWT; separate client authentication parameters remain outside.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "条件付き必須（署名付き認証要求を実装する場合）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "client + gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Client MUST omit unsigned authentication parameters; gem isolates signed parameters and never merges outer inputs. OP rejection of extra parameters is not independently mandated.",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-059",
+      "section": "7.1.1",
+      "requirement": "Do not treat encrypted JWT authentication requests as a supported signed-request format.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（7.1.1 does not state the catalog prohibition as an RFC2119 rule）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_signed_request_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-060",
+      "section": "7.1.2",
+      "requirement": "If user_code is supported, use a code distinct from the user's OP password.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "仕様定義（user_codeの秘密値はOPのパスワードとは別）",
+      "conditional": true,
+      "feature": "user_code",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-061",
+      "section": "7.1.2",
+      "requirement": "If user_code is supported, allow policy for clients/users without it as permitted by the specification.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "任意のポリシー（user_code対応時、例外を許容できる。lowercase may）",
+      "conditional": true,
+      "feature": "user_code",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-062",
+      "section": "7.1.2",
+      "requirement": "Client must not store user_code and requests it for each CIBA flow.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.2",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "必須（client MUST NOT store user_code）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-063",
+      "section": "7.1.2",
+      "requirement": "If user_code is supported, OP should provide a way for users to change it.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.1.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "設計指針（user_code変更手段、lowercase should）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-064",
+      "section": "7.2",
+      "requirement": "Validate client authentication using the registered/configured method before accepting an authentication request.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "CibaSupport::ClientAuthentication#require_oauth_application",
+        "CibaSupport::ClientAuthentication#jwt_assertion",
+        "require_oauth_application (upstream)"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-065",
+      "section": "7.2",
+      "requirement": "Support the recommended public-key client authentication alternative to sending shared secrets in requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "推奨（RECOMMENDED、Clientによる公開鍵認証の利用）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-066",
+      "section": "7.2",
+      "requirement": "If signed requests are supported, validate JWT signature and all other applicable JWT validity constraints.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（署名付き要求がある場合。§7.2のMUST validateに含まれる）",
+      "conditional": true,
+      "feature": "signed_requests",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-067",
+      "section": "7.2",
+      "requirement": "Validate all authentication request parameters within the supported feature scope.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-068",
+      "section": "7.2",
+      "requirement": "Return invalid_request when multiple hints are provided.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-069",
+      "section": "7.2",
+      "requirement": "Process a supported hint to establish its validity and identify an eligible user before request acceptance.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "validate_ciba_request!",
+        "resolve_ciba_login_hint",
+        "ciba_account_eligible?"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-070",
+      "section": "7.2",
+      "requirement": "Communicate accepted hint types and where applicable issuer/max-age policy to clients.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（hint policy “should be communicated”; validation/information explicitly out of scope）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-071",
+      "section": "7.2",
+      "requirement": "Return an appropriate Authentication Error Response for an invalid hint or unidentified user.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "設計指針（lowercase should。応答コードの意味は§13参照）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-072",
+      "section": "7.2",
+      "requirement": "Verify required parameters are present and used according to their requirements.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-073",
+      "section": "7.2",
+      "requirement": "Ignore unrecognized authentication request parameters.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-074",
+      "section": "7.2",
+      "requirement": "Return Authentication Error Responses per section 13 when authentication request validation fails.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "ciba_request_accepted"
+      ],
+      "grouped_test_files": [
+        "test/ciba_protocol_test.rb",
+        "test/ciba_security_test.rb",
+        "test/ciba_hint_token_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-075",
+      "section": "7.3",
+      "requirement": "Return HTTP 200 acknowledgement after validating and accepting an authentication request.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "応答定義（成功時HTTP 200、MUSTという語ではない）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "json_response_success (upstream)",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-076",
+      "section": "7.3",
+      "requirement": "Return a unique auth_req_id in the acknowledgement.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "validate_ciba_request!"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-077",
+      "section": "7.3",
+      "requirement": "Generate auth_req_id with at least 128 bits entropy, preferably at least 160 bits.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "SecureRandom.urlsafe_base64(32) in backchannel_authentication route"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "code_review_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-078",
+      "section": "7.3",
+      "requirement": "Restrict auth_req_id to A-Z a-z 0-9 dot hyphen underscore.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "validate_ciba_request!"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-079",
+      "section": "7.3",
+      "requirement": "Client treats auth_req_id as opaque.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（Client MUST treat auth_req_id as opaque）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-080",
+      "section": "7.3",
+      "requirement": "Return expires_in as a positive integer JSON number measuring request lifetime in seconds from receipt.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Receive-time expiry regression in ciba_conformance_test.rb",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "validate_ciba_request!"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-081",
+      "section": "7.3",
+      "requirement": "If provided for poll/ping, return interval as a positive integer JSON number in seconds.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（interval is OPTIONAL; if supplied, positive integer; client MUST wait; default rule separate ID 82）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "backchannel_authentication route",
+        "validate_ciba_request!"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-082",
+      "section": "7.3",
+      "requirement": "Client uses five seconds when interval is omitted.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（client MUST use 5-second default when interval omitted）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-083",
+      "section": "7.3",
+      "requirement": "Client ignores unrecognized acknowledgement response parameters.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.3",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-084",
+      "section": "7.4",
+      "requirement": "Client validates required acknowledgement parameters on HTTP 200.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-085",
+      "section": "7.4",
+      "requirement": "Client retains auth_req_id for subsequent polling or callback validation.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.4",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-086",
+      "section": "7.4",
+      "requirement": "Client should retain expiry for cleanup of requests awaiting callback.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.7.4",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "設計指針（期限保存、lowercase should）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-087",
+      "section": "8",
+      "requirement": "OP identifies user and chooses an authentication channel considering acr_values; evaluate gem/application responsibility separately.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.8",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（§8 places user/channel/acr selection in OP process; catalog added an evaluation abstraction）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "create_token",
+        "id_token_claims"
+      ],
+      "grouped_test_files": [
+        "test/ciba_lifecycle_test.rb",
+        "test/ciba_alignment_test.rb"
+      ],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-088",
+      "section": "8",
+      "requirement": "Before successful token issuance, obtain the authenticated end-user's authorization decision per OIDC Core 3.1.2.4.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.8",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "approve_ciba_request",
+        "ciba_complete",
+        "create_token"
+      ],
+      "grouped_test_files": [
+        "test/ciba_lifecycle_test.rb",
+        "test/ciba_alignment_test.rb"
+      ],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-089",
+      "section": "10",
+      "requirement": "Deliver authentication result only through the client's single registered delivery mode.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "validate_token_params"
+      ],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-090",
+      "section": "10.1",
+      "requirement": "Require registered client authentication for CIBA token requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "CibaSupport::ClientAuthentication#require_oauth_application",
+        "CibaSupport::ClientAuthentication#jwt_assertion",
+        "require_oauth_application (upstream)"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-091",
+      "section": "10.1",
+      "requirement": "Client must not poll more frequently than the OP's minimum interval.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-092",
+      "section": "10.1",
+      "requirement": "Optionally support long polling with a recommended timeout of 30 seconds.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "任意（long polling、lowercase may。30秒は参照仕様の推奨）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "optional_not_implemented",
+      "acceptance_gate": "Long polling not offered",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-093",
+      "section": "10.1",
+      "requirement": "OP should not take more than 30 seconds to respond to polling requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "推奨（OP should not take more than 30 seconds; source lowercase should）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + deployment",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "ciba_http"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-094",
+      "section": "10.1",
+      "requirement": "Client must not send overlapping requests using the same auth_req_id.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-095",
+      "section": "10.1",
+      "requirement": "OP may return HTTP 503 with Retry-After under load; evaluate this optional behavior.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OP MAY return 503 / Retry-After under stated condition）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-096",
+      "section": "10.1",
+      "requirement": "Client should respect Retry-After before retrying a token request.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "推奨（client should respect Retry-After; lowercase should）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-097",
+      "section": "10.1",
+      "requirement": "Treat a ping client that polls the token endpoint as a poll client.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（§10.1、ping clientがpollした場合はMUST treat as poll）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-098",
+      "section": "10.1",
+      "requirement": "Accept CIBA token requests as HTTP POST form-urlencoded UTF-8 bodies.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_token_params",
+        "create_token"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-099",
+      "section": "10.1",
+      "requirement": "Require exact CIBA grant_type in token requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_token_params",
+        "create_token"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-100",
+      "section": "10.1",
+      "requirement": "Require auth_req_id in token requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_token_params",
+        "create_token"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-101",
+      "section": "10.1",
+      "requirement": "Verify auth_req_id was issued to the authenticated requesting client; reject mismatch.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_token_params",
+        "create_token"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-102",
+      "section": "10.1.1",
+      "requirement": "After customer authentication and authorization, return the successful token response specified by OIDC Core 3.1.3.3 (access_token, token_type, id_token and applicable lifetime fields).",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "応答定義（成功応答はOIDC Core §3.1.3.3を参照）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem + upstream",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "id_token_claims"
+      ],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-103",
+      "section": "10.1.1",
+      "requirement": "Invalidate auth_req_id after a successful redemption, including concurrent requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "応答定義（成功引換え後はauth_req_idが無効。MUSTという語ではない）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "id_token_claims"
+      ],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-104",
+      "section": "10.1.1",
+      "requirement": "Return a token error instead of tokens when customer authentication/authorization has not succeeded.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.1.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "応答定義（未認証・未承認時はerror、lowercase must）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "id_token_claims"
+      ],
+      "grouped_test_files": [
+        "test/ciba_integration_test.rb",
+        "test/ciba_conformance_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-105",
+      "section": "10.2",
+      "requirement": "After successful or failed authentication send ping callback as HTTP POST to the registered notification endpoint.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（該当節にMUST/SHOULD/MAYの規範語なし）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-106",
+      "section": "10.2",
+      "requirement": "Send client_notification_token as Authorization Bearer in ping callbacks.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "配送形式の定義（ping対応時。MUSTという語ではない）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-107",
+      "section": "10.2",
+      "requirement": "Send only auth_req_id as the ping JSON body.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "配送形式の定義（ping対応時。MUSTという語ではない）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-108",
+      "section": "10.2",
+      "requirement": "Client verifies notification token and its association with auth_req_id; invalid bearer should yield HTTP 401.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-109",
+      "section": "10.2",
+      "requirement": "Accept callback HTTP 204 and also HTTP 200, ignoring response bodies.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "推奨（client endpoint SHOULD respond 204; OP SHOULD accept 200 and ignore body）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem + client",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-110",
+      "section": "10.2",
+      "requirement": "OP must not follow ping callback redirects.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "条件付き必須（該当機能/条件時 MUST）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-111",
+      "section": "10.2",
+      "requirement": "After verifying notification, client retrieves tokens at token endpoint.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.2",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "フローの説明（通知検証後にclient can retrieve、MUSTという語ではない）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-112",
+      "section": "9",
+      "requirement": "Require HTTPS notification URLs and TLS communication for ping/push.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.9",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem + client",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-113",
+      "section": "9",
+      "requirement": "Authenticate notification requests using the client's client_notification_token.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.9",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "配送認証の定義（lowercase must）",
+      "conditional": true,
+      "feature": "ping",
+      "responsibility": "gem + client",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_ping_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-114",
+      "section": "10.3.1",
+      "requirement": "Send ID Token/access token/optional refresh token/auth_req_id as JSON to registered notification endpoint after authorization.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（該当節にMUST/SHOULD/MAYの規範語なし）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-115",
+      "section": "10.3.1",
+      "requirement": "Include access-token hash at_hash in push ID Token.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-116",
+      "section": "10.3.1",
+      "requirement": "Include urn:openid:params:jwt:claim:auth_req_id in push ID Token.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-117",
+      "section": "10.3.1",
+      "requirement": "When pushing refresh token, include urn:openid:params:jwt:claim:rt_hash calculated like at_hash.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-118",
+      "section": "10.3.1",
+      "requirement": "Client validates bearer token, ID Token and correspondence of auth_req_id/access-token hash/refresh-token hash.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-119",
+      "section": "10.3.1",
+      "requirement": "OP accepts HTTP 204 and HTTP 200 callback responses and ignores their bodies.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "推奨（client endpoint SHOULD respond 204; OP SHOULD accept 200 and ignore body）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-120",
+      "section": "10.3.1",
+      "requirement": "OP must not follow push callback redirects.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-121",
+      "section": "10.3.1",
+      "requirement": "Client ignores unrecognized push request parameters.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.10.3.1",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-122",
+      "section": "11",
+      "requirement": "Return invalid/unauthorized token request errors according to OIDC Core 3.1.3.4 and RFC6749 5.2.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "必須（invalid/unauthorized errors must follow referenced OIDC/OAuth format; triggered by invalid request）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-123",
+      "section": "11",
+      "requirement": "Return authorization_pending while authentication/authorization is pending.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "必須（pending response state; normative error semantics）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-124",
+      "section": "11",
+      "requirement": "For too-fast pending polling return slow_down and increase interval by at least five seconds for subsequent requests.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（slow_down応答なら interval MUST increase by >=5 seconds）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-125",
+      "section": "11",
+      "requirement": "Return expired_token when auth_req_id has expired.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー定義（§11 poll/pingのexpired_token。§12 pushの送信任意とは別）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-126",
+      "section": "11",
+      "requirement": "Return access_denied when end-user denied authorization.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-127",
+      "section": "11",
+      "requirement": "Return invalid_grant for invalid auth_req_id or one issued to a different client.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "create_token",
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-128",
+      "section": "11",
+      "requirement": "OP may return invalid_request for continued too-fast polling; evaluate optional capability.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OP MAY send invalid_request on continued too-fast polling）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "optional_not_implemented",
+      "acceptance_gate": "Optional termination of abusive polling not offered",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-129",
+      "section": "11",
+      "requirement": "Client must stop requesting the same auth_req_id after invalid_request.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（client MUST stop same auth_req_id after invalid_request）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "client",
+      "status": "client_duty",
+      "acceptance_gate": "RP implementation outside this OP extension",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "client_only",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-130",
+      "section": "11",
+      "requirement": "Reject CIBA token requests by a client configured for push with unauthorized_client.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.11",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "条件付き必須（push client MUST NOT token endpoint call; unauthorized_client required）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "validate_token_params",
+        "ciba_client_eligible?"
+      ],
+      "grouped_test_files": [
+        "test/ciba_security_test.rb",
+        "test/ciba_integration_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-131",
+      "section": "12",
+      "requirement": "Deliver push errors as application/json with required error and auth_req_id.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.12",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-132",
+      "section": "12",
+      "requirement": "If push error_description is supplied, limit it to the specified ASCII character ranges.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.12",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-133",
+      "section": "12",
+      "requirement": "Deliver access_denied push error when end-user refuses authorization.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.12",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（該当節にMUST/SHOULD/MAYの規範語なし）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-134",
+      "section": "12",
+      "requirement": "Optionally deliver expired_token push error when authentication request expires.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.12",
+      "normative_level": "OPTIONAL_or_MAY",
+      "normative_detail": "任意（OP not required to send expired_token push error）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-135",
+      "section": "12",
+      "requirement": "Deliver transaction_failed for unexpected unsuccessful push transactions.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.12",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "任意のエラー通知（push transaction_failedを利用できる。全失敗への送信義務ではない）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-136",
+      "section": "13",
+      "requirement": "Return authentication errors with application/json and a required ASCII error code.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "必須（MUST / REQUIRED）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-137",
+      "section": "13",
+      "requirement": "If authentication error_description is emitted, enforce the specified ASCII ranges.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_NOT",
+      "normative_detail": "条件付き必須（任意のerror_descriptionを出す場合のMUST NOT文字制約）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-138",
+      "section": "13",
+      "requirement": "If error_uri is emitted, enforce URI-reference syntax and specified ASCII ranges.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（任意のerror_uriを出す場合のMUST構文制約）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "not_applicable",
+      "acceptance_gate": "error_uri is not emitted",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-139",
+      "section": "13",
+      "requirement": "Use HTTP 400 invalid_request for missing/invalid/repeated parameters and multiple hints.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー応答の定義（該当する失敗とHTTP status/codeの対応）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-140",
+      "section": "13",
+      "requirement": "Use HTTP 400 invalid_scope for malformed, unknown or invalid scope.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー応答の定義（該当する失敗とHTTP status/codeの対応）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-141",
+      "section": "13",
+      "requirement": "Use HTTP 400 expired_login_hint_token for an expired login_hint_token when supported.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（supported login_hint_token expired case; otherwise feature optional）",
+      "conditional": true,
+      "feature": "login_hint_token",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-142",
+      "section": "13",
+      "requirement": "Use HTTP 400 unknown_user_id when supported hints cannot identify the intended user.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー応答の定義（該当する失敗とHTTP status/codeの対応）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-143",
+      "section": "13",
+      "requirement": "Use HTTP 400 unauthorized_client when a client is not allowed to use CIBA.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー応答の定義（該当する失敗とHTTP status/codeの対応）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-144",
+      "section": "13",
+      "requirement": "Use HTTP 400 missing_user_code when required user_code is absent.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（if user_code is required and absent）",
+      "conditional": true,
+      "feature": "user_code",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-145",
+      "section": "13",
+      "requirement": "Use HTTP 400 invalid_user_code for invalid supplied user_code when supported.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（if user_code supplied and invalid, where supported）",
+      "conditional": true,
+      "feature": "user_code",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-146",
+      "section": "13",
+      "requirement": "Use HTTP 400 invalid_binding_message for an unacceptable binding message.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー応答の定義（該当する失敗とHTTP status/codeの対応）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-147",
+      "section": "13",
+      "requirement": "Use HTTP 401 invalid_client for failed, absent or unsupported client authentication.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "エラー応答の定義（該当する失敗とHTTP status/codeの対応）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "verified",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-148",
+      "section": "13",
+      "requirement": "When OP/resource-owner policy denies an authentication request before user interaction, return HTTP 403 access_denied.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.13",
+      "normative_level": "MUST_or_REQUIRED",
+      "normative_detail": "条件付き必須（when OP/resource-owner pre-interaction policy denies）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem + app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "ciba_http",
+        "ciba_error"
+      ],
+      "grouped_test_files": [
+        "test/ciba_requirements_test.rb",
+        "test/ciba_user_code_test.rb"
+      ],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-149",
+      "section": "14",
+      "requirement": "When supporting login_hint_token, it should be digitally signed by its issuer.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "Recommendation (SHOULD)",
+      "conditional": true,
+      "feature": "login_hint_token",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-150",
+      "section": "14",
+      "requirement": "OP should ensure registered notification endpoint is under the client's administrative authority.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "SHOULD_or_RECOMMENDED",
+      "normative_detail": "Recommendation (SHOULD)",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-151",
+      "section": "14",
+      "requirement": "When supporting id_token_hint, accept expired ID Tokens for a reasonable period under the specified contextual validation policy.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "任意（id_token_hint optional; text accept-expired policy is SHOULD within support）",
+      "conditional": true,
+      "feature": "id_token_hint",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Optional hint feature; expired-hint retention guidance uses lowercase should, not RFC2119 SHOULD",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-152",
+      "section": "14",
+      "requirement": "When supporting id_token_hint, verify OP issuer and that presenting client is listed in audience.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "Guidance (lowercase should in source; not RFC2119 SHOULD)",
+      "conditional": true,
+      "feature": "id_token_hint",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-153",
+      "section": "14",
+      "requirement": "When supporting id_token_hint, verify signature subject to the key rotation/pairwise alternatives discussed in section 14.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "Guidance (lowercase should in source; not RFC2119 SHOULD)",
+      "conditional": true,
+      "feature": "id_token_hint",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-154",
+      "section": "14",
+      "requirement": "For push, secure notification endpoint and its registration and consider sender-constrained tokens.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "記述的要件（security considerations say secure endpoint / consider binding; catalog groups considerations）",
+      "conditional": true,
+      "feature": "push",
+      "responsibility": "app",
+      "status": "not_applicable",
+      "acceptance_gate": "Push is neither implemented nor advertised",
+      "code_symbols": [],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-155",
+      "section": "14",
+      "requirement": "Additional RP session context metadata may be conveyed by deployment-specific means; CIBA specifies no mandatory transport for it.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.14",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "参考情報（deployment-specific metadata may be conveyed; no CIBA transport requirement）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "resolve_ciba_login_hint",
+        "ciba_account_eligible?"
+      ],
+      "grouped_test_files": [
+        "test/ciba_hint_token_test.rb",
+        "test/ciba_id_token_hint_test.rb",
+        "test/ciba_http_test.rb"
+      ],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-156",
+      "section": "15",
+      "requirement": "Permit alternatives to global static identifiers; evaluate gem ability to use an app-defined privacy-preserving login_hint and boundaries of unsupported hint tokens.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.15",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "参考情報（privacy considerations, no explicit MUST/SHOULD in cataloged behavior）",
+      "conditional": false,
+      "feature": "core",
+      "responsibility": "app",
+      "status": "application_contract",
+      "acceptance_gate": "Application must enforce and integration-test this requirement",
+      "code_symbols": [
+        "resolve_ciba_login_hint"
+      ],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "app_contract",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-157",
+      "section": "15",
+      "requirement": "Support the described privacy option of using a previously issued pairwise ID Token without personal data as id_token_hint.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.15",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "参考情報（privacy option descriptive, not an OP mandate）",
+      "conditional": true,
+      "feature": "core",
+      "responsibility": "gem",
+      "status": "experimental_unverified",
+      "acceptance_gate": "Pairwise/DCR disabled by default; outside supported release",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-158",
+      "section": "15",
+      "requirement": "Support the described optional AD-to-CD single-use identifier carried in login_hint_token.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.15",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "参考情報（optional scenario/example）",
+      "conditional": true,
+      "feature": "login_hint_token",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "CIBA-159",
+      "section": "15",
+      "requirement": "Support the described optional discovery-service encrypted login_hint_token flow.",
+      "source": "https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0-final.html#rfc.section.15",
+      "normative_level": "definition_or_guidance",
+      "normative_detail": "参考情報（possible ecosystem scenario, no protocol conformance requirement）",
+      "conditional": true,
+      "feature": "login_hint_token",
+      "responsibility": "gem",
+      "status": "code_reviewed",
+      "acceptance_gate": "Existing implementation and grouped tests; not a per-row conformance proof",
+      "code_symbols": [],
+      "grouped_test_files": [],
+      "historical_status_not_current_evidence": "optional_excluded",
+      "normative_scope_note": "The source detail governs compound rows; enum summarizes classification, not all duties in a section."
+    },
+    {
+      "id": "OIDC-AUTH-TIME",
+      "section": "OIDC Core 2",
+      "requirement": "For accepted max_age or essential ID Token auth_time requests, preserve and enforce required authentication time at approval, issuance and refresh.",
+      "source": "https://openid.net/specs/openid-connect-core-1_0.html#IDToken",
+      "normative_level": "REQUIRED",
+      "conditional": true,
+      "feature": "claims_or_max_age_extension",
+      "responsibility": "gem + app",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Gem requires a non-null verified timestamp; application authenticates and enforces freshness. No invented timestamp.",
+      "grouped_test_files": [
+        "test/ciba_conformance_test.rb"
+      ]
+    },
+    {
+      "id": "OIDC-ESSENTIAL-ACR",
+      "section": "OIDC Core 5.5.1.1",
+      "requirement": "For supported claims with essential ACR value/values, refuse approval and token issuance without matching achieved ACR; preserve requirements through refresh.",
+      "source": "https://openid.net/specs/openid-connect-core-1_0.html#acrSemantics",
+      "normative_level": "MUST",
+      "conditional": true,
+      "feature": "claims_extension",
+      "responsibility": "gem + app",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Targeted negative regressions and final suite results recorded in delivery report; actual authentication and trusted attribute acquisition remain application-owned.",
+      "grouped_test_files": [
+        "test/ciba_claim_constraints_test.rb"
+      ]
+    },
+    {
+      "id": "OIDC-REQUESTED-SUB",
+      "section": "OIDC Core 3.1.2.2 / 5.5.1",
+      "requirement": "Refuse positive tokens for a subject different from requested sub; compare actual public/pairwise RP subject. UserInfo retains issued subject.",
+      "source": "https://openid.net/specs/openid-connect-core-1_0.html#AuthRequestValidation",
+      "normative_level": "MUST",
+      "conditional": true,
+      "feature": "claims_extension",
+      "responsibility": "gem + app",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Targeted negative regressions and final suite results recorded in delivery report; actual authentication and trusted attribute acquisition remain application-owned.",
+      "grouped_test_files": [
+        "test/ciba_claim_constraints_test.rb"
+      ]
+    },
+    {
+      "id": "OIDC-CLAIM-QUALIFIERS",
+      "section": "OIDC Core 5.5.1",
+      "requirement": "Validate qualifier shape and known value types; omit mismatching ordinary claims. Do not error solely for missing generic essential claims. Preserve filters per issuance and check final protocol fields.",
+      "source": "https://openid.net/specs/openid-connect-core-1_0.html#IndividualClaimsRequests",
+      "normative_level": "MUST",
+      "conditional": true,
+      "feature": "claims_extension",
+      "responsibility": "gem + app",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Targeted negative regressions and final suite results recorded in delivery report; actual authentication and trusted attribute acquisition remain application-owned.",
+      "grouped_test_files": [
+        "test/ciba_claim_constraints_test.rb"
+      ]
+    },
+    {
+      "id": "OIDC-REFRESH-ORIGINAL-IDENTITY",
+      "section": "OIDC Core 12.2",
+      "requirement": "Refresh ID Tokens preserve the actual initial iss/sub/aud and disclosed auth_time, use new iat and omit nonce. Reject unverifiable legacy/corrupt contexts before hooks and mutation; preserve binding through rotation and pairwise sector changes.",
+      "source": "https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokenResponse",
+      "normative_level": "MUST plus nonce SHOULD NOT",
+      "conditional": true,
+      "feature": "experimental_refresh",
+      "responsibility": "gem + deployment",
+      "status": "local_regression_verified",
+      "acceptance_gate": "Local SQLite regressions and installed-gem smoke; coordinated worker migration and official/PG/MySQL validation remain open.",
+      "grouped_test_files": ["test/ciba_refresh_identity_test.rb", "test/ciba_pairwise_test.rb", "test/ciba_id_token_encryption_test.rb", "examples/extensions_smoke.rb"]
+    }
+  ],
+  "status_legend": {
+    "code_reviewed": "Visible code boundary only; grouped tests listed, no exhaustive per-row proof",
+    "application_contract": "Application/deployment obligation not tested in a real service",
+    "client_duty": "RP role outside this OP extension",
+    "experimental_unverified": "Feature outside supported release; conditional requirements require separate evaluation",
+    "not_applicable": "Unsupported mode or omitted optional output",
+    "optional_not_implemented": "Permitted capability not provided",
+    "regression_pending": "Implementation has targeted tests; results recorded separately",
+    "local_regression_verified": "Specific local regressions executed; not exhaustive conformance or deployment proof"
+  }
+}

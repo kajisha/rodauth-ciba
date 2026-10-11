@@ -42,9 +42,10 @@ retain the canonical account ID. UserInfo must return the same pairwise subject
 as ID Token. With pairwise enabled, new CIBA issuances snapshot their subject in that token
 row. JWT UserInfo checks the signed subject against this snapshot and the bound
 client before using the internal account for lookup. After a management sector
-change, old tokens can therefore authenticate while UserInfo emits the new
-sector subject, as measured with node opaque tokens. Refresh also uses the new
-sector, and already-issued JWT bytes remain unchanged. Older rows with no
+change, old tokens can therefore authenticate while UserInfo retains their
+issuance subject. Refresh chains retain the original ID Token subject using
+versioned authentication context, deliberately differing from the previously
+measured node current-sector behavior. Already-issued JWT bytes remain unchanged. Older rows with no
 snapshot retain the prior current-subject check; a sector change can invalidate
 those old JWTs. The migration does not invent historical subjects.
 
@@ -67,10 +68,15 @@ sector update; subsequent approved issuance uses the new sector subject. The
 installed-gem TLS fixture now covers hybrid DCR, real remote-key authentication,
 approval, verified ID Token, saved subject and matching UserInfo. Concurrent
 sector management/issuance tests now verify one issuance subject across storage
-and tokens, followed by current-sector UserInfo, on all three DBs. PostgreSQL and
+and tokens. UserInfo now retains the subject stored with the presented issuance
+after sector changes; the earlier current-sector expectation is superseded.
+The updated expectation is locally tested on SQLite; the historical three-DB
+result predates this correction. PostgreSQL and
 MySQL force the update to commit while issuance is paused; SQLite tests writer
 contention and either serial order. Concurrent refresh/key changes, arbitrary
 application hooks and additional deployment combinations remain unverified.
+Legacy refresh sources without original ID Token context fail closed; see the
+[refresh migration](refresh-tokens.md#original-id-token-binding-and-migration).
 This is not a completed pairwise parity or release-readiness claim.
 
 [Reference contract](research/pairwise-reference-contract.md).

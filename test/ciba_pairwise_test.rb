@@ -141,7 +141,7 @@ class CibaIntegrationTest
     userinfo = Rack::MockRequest.new(@app).get("https://op.example.test/userinfo",
       "HTTP_AUTHORIZATION" => "Bearer #{tokens.fetch('access_token')}")
     assert_equal 200, userinfo.status, userinfo.body
-    assert_equal new_subject, JSON.parse(userinfo.body).fetch("sub")
+    assert_equal claims.fetch("sub"), JSON.parse(userinfo.body).fetch("sub")
   end
 
   def assert_pairwise_ciba_flow
@@ -402,7 +402,7 @@ class CibaIntegrationTest
     response = Rack::MockRequest.new(@app).get("https://op.example.test/userinfo",
       "HTTP_AUTHORIZATION" => "Bearer #{renewed.fetch('access_token')}")
     assert_equal 200, response.status, response.body
-    assert_equal expected, JSON.parse(response.body).fetch("sub")
+    assert_equal original.fetch("sub"), JSON.parse(response.body).fetch("sub")
     if auth.send(:oauth_jwt_access_tokens)
       forged, header = JWT.decode(renewed.fetch("access_token"), nil, false)
       assert_equal original.fetch("sub"), @db[:oauth_grants].where(id: forged.fetch("urn:rodauth:ciba:token_id")).get(:ciba_subject)
@@ -416,8 +416,7 @@ class CibaIntegrationTest
     assert_equal 200, response.status, response.body
     changed, = JWT.decode(JSON.parse(response.body).fetch("id_token"), KEY.public_key, true,
       algorithms: ["RS256"], verify_aud: true, aud: "support")
-    assert_equal expected, changed.fetch("sub")
-    refute_equal original.fetch("sub"), changed.fetch("sub")
+    assert_equal original.fetch("sub"), changed.fetch("sub")
     unchanged = @db[:ciba_requests].where(id: pending_row[:id]).first
     assert_equal @account_id, unchanged[:account_id]
     assert_nil unchanged[:grant_id]

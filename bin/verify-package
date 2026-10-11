@@ -23,7 +23,8 @@ Dir.chdir(File.expand_path("..", __dir__)) do
       spec = Gem.loaded_specs.fetch("rodauth-ciba")
       installed_root = File.realpath(ENV.fetch("CIBA_INSTALLED_ROOT"))
       raise "repository gem loaded" unless File.realpath(spec.full_gem_path).start_with?(installed_root + "/")
-      %w[lib/rodauth/ciba/schema.rb docs/node-alignment.md docs/research/node-ciba-lifecycle.md
+      %w[lib/rodauth/ciba/schema.rb docs/ciba-conformance.md docs/ciba-core-requirements.json
+         docs/node-alignment.md docs/research/node-ciba-lifecycle.md
          docs/authentication-claims.md docs/max-age.md docs/alignment-closeout.md
          docs/research/required-parameter-inventory.md docs/research/request-parameter-inventory.md
          docs/claims.md docs/resources.md docs/authorization-details.md docs/login-hint-token.md docs/id-token-hint.md docs/research/resource-reference-contract.md

@@ -419,6 +419,7 @@ module Rodauth
     auth_server_route(:backchannel_authentication, "backchannel-authentication") do |r|
       r.post do
         ciba_http do
+          received_at = ciba_now
           validate_ciba_transport!
           require_oauth_application
           ciba_error("unauthorized_client") unless ciba_client_eligible?(oauth_application)
@@ -444,10 +445,9 @@ module Rodauth
           public_id = SecureRandom.urlsafe_base64(32)
           delivery[:auth_req_id] = public_id if delivery
           lifetime = requested.delete(:lifetime)
-          now = ciba_now
           row = requested.merge(auth_req_id_digest: Digest::SHA256.hexdigest(public_id),
             account_id: account_id, oauth_application_id: oauth_application[oauth_applications_id_column],
-            created_at: now, expires_at: now + lifetime,
+            created_at: received_at, expires_at: received_at + lifetime,
             status: "pending", lock_version: 0, interval: ciba_poll_interval)
           ciba_transaction do
             @ciba_current_request = ciba_snapshot(row)
@@ -895,6 +895,16 @@ module Rodauth
 
     def jwt_encode(payload, signing_algorithm: oauth_jwt_keys.keys.first, headers: {}, **options)
       ciba_id_token = @ciba_authentication && headers[:typ] == "id_token+jwt"
+      if ciba_id_token
+        identity = payload.each_with_object({}) do |(name, value), result|
+          key = name.to_s
+          result[key] = value if %w[iss sub aud auth_time].include?(key)
+        end
+        if @ciba_refresh_identity && identity != @ciba_refresh_identity
+          raise CibaSupport::ProtocolError, "invalid_grant"
+        end
+        @ciba_initial_id_token = identity
+      end
       if ciba_id_token && ciba_id_token_encryption_enabled &&
           (options[:encryption_algorithm] || options[:encryption_method])
         signed = jwt_encode(payload, signing_algorithm: signing_algorithm, headers: headers,
@@ -1039,7 +1049,7 @@ module Rodauth
           raise CibaSupport::IdentityMismatch, "account does not match" unless row[:account_id] == account_id
           raise CibaSupport::Expired, "request expired" if row[:expires_at] <= ciba_now
           if outcome == "approved" && row[:authentication_claims] &&
-              JSON.parse(row[:authentication_claims]).include?("auth_time_required") && context[:auth_time].nil?
+              ciba_authentication_claim_selection(row).include?("auth_time_required") && context[:auth_time].nil?
             raise CibaSupport::Ineligible, "verified auth_time is required for this CIBA request"
           end
           authorized_scopes = context[:grant_id] ? ciba_authorized_scopes!(row, context[:grant_id]) : row[:scopes].split
@@ -1053,6 +1063,9 @@ module Rodauth
           application = oauth_application_ds(row[:oauth_application_id]).first
           unless ciba_account_eligible?(account_id) && ciba_client_eligible?(application, authorized_scopes)
             raise CibaSupport::Ineligible, "account or client unavailable"
+          end
+          if outcome == "approved" && !ciba_authentication_constraints_valid?(row.merge(context), application)
+            raise CibaSupport::Ineligible, "authentication does not satisfy requested claims"
           end
           ciba_claim!(row)
           action = outcome == "approved" ? "approve" : "deny"
@@ -1381,7 +1394,7 @@ module Rodauth
         next unless data.key?(target)
         entries = data[target]
         unless entries.is_a?(Hash) && entries.size <= 64 && entries.all? { |name, options|
-          name.bytesize <= 128 && (options.nil? || options.is_a?(Hash))
+          name.bytesize <= 128 && ciba_claim_request_options_valid?(name, options)
         }
           ciba_error("invalid_request")
         end
@@ -1398,7 +1411,7 @@ module Rodauth
       allowed = ciba_claim_names(consent.fetch("allowed"))
       rejected = ciba_claim_names(consent.fetch("rejected"))
       implicit = scopes.flat_map { |scope| scope == "address" ? ["address"] : Array(OIDC_SCOPES_MAP[scope]).map(&:to_s) }
-      result = {"version" => 1}
+      result = {"version" => 1, "constraints" => requested}
       %w[id_token userinfo].each do |target|
         names = Array(requested[target]&.keys) & allowed
         names |= implicit if target == "userinfo"
@@ -1451,6 +1464,86 @@ module Rodauth
           claims[name.to_sym] = value unless value.nil?
         end
       end
+      if target == "userinfo" && row
+        claims["sub"] = row[ciba_token_subject_column] || jwt_subject(account[account_id_column], oauth_application)
+      end
+      if target == "userinfo" && oauth_application[oauth_applications_userinfo_signed_response_alg_column]
+        # Upstream adds these after this hook. Validate the same final values.
+        claims[:iss] = oauth_jwt_issuer
+        claims[:aud] = oauth_application[oauth_applications_client_id_column]
+      end
+      ciba_filter_requested_claims!(claims, projection.fetch("constraints", {}).fetch(target, {}))
+    rescue CibaSupport::ProtocolError
+      raise unless target == "userinfo"
+      throw_json_response_error(oauth_authorization_required_error_status, "invalid_token")
+    end
+
+    def ciba_claim_value_matches?(value, options)
+      return true unless options.is_a?(Hash) && (options.key?("value") || options.key?("values"))
+      # Compare JSON values, not Ruby symbol/string object-key representations.
+      value = JSON.parse(JSON.generate(value))
+      (!options.key?("value") || options["value"] == value) &&
+        (!options.key?("values") || (options["values"].is_a?(Array) && options["values"].include?(value)))
+    end
+
+    def ciba_claim_request_options_valid?(name, options)
+      return true if options.nil?
+      return false unless options.is_a?(Hash) &&
+        (!options.key?("essential") || options["essential"] == true || options["essential"] == false) &&
+        (!options.key?("values") || options["values"].is_a?(Array))
+      values = options.key?("value") ? [options["value"]] : []
+      values += options["values"] if options.key?("values")
+      values.all? do |value|
+        case name
+        when "auth_time", "iat", "exp", "updated_at"
+          value.is_a?(Numeric) && value.finite? && value >= 0
+        when "email_verified", "phone_number_verified"
+          value == true || value == false
+        when "address"
+          value.is_a?(Hash)
+        when "amr"
+          value.is_a?(Array) && value.all? { |entry| entry.is_a?(String) }
+        else
+          string_claims = OIDC_SCOPES_MAP.values.flatten.map(&:to_s) + %w[sub iss acr nonce]
+          !string_claims.include?(name) || value.is_a?(String)
+        end
+      end
+    end
+
+    def ciba_authentication_constraints_valid?(row, application)
+      requested = JSON.parse(row[:requested_claims] || "{}")
+      requested.each do |target, entries|
+        next unless %w[id_token userinfo].include?(target)
+        return false unless entries.is_a?(Hash) && entries.all? { |name, options| ciba_claim_request_options_valid?(name, options) }
+        subject = row[:token_digest] ? ciba_refresh_identity(row).fetch("sub") : jwt_subject(row[:account_id], application)
+        if entries.key?("sub") && !ciba_claim_value_matches?(subject, entries["sub"])
+          return false
+        end
+        if target == "userinfo" && application[oauth_applications_userinfo_signed_response_alg_column]
+          return false unless ciba_claim_value_matches?(oauth_jwt_issuer, entries["iss"]) &&
+            ciba_claim_value_matches?(application[oauth_applications_client_id_column], entries["aud"])
+        end
+      end
+      acr = requested.fetch("id_token", {})["acr"]
+      !acr.is_a?(Hash) || acr["essential"] != true ||
+        (!acr.key?("value") && !acr.key?("values")) ||
+        (!row[:acr].nil? && ciba_claim_value_matches?(row[:acr], acr))
+    end
+
+    def ciba_filter_requested_claims!(claims, requested, auth_time_required: false)
+      requested.each do |name, options|
+        key = claims.key?(name) ? name : name.to_sym
+        next unless claims.key?(key)
+        # OIDC gives voluntary ACR its own semantics: return the achieved ACR.
+        next if name == "acr" && (!options.is_a?(Hash) || options["essential"] != true)
+        next if ciba_claim_value_matches?(claims[key], options)
+        if %w[sub iss aud exp iat nonce].include?(name) || (name == "auth_time" && auth_time_required) ||
+            (name == "acr" && options.is_a?(Hash) && options["essential"] == true)
+          raise CibaSupport::ProtocolError, "invalid_grant"
+        end
+        claims.delete(key)
+      end
+      claims
     end
 
     def ciba_account_claim_value(account, name, getter)
@@ -1581,6 +1674,9 @@ module Rodauth
       end
       if claims.key?("requested_expiry")
         value = claims["requested_expiry"]
+        if value.is_a?(Numeric) && value.finite? && value > 0 && value == value.to_i
+          value = value.to_i
+        end
         ciba_error("invalid_request") unless value.is_a?(String) || value.is_a?(Integer)
         parameters["requested_expiry"] = value.to_s
       end
@@ -1777,11 +1873,15 @@ module Rodauth
           !result[:max_age].nil?
         authentication_claims << "auth_time"
       end
-      authentication_claims << "auth_time_required" if oauth_application[oauth_applications_require_auth_time_column] == true
+      auth_time_required = oauth_application[oauth_applications_require_auth_time_column] == true || !result[:max_age].nil?
       authentication_claims << "acr" if acr
       if result[:requested_claims]
-        authentication_claims |= JSON.parse(result[:requested_claims]).fetch("id_token", {}).keys & %w[auth_time acr amr]
+        id_token_claims = JSON.parse(result[:requested_claims]).fetch("id_token", {})
+        authentication_claims |= id_token_claims.keys & %w[auth_time acr amr]
+        auth_time_request = id_token_claims["auth_time"]
+        auth_time_required ||= auth_time_request.is_a?(Hash) && auth_time_request["essential"] == true
       end
+      authentication_claims << "auth_time_required" if auth_time_required
       result[:authentication_claims] = JSON.generate(authentication_claims)
       result[:requested_resources] = ciba_requested_resources if ciba_resources_enabled
       if ciba_authorization_details_enabled
@@ -1852,7 +1952,7 @@ module Rodauth
         grant = ciba_generate_access_token(row, authorized_scopes)
         if ciba_refresh_tokens_enabled && authorized_scopes.include?("offline_access") &&
            application[oauth_applications_grant_types_column].to_s.split.include?("refresh_token")
-          grant[oauth_grants_refresh_token_column] = ciba_save_refresh_token(row)
+          grant[oauth_grants_refresh_token_column] = ciba_save_refresh_token(row, initial_id_token: @ciba_initial_id_token)
         end
         row.merge!(updates)
         @ciba_current_request = ciba_snapshot(row)
@@ -1862,7 +1962,7 @@ module Rodauth
       end
     ensure
       if grant_type == CibaSupport::GRANT_TYPE
-        @ciba_authentication = @ciba_current_request = nil
+        @ciba_authentication = @ciba_current_request = @ciba_initial_id_token = @ciba_refresh_identity = nil
       end
     end
 
@@ -1946,11 +2046,46 @@ module Rodauth
         .update(oauth_grants_revoked_at_column => Sequel::CURRENT_TIMESTAMP)
     end
 
-    def ciba_save_refresh_token(source, rotations: 0, created_at: ciba_now)
+    def ciba_authentication_claim_selection(row)
+      value = JSON.parse(row[:authentication_claims] || '["auth_time","acr","amr"]')
+      selected = value.is_a?(Hash) && value["version"] == 2 ? value["selected"] : value
+      unless selected.is_a?(Array) && selected.all? { |name| name.is_a?(String) }
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
+      selected
+    rescue JSON::ParserError, TypeError
+      raise CibaSupport::ProtocolError, "invalid_grant"
+    end
+
+    def ciba_refresh_identity(row)
+      value = JSON.parse(row[:authentication_claims] || "null")
+      identity = value.is_a?(Hash) && value["version"] == 2 && value["initial_id_token"]
+      unless identity.is_a?(Hash) && %w[iss sub aud].all? { |key| identity[key].is_a?(String) && !identity[key].empty? } &&
+          identity["sub"].ascii_only? && identity["sub"].bytesize <= 255 &&
+          (identity.keys - %w[iss sub aud auth_time]).empty? &&
+          (!identity.key?("auth_time") || (identity["auth_time"].is_a?(Numeric) && identity["auth_time"].finite? && identity["auth_time"] >= 0))
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
+      selected = ciba_authentication_claim_selection(row)
+      if (selected.include?("auth_time_required") && !identity.key?("auth_time")) ||
+          (identity.key?("auth_time") && identity["auth_time"] != row[:auth_time])
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
+      identity
+    rescue JSON::ParserError, TypeError
+      raise CibaSupport::ProtocolError, "invalid_grant"
+    end
+
+    def ciba_save_refresh_token(source, rotations: 0, created_at: ciba_now, initial_id_token: nil)
       token = "ciba_rt_#{SecureRandom.urlsafe_base64(32)}"
       keys = %i[grant_id account_id oauth_application_id scopes auth_time acr amr nonce authentication_claims
                 requested_claims requested_resources requested_authorization_details]
       row = source.select { |key, _| keys.include?(key) }
+      if initial_id_token
+        row[:authentication_claims] = JSON.generate(version: 2, selected: ciba_authentication_claim_selection(source),
+          initial_id_token: initial_id_token)
+      end
+      ciba_refresh_identity(row)
       row.merge!(token_digest: Digest::SHA256.hexdigest(token), created_at: created_at,
         issued_at: ciba_now, expires_at: ciba_now + ciba_refresh_token_lifetime, rotations: rotations)
       db[ciba_refresh_tokens_table].insert(row)
@@ -1969,7 +2104,7 @@ module Rodauth
       ciba_error("invalid_grant") unless row && row[:expires_at] > ciba_now
       ciba_guard([:refresh, row[:id]]) { ciba_refresh_source(row, ds, token) }
     ensure
-      @ciba_authentication = @ciba_current_refresh = nil
+      @ciba_authentication = @ciba_current_refresh = @ciba_initial_id_token = @ciba_refresh_identity = nil
     end
 
     def ciba_validate_refresh_source!(row)
@@ -1987,6 +2122,15 @@ module Rodauth
         raise CibaSupport::ProtocolError, "invalid_grant"
       end
       @oauth_application = application
+      identity = ciba_refresh_identity(row)
+      unless identity["iss"] == oauth_jwt_issuer && identity["aud"] == application[oauth_applications_client_id_column] &&
+          (!identity.key?("auth_time") || identity["auth_time"] == row[:auth_time])
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
+      unless (application[oauth_applications_subject_type_column] || oauth_jwt_subject_type) == "pairwise" ||
+          identity["sub"] == jwt_subject(row[:account_id], application)
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
       ciba_validate_enabled_capabilities!(row)
       scopes
     end
@@ -2037,11 +2181,13 @@ module Rodauth
 
     def ciba_generate_access_token(row, authorized_scopes)
       @ciba_authentication = row
+      @ciba_initial_id_token = nil
+      @ciba_refresh_identity = row[:token_digest] ? ciba_refresh_identity(row) : nil
       attributes = {oauth_grants_account_id_column => row[:account_id],
         oauth_grants_oauth_application_id_column => row[:oauth_application_id],
         oauth_grants_scopes_column => authorized_scopes.join(oauth_scope_separator),
         oauth_grants_ciba_grant_id_column => row[:grant_id], oauth_grants_type_column => CibaSupport::GRANT_TYPE}
-      attributes[ciba_token_subject_column] = jwt_subject(row[:account_id]) if ciba_pairwise_enabled
+      attributes[ciba_token_subject_column] = @ciba_refresh_identity ? @ciba_refresh_identity.fetch("sub") : jwt_subject(row[:account_id]) if ciba_pairwise_enabled
       attributes[:ciba_claims] = ciba_compile_claims(row, authorized_scopes) if ciba_claims_enabled
       resource_attributes = ciba_token_resource(row)
       attributes.merge!(resource_attributes) if resource_attributes
@@ -2069,7 +2215,10 @@ module Rodauth
     end
 
     def ciba_validate_enabled_capabilities!(row)
-      if row[:authentication_claims] && JSON.parse(row[:authentication_claims]).include?("auth_time_required") && row[:auth_time].nil?
+      if row[:authentication_claims] && ciba_authentication_claim_selection(row).include?("auth_time_required") && row[:auth_time].nil?
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
+      unless ciba_authentication_constraints_valid?(row, oauth_application)
         raise CibaSupport::ProtocolError, "invalid_grant"
       end
       consent = ciba_locked_grant(row[:grant_id])
@@ -2098,16 +2247,22 @@ module Rodauth
       # ID Token audience is the RP, even when access-token resource audiences differ.
       claims[:aud] = oauth_application[oauth_applications_client_id_column]
       row = @ciba_authentication
-      claims[:nonce] = row[:nonce] if row[:nonce]
-      selected = row[:authentication_claims] ? JSON.parse(row[:authentication_claims]) : %w[auth_time acr amr]
+      claims[:nonce] = row[:nonce] if row[:nonce] && !@ciba_refresh_identity
+      selected = ciba_authentication_claim_selection(row)
       grant[oauth_grants_scopes_column].to_s.split(oauth_scope_separator).each do |scope|
         selected |= Array(ciba_authentication_claims_by_scope[scope]) & %w[auth_time acr amr]
       end
       claims[:auth_time] = row[:auth_time] if row[:auth_time] && selected.include?("auth_time")
       claims[:acr] = row[:acr] if row[:acr] && selected.include?("acr")
       claims[:amr] = JSON.parse(row[:amr]) if row[:amr] && selected.include?("amr")
+      if @ciba_refresh_identity
+        claims[:sub] = @ciba_refresh_identity.fetch("sub")
+        claims.delete(:auth_time)
+        claims[:auth_time] = @ciba_refresh_identity["auth_time"] if @ciba_refresh_identity.key?("auth_time")
+      end
       claims[:at_hash] = id_token_hash(grant[oauth_grants_token_column], algorithm)
-      claims
+      requested = JSON.parse(row[:requested_claims] || "{}").fetch("id_token", {})
+      ciba_filter_requested_claims!(claims, requested, auth_time_required: selected.include?("auth_time_required"))
     end
 
     def ciba_emit(row, type, from, to)

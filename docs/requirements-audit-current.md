@@ -1,3 +1,5 @@
+Historical 2026-09-30 audit overlay. For the current local Core final changes and remaining acceptance gates, see [conformance boundaries](ciba-conformance.md) and [requirement ledger](ciba-core-requirements.json). The older partial timing finding below is historical.
+
 # 現行構成の要件再監査
 
 2026-09-30。初期の159項目カタログを保持し、現在の任意機能に対する再監査を追記する。**159項目を再分類、未分類は0項目**。この分割は最終目標や監査範囲を縮小しない。CIBA以外のRFCやnode固有の挙動は[整合化計画](alignment-roadmap.md)で別途追跡する。

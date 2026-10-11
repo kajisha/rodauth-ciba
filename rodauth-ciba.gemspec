@@ -17,6 +17,7 @@ Gem::Specification.new do |spec|
                %w[README.md LICENSE CHANGELOG.md docs/failure-contract.md docs/alignment-roadmap.md docs/claims.md docs/research/claims-reference-contract.md docs/research/consent-api-evolution.md docs/research/completion-error-boundaries.md docs/adr/0003-follow-rodauth-hook-conventions.md docs/adr/0004-retain-atomic-issuance-and-stage-alignment.md]
   spec.files += %w[docs/resources.md docs/authorization-details.md docs/research/resource-reference-contract.md docs/research/rar-reference-contract.md]
   spec.files << "docs/release-readiness.md"
+  spec.files += %w[docs/ciba-conformance.md docs/ciba-core-requirements.json]
   spec.require_paths = ["lib"]
   spec.files << "docs/login-hint-token.md"
   spec.files << "docs/id-token-hint.md"

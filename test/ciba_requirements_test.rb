@@ -39,7 +39,7 @@ class CibaIntegrationTest
     end
   end
 
-  def test_acknowledgement_time_origin_matches_reference_application_delays
+  def test_acknowledgement_uses_request_receipt_time_without_extending_for_dispatch
     now = 1_800_000_000
     clock = -> { now }
     @app.plugin(:rodauth) do
@@ -53,14 +53,19 @@ class CibaIntegrationTest
       response = ciba_requirements_request({requested_expiry: "20"},
         "test.now" => clock, "test.resolve_delay" => -> { now += 7 },
         "test.device" => ->(_row, _auth) { now += dispatch_delay })
-      assert_equal 200, response.status, response.body
       payload = JSON.parse(response.body)
       row = @db[:ciba_requests].order(:id).last
-      assert_equal started + 7, row[:created_at]
-      assert_equal started + 27, row[:expires_at]
-      assert_equal 20, payload.fetch("expires_in")
-      assert_error poll(payload.fetch("auth_req_id"), "test.now" => clock),
-        dispatch_delay < 20 ? "authorization_pending" : "expired_token"
+      assert_equal started, row[:created_at]
+      assert_equal started + 20, row[:expires_at]
+      if dispatch_delay < 13
+        assert_equal 200, response.status, response.body
+        assert_equal 20, payload.fetch("expires_in")
+        assert_error poll(payload.fetch("auth_req_id"), "test.now" => clock), "authorization_pending"
+      else
+        assert_equal 200, response.status, response.body
+        assert_equal 20, payload.fetch("expires_in")
+        assert_error poll(payload.fetch("auth_req_id"), "test.now" => clock), "expired_token"
+      end
     end
   end
 
