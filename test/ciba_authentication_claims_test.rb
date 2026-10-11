@@ -76,6 +76,11 @@ class CibaIntegrationTest
             started = post("/backchannel-authentication", params)
             assert_equal 200, started.status, started.body
             id = JSON.parse(started.body).fetch("auth_req_id")
+            if required == true && time.nil?
+              assert_raises(Rodauth::CibaSupport::Ineligible) { approve(id, auth_time: time, acr: "achieved", amr: ["pwd"]) }
+              assert_equal "pending", @db[:ciba_requests].order(:id).last[:status]
+              next
+            end
             approve(id, auth_time: time, acr: "achieved", amr: ["pwd"])
             issued = poll(id)
             assert_equal 200, issued.status, issued.body

@@ -170,7 +170,7 @@ rodauth.approve_ciba_request(id, account_id: local_customer_id,
 rodauth.deny_ciba_request(id, account_id: local_customer_id)
 ```
 
-Returns `:approved` / `:denied` on a new decision; `:already_completed` on an identical retry. Approval retries compare account, auth_time, acr and sorted/deduplicated amr. An identical approval after consumption is permitted until request expiry but never returns a token. Completion retries do not repeat hooks/events. Expiry wins over retry, including terminal states. Authentication context is optional; do not substitute approval time for unknown authentication time. Requested `acr_values` is visible in the snapshot; your application decides which authentication is necessary and reports the achieved acr.
+Returns `:approved` / `:denied` on a new decision; `:already_completed` on an identical retry. Approval retries compare account, auth_time, acr and sorted/deduplicated amr. An identical approval after consumption is permitted until request expiry but never returns a token. Completion retries do not repeat hooks/events. Expiry wins over retry, including terminal states. Authentication context is optional unless the accepted client policy requires `auth_time`; a missing required time raises `Ineligible` before approval. Do not substitute approval time for unknown authentication time. Requested `acr_values` is visible in the snapshot; your application decides which authentication is necessary and reports the achieved acr.
 
 Exceptions in `Rodauth::CibaSupport`:
 

@@ -710,6 +710,9 @@ module Rodauth
 
     def post_configure
       super
+      if __one_oauth_token_per_account
+        raise CibaSupport::ConfigurationError, "CIBA requires distinct issuance rows; remove the account/client/scope unique index from OAuth grant storage"
+      end
       unless db[ciba_requests_table].columns.include?(ciba_column(:authentication_claims))
         raise CibaSupport::ConfigurationError, "migrate CIBA authentication_claims request storage"
       end
@@ -1035,6 +1038,10 @@ module Rodauth
           raise CibaSupport::NotFound, "request not found" unless row
           raise CibaSupport::IdentityMismatch, "account does not match" unless row[:account_id] == account_id
           raise CibaSupport::Expired, "request expired" if row[:expires_at] <= ciba_now
+          if outcome == "approved" && row[:authentication_claims] &&
+              JSON.parse(row[:authentication_claims]).include?("auth_time_required") && context[:auth_time].nil?
+            raise CibaSupport::Ineligible, "verified auth_time is required for this CIBA request"
+          end
           authorized_scopes = context[:grant_id] ? ciba_authorized_scopes!(row, context[:grant_id]) : row[:scopes].split
           if row[:status] != "pending"
             consumed_outcome = row[:grant_id] ? "approved" : "denied"
@@ -1770,6 +1777,7 @@ module Rodauth
           !result[:max_age].nil?
         authentication_claims << "auth_time"
       end
+      authentication_claims << "auth_time_required" if oauth_application[oauth_applications_require_auth_time_column] == true
       authentication_claims << "acr" if acr
       if result[:requested_claims]
         authentication_claims |= JSON.parse(result[:requested_claims]).fetch("id_token", {}).keys & %w[auth_time acr amr]
@@ -1842,7 +1850,7 @@ module Rodauth
         updates = {status: "consumed", consumed_at: ciba_now}
         ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(updates))
         grant = ciba_generate_access_token(row, authorized_scopes)
-        if ciba_refresh_tokens_enabled && row[:scopes].split.include?("offline_access") &&
+        if ciba_refresh_tokens_enabled && authorized_scopes.include?("offline_access") &&
            application[oauth_applications_grant_types_column].to_s.split.include?("refresh_token")
           grant[oauth_grants_refresh_token_column] = ciba_save_refresh_token(row)
         end
@@ -1975,7 +1983,7 @@ module Rodauth
       rescue CibaSupport::Ineligible, CibaSupport::IdentityMismatch, ArgumentError
         raise CibaSupport::ProtocolError, "invalid_grant"
       end
-      unless ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, scopes)
+      unless scopes.include?("offline_access") && ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, scopes)
         raise CibaSupport::ProtocolError, "invalid_grant"
       end
       @oauth_application = application
@@ -2061,6 +2069,9 @@ module Rodauth
     end
 
     def ciba_validate_enabled_capabilities!(row)
+      if row[:authentication_claims] && JSON.parse(row[:authentication_claims]).include?("auth_time_required") && row[:auth_time].nil?
+        raise CibaSupport::ProtocolError, "invalid_grant"
+      end
       consent = ciba_locked_grant(row[:grant_id])
       # A legacy request may have been bound to a new-format consent after
       # migration. Neither side's restrictions may disappear on deactivation.
