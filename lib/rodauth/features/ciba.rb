@@ -140,6 +140,10 @@ module Rodauth
       def oauth_application_jwks(application)
         previous = @ciba_jwks_cache_lookup
         @ciba_jwks_cache_lookup = @ciba_request_key_lookup || @ciba_verifying_client_assertion || @ciba_tls_key_lookup || @ciba_authentication
+        jwks_uri = application[oauth_applications_jwks_uri_column]
+        if @ciba_jwks_cache_lookup && jwks_uri && !ciba_https_uri?(jwks_uri)
+          raise CibaSupport::HTTP::Error, "CIBA key URI must use HTTPS"
+        end
         super
       ensure
         @ciba_jwks_cache_lookup = previous
@@ -151,6 +155,7 @@ module Rodauth
 
       def http_request_with_cache(uri, *args)
         return super unless @ciba_jwks_cache_lookup
+        raise CibaSupport::HTTP::Error, "CIBA key URI must use HTTPS" unless ciba_https_uri?(uri.to_s)
         http_request_cache.fetch(URI(uri.to_s)) { http_request(uri, *args) }
       rescue CibaSupport::JwksCache::StatusError
         authorization_required
@@ -159,6 +164,7 @@ module Rodauth
       def http_request(uri, form_data = nil, &block)
         return super unless @ciba_request_key_lookup || @ciba_verifying_client_assertion || @ciba_tls_key_lookup || @ciba_authentication
         raise CibaSupport::HTTP::Error, "unexpected JWKS request body" if form_data
+        raise CibaSupport::HTTP::Error, "CIBA key URI must use HTTPS" unless ciba_https_uri?(uri.to_s)
         uri = URI(uri.to_s)
         outgoing = Net::HTTP::Get.new(uri.request_uri)
         outgoing["accept"] = json_response_content_type
@@ -364,6 +370,14 @@ module Rodauth
       # proxy can override this callback with its validated external URL.
       env = request.env.reject { |key, _| key == "HTTP_FORWARDED" || key.start_with?("HTTP_X_FORWARDED_") }
       Rack::Request.new(env).url
+    end
+
+    def ciba_https_uri?(value)
+      return false unless value.is_a?(String) && !value.empty?
+      uri = URI(value)
+      uri.scheme == "https" && uri.host && !uri.userinfo && !uri.fragment
+    rescue URI::InvalidURIError
+      false
     end
 
     def ciba_validate_authorization_details(details, oauth_application:)
@@ -1946,6 +1960,11 @@ module Rodauth
         rescue CibaSupport::Ineligible, CibaSupport::IdentityMismatch, ArgumentError
           raise CibaSupport::ProtocolError, "invalid_grant"
         end
+        application = oauth_application_ds(row[:oauth_application_id]).first
+        unless ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, authorized_scopes)
+          raise CibaSupport::ProtocolError, "invalid_grant"
+        end
+        @oauth_application = application
         ciba_validate_enabled_capabilities!(row)
         updates = {status: "consumed", consumed_at: ciba_now}
         ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(updates))
