@@ -1960,11 +1960,9 @@ module Rodauth
         rescue CibaSupport::Ineligible, CibaSupport::IdentityMismatch, ArgumentError
           raise CibaSupport::ProtocolError, "invalid_grant"
         end
-        application = oauth_application_ds(row[:oauth_application_id]).first
         unless ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, authorized_scopes)
           raise CibaSupport::ProtocolError, "invalid_grant"
         end
-        @oauth_application = application
         ciba_validate_enabled_capabilities!(row)
         updates = {status: "consumed", consumed_at: ciba_now}
         ciba_ds.where(ciba_values(id: row[:id])).update(ciba_values(updates))
