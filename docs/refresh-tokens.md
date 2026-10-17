@@ -57,6 +57,38 @@ reference behavior and the remaining tests. Current authentication context outpu
 follows the gem's CIBA ID Token behavior; it is not identical to node's optional
 claim masking.
 
+## Original ID Token binding and migration
+
+New refresh sources use the existing `authentication_claims` TEXT column as a
+versioned JSON object: `version: 2`, a `selected` string array, and
+`initial_id_token` containing the actual initial `iss`, `sub`, `aud` and, when
+returned, `auth_time`. The values are captured from the final payload passed to
+signing/encryption, including encrypted ID Tokens. Request rows retain their
+previous selection-array format. Rotation copies the original object unchanged.
+No new database column or automatic data migration is required.
+
+[OIDC Core 12.2](https://openid.net/specs/openid-connect-core-1_0.html#RefreshTokenResponse)
+requires refreshed ID Tokens to retain the original issuer, subject and audience.
+Refresh preserves those values and the original disclosed authentication time;
+`iat` is the new issuance time. Refresh ID Tokens omit `nonce` as recommended by
+that section. Changing a pairwise sector does not reinterpret an existing chain:
+its ID Token, access-token subject and UserInfo retain the original subject.
+New CIBA authentications use the current sector. Changed issuer/client ID, or an
+incompatible current public-subject mapping, causes `invalid_grant`.
+
+Legacy nil/array JSON and unknown, malformed or incomplete objects are rejected
+with `invalid_grant` before refresh hooks, lock-version mutation, rotation or
+token creation. They are not backfilled from current settings or unrelated access
+rows. This applies to public as well as pairwise refresh tokens. Hook-side changes
+are revalidated after reload inside the transaction. A denied renewal alone does
+not revoke otherwise live access tokens; users need a new CIBA authentication.
+
+This changes the stored JSON and the `ciba_current_refresh` snapshot contract.
+Upgrade all workers together; old versions cannot safely process the new object.
+Drain/expire old refresh sources or require reauthentication, and account for
+this in rollback planning. Restoring an old implementation does not preserve
+the new binding guarantee. Do not rewrite live tokens automatically.
+
 ## Refresh-token revocation
 
 Enable upstream `:oauth_token_revocation` to expose its advertised endpoint.

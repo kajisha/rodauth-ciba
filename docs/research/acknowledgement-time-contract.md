@@ -1,5 +1,11 @@
 # Acknowledgement lifetime and application processing time
 
+Historical comparison for0.1.0. The local Core-conformance changes deliberately
+supersede the gem side of this timing contract: handler receipt is now the epoch,
+and processing delays never extend it. Polling after expiry returns expired_token. The Node
+fixture and recorded execution below remain historical reference evidence. See
+[current contract](../ciba-conformance.md) and test/ciba_conformance_test.rb.
+
 Reference: released node-oidc-provider 9.12.2 on the pinned Node 24 image.
 Both fixtures advance an injected application clock at callback boundaries;
 the reference exercises real HTTP routes without wall-clock sleeps.

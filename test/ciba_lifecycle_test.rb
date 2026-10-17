@@ -72,6 +72,17 @@ class CibaIntegrationTest
     assert_equal 0, @db[:oauth_grants].count
   end
 
+  def test_account_closed_during_before_issue_is_rechecked_and_rolls_back
+    id = accept_request
+    approve(id)
+    row = @db[:ciba_requests].first
+    response = poll(id, "test.before_issue" => -> { @db[:accounts].where(id: @account_id).update(status_id: 3) })
+    assert_error response, "invalid_grant"
+    assert_equal row, @db[:ciba_requests].first
+    assert_equal 0, @db[:oauth_grants].count
+    assert_equal 2, @db[:accounts].where(id: @account_id).get(:status_id)
+  end
+
   def test_acceptance_hook_rollback_does_not_notify
     delivered = []
     response = post("/backchannel-authentication", {login_hint: "customer@example.test", scope: "openid"},

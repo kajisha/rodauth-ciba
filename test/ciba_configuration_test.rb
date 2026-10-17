@@ -17,10 +17,12 @@ class CibaIntegrationTest
     assert_equal @account_id, auth.ciba_request(request_id)[:account_id]
     assert_equal 60, auth.ciba_request(request_id)[:max_age]
     assert_equal 60, @db[:custom_requests].get(:maximum_age)
-    auth.approve_ciba_request(request_id, account_id: @account_id)
+    assert_raises(Rodauth::CibaSupport::Ineligible) { auth.approve_ciba_request(request_id, account_id: @account_id) }
+    auth.approve_ciba_request(request_id, account_id: @account_id, auth_time: 123)
     response = poll(id)
     assert_equal 200, response.status
     assert_equal "custom-nonce", decode_id_token(response).last.fetch("nonce")
+    assert_equal 123, decode_id_token(response).last.fetch("auth_time")
     assert_equal "consumed", @db[:custom_requests].get(:request_state)
   end
 

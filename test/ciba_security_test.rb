@@ -85,6 +85,27 @@ class CibaIntegrationTest
     assert_equal 0, @db[:ciba_requests].count
   end
 
+  def test_existing_http_jwks_uri_is_rejected_before_key_fetch
+    security_jwt_client
+    @db.alter_table(:oauth_applications) { add_column :jwks_uri, String, text: true }
+    key_response = Net::HTTPOK.new("1.1", "200", "OK")
+    key_response.body = JSON.generate(keys: [JWT::JWK.new(KEY.public_key).export])
+    key_response.instance_variable_set(:@read, true)
+    ["http://keys.example.test/jwks?https://trusted.example.test/", "https://[invalid"].each do |uri|
+      @db[:oauth_applications].update(jwks: nil, jwks_uri: uri)
+      fetched = false
+      sender = lambda do |*_args, **_kwargs|
+        fetched = true
+        key_response
+      end
+      Rodauth::CibaSupport::HTTP.stub(:request, sender) do
+        assert_invalid_client security_start(security_assertion)
+      end
+      refute fetched
+    end
+    assert_equal 0, @db[:ciba_requests].count
+  end
+
   def test_jwt_assertion_audience_can_be_an_array_and_invalid_claim_shapes_fail
     security_jwt_client
     assert_equal 200, security_start(security_assertion({"aud" => ["https://other.example", "https://op.example.test"]})).status

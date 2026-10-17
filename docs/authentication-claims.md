@@ -4,6 +4,12 @@ Approval saves the application's verified `auth_time`, `acr` and `amr`. Saving a
 value does not by itself select it for disclosure in a newly accepted request.
 Initial and refreshed ID Tokens use the same stored selection:
 
+Refresh sources additionally retain the actual initial issuer, subject, audience
+and disclosed authentication time in a versioned JSON object. Refreshed ID Tokens
+retain that original context, use a new issuance time and omit nonce. Legacy
+refresh JSON cannot prove the initial values and is rejected. See the
+[refresh migration](refresh-tokens.md#original-id-token-binding-and-migration).
+
 - `require_auth_time: true` or configured `default_max_age` client metadata selects
   `auth_time` at request acceptance. This is output selection, not freshness enforcement.
 - A nonempty `acr_values` request selects `acr`. If omitted or empty, registered
@@ -21,9 +27,13 @@ ciba_authentication_claims_by_scope "openid" => %w[auth_time acr amr]
 The default mapping is empty. Only the three names above are considered. Scope
 selection uses the scopes authorized for the current issuance, including refresh
 narrowing. It is application configuration, not a client-supplied mapping.
+For refreshed `auth_time`, the initial disclosure is authoritative: an initially
+absent claim stays absent, and a disclosed claim keeps its original value even
+if the scope mapping is subsequently changed.
 Client metadata and explicit request selection are saved at acceptance; replacing
 client metadata later does not reinterpret an accepted request or refresh source.
-An accepted `require_auth_time: true` is saved as the `auth_time_required` marker
+An accepted `require_auth_time: true`, selected `max_age` (including zero), or
+`claims.id_token.auth_time.essential: true` is saved as the `auth_time_required` marker
 in the existing authentication selection. Approval requires a verified
 `auth_time` and rejects a missing value before changing the pending request.
 Issuance and refresh reject an incomplete required context with `invalid_grant`

@@ -317,6 +317,10 @@ module Rodauth
           @oauth_application_params = reset.merge(@oauth_application_params)
         end
         candidate = (existing || {}).merge(@oauth_application_params)
+        jwks_uri = candidate[oauth_applications_jwks_uri_column]
+        if jwks_uri && !ciba_https_uri?(jwks_uri)
+          register_throw_json_response_error("invalid_client_metadata", "CIBA client jwks_uri must use HTTPS")
+        end
         if !encryption.empty? &&
             !IdTokenEncryption::SYMMETRIC_ALGORITHMS.include?(candidate[oauth_applications_id_token_encrypted_response_alg_column]) &&
             !candidate[oauth_applications_jwks_column] && !candidate[oauth_applications_jwks_uri_column]

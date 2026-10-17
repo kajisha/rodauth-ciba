@@ -42,11 +42,22 @@ retain the canonical account ID. UserInfo must return the same pairwise subject
 as ID Token. With pairwise enabled, new CIBA issuances snapshot their subject in that token
 row. JWT UserInfo checks the signed subject against this snapshot and the bound
 client before using the internal account for lookup. After a management sector
-change, old tokens can therefore authenticate while UserInfo emits the new
-sector subject, as measured with node opaque tokens. Refresh also uses the new
-sector, and already-issued JWT bytes remain unchanged. Older rows with no
+change, old tokens can therefore authenticate while UserInfo retains their
+issuance subject, even if the client changes subject_type to public and the
+optional claims capability is disabled. Refresh chains retain the original ID Token subject using
+versioned authentication context, deliberately differing from the previously
+measured node current-sector behavior. Already-issued JWT bytes remain unchanged. Older rows with no
 snapshot retain the prior current-subject check; a sector change can invalidate
 those old JWTs. The migration does not invent historical subjects.
+
+Each token request snapshots client metadata immediately after successful client
+authentication. Initial and refreshed tokens use that snapshot for identity,
+signing and encryption recipients even if DCR commits before issuance validation
+or during its hooks. Reloading the client for current eligibility and permission
+checks does not replace the authenticated snapshot. The next HTTP request must
+authenticate against the new registration and uses its new metadata. This binds
+the pairwise sector to the JWKS URI used for proof of key possession; a prior
+key cannot authenticate a new sector merely by racing a registration update.
 
 For id_token_hint, configure the existing `resolve_ciba_id_token_subject` callback
 to recover the canonical account in the authenticated client's context. The gem
@@ -67,10 +78,15 @@ sector update; subsequent approved issuance uses the new sector subject. The
 installed-gem TLS fixture now covers hybrid DCR, real remote-key authentication,
 approval, verified ID Token, saved subject and matching UserInfo. Concurrent
 sector management/issuance tests now verify one issuance subject across storage
-and tokens, followed by current-sector UserInfo, on all three DBs. PostgreSQL and
+and tokens. UserInfo now retains the subject stored with the presented issuance
+after sector changes; the earlier current-sector expectation is superseded.
+The updated expectation is locally tested on SQLite; the historical three-DB
+result predates this correction. PostgreSQL and
 MySQL force the update to commit while issuance is paused; SQLite tests writer
 contention and either serial order. Concurrent refresh/key changes, arbitrary
 application hooks and additional deployment combinations remain unverified.
+Legacy refresh sources without original ID Token context fail closed; see the
+[refresh migration](refresh-tokens.md#original-id-token-binding-and-migration).
 This is not a completed pairwise parity or release-readiness claim.
 
 [Reference contract](research/pairwise-reference-contract.md).
