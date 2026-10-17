@@ -43,11 +43,21 @@ as ID Token. With pairwise enabled, new CIBA issuances snapshot their subject in
 row. JWT UserInfo checks the signed subject against this snapshot and the bound
 client before using the internal account for lookup. After a management sector
 change, old tokens can therefore authenticate while UserInfo retains their
-issuance subject. Refresh chains retain the original ID Token subject using
+issuance subject, even if the client changes subject_type to public and the
+optional claims capability is disabled. Refresh chains retain the original ID Token subject using
 versioned authentication context, deliberately differing from the previously
 measured node current-sector behavior. Already-issued JWT bytes remain unchanged. Older rows with no
 snapshot retain the prior current-subject check; a sector change can invalidate
 those old JWTs. The migration does not invent historical subjects.
+
+Each token request snapshots client metadata immediately after successful client
+authentication. Initial and refreshed tokens use that snapshot for identity,
+signing and encryption recipients even if DCR commits before issuance validation
+or during its hooks. Reloading the client for current eligibility and permission
+checks does not replace the authenticated snapshot. The next HTTP request must
+authenticate against the new registration and uses its new metadata. This binds
+the pairwise sector to the JWKS URI used for proof of key possession; a prior
+key cannot authenticate a new sector merely by racing a registration update.
 
 For id_token_hint, configure the existing `resolve_ciba_id_token_subject` callback
 to recover the canonical account in the authenticated client's context. The gem

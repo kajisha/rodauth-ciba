@@ -191,7 +191,11 @@ module Rodauth
              !request.params.key?("client_assertion")
             authorization_required
           end
-          super
+          super.tap do
+            # Bind identity and recipient keys to the metadata that actually
+            # authenticated this request, before route hooks or DCR can run.
+            @ciba_authenticated_application ||= ciba_snapshot(oauth_application)
+          end
         end
       end
 
@@ -1951,7 +1955,7 @@ module Rodauth
         unless row[:status] == "approved" && ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, authorized_scopes)
           raise CibaSupport::ProtocolError, "invalid_grant"
         end
-        @oauth_application = application
+        @oauth_application = @ciba_authenticated_application
         @ciba_current_request = ciba_snapshot(row)
         before_ciba_issue
         raise CibaSupport::Expired, "request expired" if row[:expires_at] <= ciba_now
@@ -2138,7 +2142,7 @@ module Rodauth
       unless scopes.include?("offline_access") && ciba_account_eligible?(row[:account_id]) && ciba_client_eligible?(application, scopes)
         raise CibaSupport::ProtocolError, "invalid_grant"
       end
-      @oauth_application = application
+      @oauth_application = @ciba_authenticated_application
       identity = ciba_refresh_identity(row)
       unless identity["iss"] == oauth_jwt_issuer && identity["aud"] == application[oauth_applications_client_id_column] &&
           (!identity.key?("auth_time") || identity["auth_time"] == row[:auth_time])

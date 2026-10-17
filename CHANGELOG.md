@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Keep initial and refreshed token identity/key metadata bound to the successful
+  client authentication snapshot across concurrent registration updates.
+- Preserve issued UserInfo subjects after a client changes its subject_type,
+  including opaque/JWT tokens without the optional claims capability.
+
 - Bind refresh ID Tokens to the actual initial issuer/subject/audience and
   disclosed auth_time using versioned JSON in existing storage. Preserve the
   context through rotation and pairwise sector changes; omit refresh nonce.
