@@ -19,7 +19,23 @@ class CibaIntegrationTest
     assert_encryption_management_overlap(true, true)
   end
 
-  def assert_encryption_management_overlap(jwt, refresh)
+  def test_encryption_management_after_authentication_initial_opaque
+    assert_encryption_management_overlap(false, false, after_authentication: true)
+  end
+
+  def test_encryption_management_after_authentication_initial_jwt
+    assert_encryption_management_overlap(true, false, after_authentication: true)
+  end
+
+  def test_encryption_management_after_authentication_refresh_opaque
+    assert_encryption_management_overlap(false, true, after_authentication: true)
+  end
+
+  def test_encryption_management_after_authentication_refresh_jwt
+    assert_encryption_management_overlap(true, true, after_authentication: true)
+  end
+
+  def assert_encryption_management_overlap(jwt, refresh, after_authentication: false)
     configure_dynamic_registration
     enable_refresh
     @db.alter_table(:oauth_applications) do
@@ -62,7 +78,12 @@ class CibaIntegrationTest
         "HTTP_AUTHORIZATION" => "Bearer #{management_token}", "CONTENT_TYPE" => "application/json", input: JSON.generate(replacement))
     end
     issue = ->(env = {}) { post("/token", params, env) }
-    if @db.database_type == :sqlite
+    updated = nil
+    if after_authentication
+      # DCR commits after Basic authentication but before initial/refresh
+      # validation can reload the client. No token transaction is open yet.
+      issued = issue.call("test.token_gate" => -> { updated = update.call })
+    elsif @db.database_type == :sqlite
       issued, updated = parallel_decisions { |i| i.zero? ? issue.call : update.call }
       issued = issue.call if issued.status == 503
       updated = update.call if updated.status == 503
@@ -101,7 +122,7 @@ class CibaIntegrationTest
       claims, = JWT.decode(signed, KEY.public_key, true, algorithms: ["RS256"], verify_iss: true, iss: "https://op.example.test", verify_aud: true, aud: "support")
       assert_equal @account_id.to_s, claims.fetch("sub")
     end
-    verify.call(tokens, @db.database_type == :sqlite ? %w[old new] : ["old"])
+    verify.call(tokens, @db.database_type == :sqlite && !after_authentication ? %w[old new] : ["old"])
     assert_equal(refresh ? 2 : 1, @db[:oauth_grants].count)
     assert_equal "consumed", @db[:ciba_requests].get(:status)
     subsequent = refresh_with(tokens.fetch("refresh_token"))

@@ -41,7 +41,7 @@ class CibaIntegrationTest
     assert_equal "openid", payload["scope"]
     assert_equal token, payload["refresh_token"]
     assert_equal 123, claims["auth_time"]
-    assert_equal "initial", claims["nonce"]
+    refute claims.key?("nonce")
     assert_equal ["pwd"], claims["amr"]
     again = refresh_with(token)
     assert_equal 200, again.status, again.body

@@ -32,6 +32,7 @@ class CibaIntegrationTest
     @app.plugin(:rodauth) do
       auth_class_eval do
         define_method(:check_valid_uri?) { |uri| ["#{base}/old", "#{base}/new"].include?(uri) || super(uri) }
+        define_method(:ciba_https_uri?) { |uri| ["#{base}/old", "#{base}/new"].include?(uri) || super(uri) }
       end
     end
     params = registration_params.merge("token_endpoint_auth_method" => "private_key_jwt", "jwks_uri" => "#{base}/old")

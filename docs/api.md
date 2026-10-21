@@ -217,10 +217,13 @@ Cleanup returns the deleted count. The cutoff must be an integer epoch second no
 Implement `trigger_ciba_authentication_device(snapshot)` to initiate your application’s authentication/approval flow. It runs synchronously after the request transaction/savepoint finishes and before the successful Backchannel response. The frozen snapshot contains the saved internal request ID and account/client references, not the public auth_req_id or its digest. The callback may enqueue work or call the Ruby result API. It must return normally to allow a success response; it must not perform a Rack halt/throw. Its default raises `CibaSupport::ConfigurationError`, reported as HTTP 500 `server_error`. A deliberate no-op is appropriate only if the application already processes pending requests independently (as the local demo does).
 
 Dispatch should enqueue work promptly instead of waiting for customer interaction.
-Its synchronous execution consumes the saved request lifetime; `expires_in` is not
-reduced for this elapsed time. Both the gem and reference OP can acknowledge an
-already expired request if dispatch outlasts its lifetime. See the
-[measured timing contract](research/acknowledgement-time-contract.md).
+Its synchronous execution consumes the saved request lifetime, measured from entry
+to the backchannel handler before client/hint validation. `expires_in` remains
+that lifetime, not seconds remaining at response. Slow dispatch can exhaust the
+lifetime before acknowledgement; subsequent polling then returns expired_token.
+The gem does not extend the deadline for that delay. This differs from the older
+[measured reference timing](research/acknowledgement-time-contract.md). See
+[conformance boundaries](ciba-conformance.md).
 
 
 A callback exception goes to `report_ciba_processing_error`, not the observer-error reporter. Without a surrounding application transaction, the saved request remains: notification may already have happened, so failure cannot safely undo external effects. The client does not receive an auth_req_id on that failed response. A client retry creates a new request; the app must deduplicate notifications and expire/recover abandoned requests. This is not durable delivery.

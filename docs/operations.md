@@ -1,5 +1,32 @@
 # Deployment and operating boundaries
 
+## Upgrading the Core conformance boundaries
+
+Claim qualifiers now form an enforced backend contract. Old pending/refresh
+sources with incompatible sub, essential ACR or malformed options fail closed;
+supply valid authentication context or expire/drain those sources. Newly issued
+claim projections retain value/values filters. Existing issued projections have
+no qualifier history and cannot be upgraded by guessing which request produced
+them: drain or expire affected old tokens before relying on these guarantees.
+Upgrade every worker together; older workers ignore the new projection members.
+Pairwise UserInfo now returns the subject stored at issuance, including after
+sector configuration changes. This corrects the earlier recomputation behavior.
+
+Request expiry now starts at backchannel-handler entry rather than after hint
+resolution. Slow client authentication/resolvers/hooks/AD dispatch consume that
+budget; enqueue AD work promptly. An acknowledgement can arrive after expiry if
+dispatch is slow; polling then returns expired_token. The deadline is not extended
+by processing. Already committed requests remain for bounded cleanup.
+
+New requests save auth_time_required for selected max_age or essential ID Token
+auth_time, in addition to client require_auth_time=true. No schema migration is
+needed. Existing requests/refresh sources retain their old saved selection; the
+upgrade does not infer or fabricate missing authentication evidence. Drain or
+invalidate affected old work before advertising this stricter contract, update
+all workers together, and ensure approval callbacks provide actual auth_time.
+The application still enforces max_age freshness and other essential constraints.
+See [Core conformance boundaries and acceptance gates](ciba-conformance.md).
+
 Optional explicit claims require an additional schema migration and coordinated activation; see [claims operations](claims.md). The default base schema and default-disabled behavior do not require those columns.
 
 The same activation boundary applies to [resources](resources.md) and [RAR](authorization-details.md). Issuance checks both the original request and its saved consent: if either records a capability whose flag is now disabled, collection returns invalid_grant without consuming the request or issuing a token. This includes old requests bound to new-format consent after migration and explicitly stored empty permission values. Legacy request/consent pairs whose new fields are both null retain baseline behavior. Do not use feature deactivation as a way to erase approval restrictions; drain or explicitly resolve affected work before changing capabilities.

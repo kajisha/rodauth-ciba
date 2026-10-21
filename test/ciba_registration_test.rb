@@ -314,6 +314,17 @@ class CibaIntegrationTest
       "HTTP_AUTHORIZATION" => "Bearer #{client.fetch('registration_access_token')}").status
   end
 
+  def test_dynamic_registration_rejects_jwks_uri_that_only_contains_an_https_substring
+    configure_dynamic_registration
+    @db.alter_table(:oauth_applications) { add_column :jwks_uri, String, text: true }
+    @app.plugin(:rodauth) { enable :oauth_jwt_bearer_grant }
+    before = @db[:oauth_applications].count
+    response = register(registration_params.merge("token_endpoint_auth_method" => "private_key_jwt",
+      "jwks_uri" => "http://keys.example.test/jwks?https://trusted.example.test/"))
+    assert_error response, "invalid_client_metadata"
+    assert_equal before, @db[:oauth_applications].count
+  end
+
   def test_update_cannot_change_existing_ciba_subject_type_without_repeating_grant_type
     configure_dynamic_registration
     @db[:oauth_applications].where(id: @client_id).update(

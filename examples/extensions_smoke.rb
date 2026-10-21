@@ -167,6 +167,10 @@ require_relative "demo_app"
 
     refresh = tokens.fetch("refresh_token")
     source = database[:ciba_refresh_tokens].first
+    stored_context = JSON.parse(source.fetch(:authentication_claims))
+    unless stored_context["version"] == 2 && stored_context["initial_id_token"] == identity.slice("iss", "sub", "aud", "auth_time")
+      raise "initial ID Token context was not persisted"
+    end
     raise "raw refresh persisted" if JSON.generate(database[:ciba_refresh_tokens].all).include?(refresh)
     raise "wrong refresh digest" unless source[:token_digest] == Digest::SHA256.hexdigest(refresh)
     now = Time.now.to_i
@@ -180,10 +184,23 @@ require_relative "demo_app"
     raise "lost RAR permission" unless renewed["authorization_details"] == expected_details
     renewed_identity, = JWT.decode(renewed.fetch("id_token"), nil, true, jwks: keys, algorithms: ["RS256"],
       verify_iss: true, iss: issuer, verify_aud: true, aud: "demo-client")
-    unless renewed_identity["auth_time"] == 1 && renewed_identity["nonce"] == "installed-extension-check" &&
+    unless renewed_identity["auth_time"] == 1 && !renewed_identity.key?("nonce") &&
            renewed_identity["email"] == "customer@example.test" && !renewed_identity.key?("email_verified")
       raise "refresh changed authenticated identity or permission"
     end
+    successor_ds = database[:ciba_refresh_tokens].where(token_digest: Digest::SHA256.hexdigest(renewed.fetch("refresh_token")))
+    successor_source = successor_ds.first
+    raise "rotation changed initial context" unless JSON.parse(successor_source[:authentication_claims]) == stored_context
+    successor_ds.update(authentication_claims: "[]")
+    before_legacy = [database[:ciba_refresh_tokens].all, database[:oauth_grants].all, database[:ciba_grants].all]
+    legacy = http.post(metadata.fetch("token_endpoint"), headers.merge(params: {
+      grant_type: "refresh_token", refresh_token: renewed.fetch("refresh_token"), resource: resource
+    }))
+    unless legacy.status == 400 && JSON.parse(legacy.body)["error"] == "invalid_grant" &&
+        before_legacy == [database[:ciba_refresh_tokens].all, database[:oauth_grants].all, database[:ciba_grants].all]
+      raise "legacy refresh binding failed closed"
+    end
+    successor_ds.update(authentication_claims: successor_source[:authentication_claims])
     replay = http.post(metadata.fetch("token_endpoint"), headers.merge(params: token_params))
     raise "replay accepted" unless replay.status == 400 && JSON.parse(replay.body)["error"] == "invalid_grant"
     raise "saved token not revoked" unless database[:oauth_grants].get(:revoked_at)

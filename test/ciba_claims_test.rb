@@ -57,7 +57,7 @@ class CibaIntegrationTest
   def test_claim_rejection_overrides_scope_and_request_value_is_not_identity_data
     enable_explicit_claims
     payload, claims = claim_exchange({id_token: {email: {value: "attacker@example.test"}}}, allowed: ["email"])
-    assert_equal "customer@example.test", claims.fetch("email")
+    refute claims.key?("email")
     payload, claims = claim_exchange({userinfo: {email: nil}}, rejected: ["email"], scope: "openid email")
     refute claims.key?("email")
     @claim_reads.clear

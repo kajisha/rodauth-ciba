@@ -19,7 +19,12 @@ class CibaIntegrationTest
     end
     uri = "http://127.0.0.1:#{server.config[:Port]}/jwks"
     @db[:oauth_applications].update(jwks: nil, jwks_uri: uri)
-    @app.plugin(:rodauth) { ciba_http_address_allowed? { |address| address == "127.0.0.1" } }
+    @app.plugin(:rodauth) do
+      ciba_http_address_allowed? { |address| address == "127.0.0.1" }
+      auth_class_eval do
+        define_method(:ciba_https_uri?) { |value| value == uri || super(value) }
+      end
+    end
     thread = Thread.new { server.start }
     yield state, uri, server
   ensure
