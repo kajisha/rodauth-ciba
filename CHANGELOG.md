@@ -1,6 +1,11 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 - 2026-10-21
+
+The official OpenID Conformance Suite has not been executed. Refresh tokens,
+pairwise subjects and dynamic CIBA registration remain experimental and disabled
+by default. This release does not claim certification or full CIBA conformance.
+Do not run old and new workers together during this upgrade.
 
 - Keep initial and refreshed token identity/key metadata bound to the successful
   client authentication snapshot across concurrent registration updates.
@@ -27,7 +32,7 @@
 - Add a responsibility-separated Core final requirement ledger and explicit
   conformance-suite acceptance gates; no certification or full-conformance claim.
 
-## 0.1.0 — publication pending
+## 0.1.0 - 2026-10-11
 
 First release of the CIBA OpenID Provider extension for rodauth-oauth.
 

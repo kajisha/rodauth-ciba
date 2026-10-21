@@ -1,7 +1,20 @@
-# 0.1.0 release readiness
+# 0.2.0 release readiness
 
-RubyGems publication is pending. This document separates the supported release
-scope from historical development notes and opt-in experiments.
+Version 0.1.0 was published on 2026-10-11 from commit
+`74ccc85e4f7af9596fec2b965bd43eed0ff708bc`. Version 0.2.0 contains the
+CIBA Core validation and authenticated-client metadata fixes in PR #2.
+
+## Upgrade to 0.2.0
+
+Old refresh tokens without the versioned identity context are rejected and require
+reauthentication. No automatic data migration or new database column is provided.
+Stop old workers before starting new workers: mixed 0.1.0/0.2.0 workers are not
+supported. Refresh tokens, pairwise subjects and dynamic registration remain
+experimental and disabled by default.
+
+The official OpenID Conformance Suite has not been executed. Local tests and
+hosted CI do not establish certification or full CIBA conformance. The evidence
+below is historical 0.1.0 evidence unless a different revision is stated.
 
 ## Scope
 
