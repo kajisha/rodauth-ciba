@@ -1,5 +1,9 @@
 # 0.2.0 release readiness
 
+As of 2026-10-22, 0.2.0 is the current release candidate and is not published on
+RubyGems. Its version in the source tree and the existing `v0.2.0` tag do not
+establish registry publication. See the [changelog](../CHANGELOG.md).
+
 Version 0.1.0 was published on 2026-10-11 from commit
 `74ccc85e4f7af9596fec2b965bd43eed0ff708bc`. Version 0.2.0 contains the
 CIBA Core validation and authenticated-client metadata fixes in PR #2.

@@ -1,6 +1,6 @@
 # rodauth-ciba
 
-CIBA OpenID Provider extension for **rodauth-oauth**, with default poll and optional ping. Version 0.1.0 is prepared for its first release; RubyGems publication is pending.
+CIBA OpenID Provider extension for **rodauth-oauth**, with default poll and optional ping. This checkout documents the 0.2.0 release candidate. As of 2026-10-22, [0.1.0 is published on RubyGems](https://rubygems.org/gems/rodauth-ciba/versions/0.1.0); 0.2.0 publication is pending. See the [upgrade notes](docs/release-readiness.md#upgrade-to-020) before adopting the candidate.
 
 It adds a backchannel authentication endpoint, Discovery metadata, Ruby approval/denial APIs, transactional hooks and post-commit observation events. Your app handles customer authentication, consent UI, notification transport, business authorization and any later delegation.
 
@@ -19,12 +19,12 @@ Optional [signed authentication requests](docs/signed-requests.md) use registere
 
 ## Install
 
-Ruby>=3.3 is required. Until a registry release exists, build from this checkout:
+Ruby>=3.3 is required. To try the unpublished 0.2.0 candidate, build from this checkout:
 
 ```sh
 bundle install
 gem build rodauth-ciba.gemspec
-gem install ./rodauth-ciba-0.1.0.gem
+gem install ./rodauth-ciba-0.2.0.gem
 ```
 
 The initial dependency bounds are intentionally narrow: rodauth-oauth1.7.0, Rodauth2.28.x, Sequel5.108.x and JWT3.3.x. Your application supplies its DB adapter and existing Rodauth/OAuth schema.
@@ -99,7 +99,7 @@ ruby bin/verify-package            # build, install outside checkout, run all sm
 
 The Docker runner builds the Ruby image, waits for database health, runs the same suite on each DB and removes its containers/network on exit. DB ports are not published. Data is on tmpfs; each test owns a random database. Only images/build cache remain. `pg` and `mysql2` are an optional Bundler group enabled inside Docker. The macOS/mise equivalent is `mise exec ruby -- ruby test/run.rb`.
 
-[Release readiness](docs/release-readiness.md) records the current release checks and review limits. [Release validation](docs/release-validation.md) preserves historical results. The [authentication-fix CI run](https://github.com/kajisha/rodauth-ciba/actions/runs/36710533803) passed the Ruby 3.3/3.4/4.0 SQLite jobs and the Docker database job. CI results apply to the tested commit, not to future changes.
+[Release readiness](docs/release-readiness.md) records the current release checks and review limits. [Release validation](docs/release-validation.md) preserves historical results. The [0.2.0 candidate CI run](https://github.com/kajisha/rodauth-ciba/actions/runs/39522218593) at commit `1ab56c35aead54158c3a38405da6ce3c2c443663` passed the Ruby 3.3/3.4/4.0 SQLite jobs and the Docker database job. CI results apply to the tested commit, not to later documentation or code changes. The official OpenID Conformance Suite has not been executed.
 
 ## License
 

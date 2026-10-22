@@ -1,5 +1,10 @@
 # 0.1.0 release validation
 
+This is the historical 0.1.0 validation record. For the current 0.2.0 candidate's
+status, upgrade requirements and verification limits, see
+[release readiness](release-readiness.md). The versions and artifact names below
+identify the original test runs and have not been relabeled.
+
 Edwards client authentication follow-up: Ruby3.3/3.4 full SQLite suites each pass
 334 tests /4,316 assertions with2 row-lock skips
 ([log](validation/client-auth-edwards-rubies.txt)). Remote-key/ordinary-code-grant
