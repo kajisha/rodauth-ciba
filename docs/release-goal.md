@@ -1,5 +1,10 @@
 # 0.1.0 公開準備のゴールと到達点
 
+Historical 0.1.0 release-preparation record: statements below about pending
+publication describe that earlier work. Version 0.1.0 was published on 2026-10-11.
+For the current 0.2.0 candidate, see [release readiness](release-readiness.md)
+and the [changelog](../CHANGELOG.md).
+
 2026-09-29に開始。2026-09-30に初版の公開範囲と検証記録を整理。
 このゴールは配布物の準備であり、RubyGemsへの公開はまだ実施していない。
 

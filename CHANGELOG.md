@@ -1,6 +1,8 @@
 # Changelog
 
-## 0.2.0 - 2026-10-21
+## 0.2.0 - unreleased
+
+Prepared on 2026-10-21; RubyGems publication is pending.
 
 The official OpenID Conformance Suite has not been executed. Refresh tokens,
 pairwise subjects and dynamic CIBA registration remain experimental and disabled
