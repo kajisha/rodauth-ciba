@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rodauth-ciba (0.2.0)
+    rodauth-ciba (0.2.1)
       bcrypt (~> 3.1)
       json (~> 2.18)
       jwe (~> 1.1.1)
@@ -94,7 +94,7 @@ CHECKSUMS
   rake (13.4.2) sha256=cb825b2bd5f1f8e91ca37bddb4b9aaf345551b4731da62949be002fa89283701
   roda (3.108.0) sha256=a209acc5c885c7c9cfe703ad985b343026f79f67949932dd739b83e5a129ffbd
   rodauth (2.28.0) sha256=3dba5cdc6225ebf5c388862dbfdc72c9f8c1735dc46bafd2df75ef5a2dd2b8ba
-  rodauth-ciba (0.2.0)
+  rodauth-ciba (0.2.1)
   rodauth-oauth (1.7.0) sha256=6b4e8d19b94838d24704552ad1cc26ca625e4aabb1d1c5f20aa926c5c248fced
   sequel (5.108.0) sha256=ae5996d1196775427916a2fa36e02f99762ead9affb8ea9b1aec2c0b16bdb3a3
   sqlite3 (2.9.6) sha256=956fe606956420d04ac7157d3ace620c8caba2135b2e05c76e483493da24d08e

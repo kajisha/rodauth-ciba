@@ -1,6 +1,6 @@
 # 0.1.0 release validation
 
-This is the historical 0.1.0 validation record. For the current 0.2.0 candidate's
+This is the historical 0.1.0 validation record. For the current 0.2.1 version's
 status, upgrade requirements and verification limits, see
 [release readiness](release-readiness.md). The versions and artifact names below
 identify the original test runs and have not been relabeled.

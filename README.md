@@ -1,6 +1,6 @@
 # rodauth-ciba
 
-CIBA OpenID Provider extension for **rodauth-oauth**, with default poll and optional ping. This checkout documents the 0.2.0 release candidate. As of 2026-10-22, [0.1.0 is published on RubyGems](https://rubygems.org/gems/rodauth-ciba/versions/0.1.0); 0.2.0 publication is pending. See the [upgrade notes](docs/release-readiness.md#upgrade-to-020) before adopting the candidate.
+CIBA OpenID Provider extension for **rodauth-oauth**, with default poll and optional ping. This checkout documents version 0.2.1. Check [RubyGems](https://rubygems.org/gems/rodauth-ciba/versions) for published versions. See the [upgrade notes](docs/release-readiness.md#upgrade-to-021) before upgrading from 0.1.0.
 
 It adds a backchannel authentication endpoint, Discovery metadata, Ruby approval/denial APIs, transactional hooks and post-commit observation events. Your app handles customer authentication, consent UI, notification transport, business authorization and any later delegation.
 
@@ -19,12 +19,12 @@ Optional [signed authentication requests](docs/signed-requests.md) use registere
 
 ## Install
 
-Ruby>=3.3 is required. To try the unpublished 0.2.0 candidate, build from this checkout:
+Ruby>=3.3 is required. To build version 0.2.1 from this checkout:
 
 ```sh
 bundle install
 gem build rodauth-ciba.gemspec
-gem install ./rodauth-ciba-0.2.0.gem
+gem install ./rodauth-ciba-0.2.1.gem
 ```
 
 The initial dependency bounds are intentionally narrow: rodauth-oauth1.7.0, Rodauth2.28.x, Sequel5.108.x and JWT3.3.x. Your application supplies its DB adapter and existing Rodauth/OAuth schema.

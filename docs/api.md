@@ -1,4 +1,4 @@
-# Configuration and Ruby API (0.2.0 release candidate)
+# Configuration and Ruby API (0.2.1)
 
 Optional [login_hint_token](login-hint-token.md) uses `ciba_login_hint_token_enabled` and a required application resolver; no schema migration is needed.
 

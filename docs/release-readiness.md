@@ -1,18 +1,20 @@
-# 0.2.0 release readiness
+# 0.2.1 release readiness
 
-As of 2026-10-22, 0.2.0 is the current release candidate and is not published on
-RubyGems. Its version in the source tree and the existing `v0.2.0` tag do not
-establish registry publication. See the [changelog](../CHANGELOG.md).
+Version 0.2.1 incorporates the unpublished 0.2.0 candidate and the documentation
+corrections in PR #3. The existing `v0.2.0` tag is retained; no 0.2.0 gem was
+published as of 2026-10-22. A source version or tag does not establish registry
+publication. Check [RubyGems](https://rubygems.org/gems/rodauth-ciba/versions) for
+published versions and the [changelog](../CHANGELOG.md) for changes.
 
 Version 0.1.0 was published on 2026-10-11 from commit
-`74ccc85e4f7af9596fec2b965bd43eed0ff708bc`. Version 0.2.0 contains the
+`74ccc85e4f7af9596fec2b965bd43eed0ff708bc`. Version 0.2.1 contains the
 CIBA Core validation and authenticated-client metadata fixes in PR #2.
 
-## Upgrade to 0.2.0
+## Upgrade to 0.2.1
 
 Old refresh tokens without the versioned identity context are rejected and require
 reauthentication. No automatic data migration or new database column is provided.
-Stop old workers before starting new workers: mixed 0.1.0/0.2.0 workers are not
+Stop old workers before starting new workers: mixed 0.1.0/0.2.1 workers are not
 supported. Refresh tokens, pairwise subjects and dynamic registration remain
 experimental and disabled by default.
 
