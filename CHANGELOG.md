@@ -1,8 +1,10 @@
 # Changelog
 
-## 0.2.0 - unreleased
+## 0.2.1
 
-Prepared on 2026-10-21; RubyGems publication is pending.
+Prepared on 2026-10-22. Incorporates the unpublished 0.2.0 candidate and corrects
+its stale documentation. The existing v0.2.0 tag is retained; no 0.2.0 gem was
+published.
 
 The official OpenID Conformance Suite has not been executed. Refresh tokens,
 pairwise subjects and dynamic CIBA registration remain experimental and disabled
