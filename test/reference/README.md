@@ -1,6 +1,6 @@
 # node-oidc-provider lifecycle reference
 
-Run `node --experimental-vm-modules test/reference/lifecycle.mjs` (verified with Node v26.5.0).
+Run `node --experimental-vm-modules test/reference/lifecycle.mjs` with Node **24.22.1 or a later patched LTS release**. The original Node v26.5.0 log is historical evidence and predates the CVE-2026-111497 fix. See [patched-runtime validation](../../docs/validation/node-reference-security-2026-10.md).
 
 The two JavaScript fixtures are unchanged sources from the v9.12.2 release, fetched using the GitHub connector on 2026-09-30:
 

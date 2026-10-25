@@ -8,9 +8,9 @@ npm ci --ignore-scripts --no-audit --no-fund
 npm test
 ```
 
-Use a supported Node LTS release and OpenSSL for temporary test certificates. Node26.5.0 also passed but emits an unsupported-runtime warning; do not treat that as supported-runtime evidence. `package-lock.json` fixes dependency versions and integrity. The test has no production credentials, binds only loopback and closes its listeners in `finally`.
+Use Node **24.22.1 or a later patched LTS release** and OpenSSL for temporary test certificates. The earlier Node24.21.0 LTS and Node26.5.0 diagnostic runs predate the CVE-2026-111497 fix and are historical evidence only. Node26 also emits an unsupported-runtime warning from this provider version; do not treat it as supported-runtime evidence. `package-lock.json` fixes dependency versions and integrity. The test has no production credentials, binds only loopback and closes its listeners in `finally`.
 
-The passing LTS run used the official `node:24-bookworm-slim` image at digest `sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6`, with this directory mounted read-only at `/app`. After installing dependencies, reproduce from this directory:
+The current reproduction command pins the official patched `node:24.22.1-bookworm-slim` image at OCI index digest `sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205`, with this directory mounted read-only at `/app`. See [registry verification and validation limits](../../../docs/validation/node-reference-security-2026-10.md). The existing LTS log records the older runtime, not a run of this image. After installing dependencies, reproduce from this directory:
 
 ```sh
 tls_dir=$(mktemp -d "$PWD/node_modules/.ping-tls.XXXXXX")
@@ -21,7 +21,7 @@ openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
 docker run --rm --network none --mount "type=bind,src=$PWD,dst=/app,readonly" \
   --env "CIBA_TEST_TLS_DIRECTORY=/app/node_modules/$(basename "$tls_dir")" \
   --env "NODE_EXTRA_CA_CERTS=/app/node_modules/$(basename "$tls_dir")/cert.pem" \
-  --workdir /app node:24-bookworm-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6 \
+  --workdir /app node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 \
   sh -c 'node --version && npm test'
 ```
 

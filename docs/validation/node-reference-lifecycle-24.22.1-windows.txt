@@ -1,0 +1,4 @@
+PASS: original node v9.12.2 handler/source helper: pending, denied, issuance/replay, expiry precedence, client isolation
+(node:21452) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Stubs: in-memory persistence, issuance, revocation, context/presence/binding checks. Not a full OP/adapter test.
